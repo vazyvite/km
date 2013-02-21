@@ -1,0 +1,96 @@
+button,
+input[type='button'],
+input[type='submit'],
+input[type='cancel'],
+a.command_button { 
+       min-width: 54px; 
+       height: 27px; 
+       line-height: 27px; 
+       margin-right: 16px; 
+       padding: 0 8px; 
+       outline: 0; 
+       background-color: whiteSmoke; 
+       background-image: -webkit-linear-gradient(top,whiteSmoke,#F1F1F1); 
+       background-image: -moz-linear-gradient(top,whiteSmoke,#F1F1F1); 
+       background-image: -ms-linear-gradient(top,whiteSmoke,#F1F1F1); 
+       background-image: -o-linear-gradient(top,whiteSmoke,#F1F1F1); 
+       background-image: linear-gradient(top,whiteSmoke,#F1F1F1); 
+       border: 1px solid gainsboro; 
+       border: 1px solid rgba(0, 0, 0, 0.1); 
+       -webkit-border-radius: 2px; 
+       -moz-border-radius: 2px; 
+       border-radius: 2px; 
+       font-size: 11px; 
+       font-weight: bold; 
+       color: #444; 
+       text-align: center;
+       cursor: pointer;
+}
+
+button a { font-size: 11px; font-weight: bold; color: #444; text-decoration: none; }
+a.command_button { font-size: 11px; font-weight: bold; color: #444; text-decoration: none; padding: 6px; }
+
+a.command_button:hover,
+button:hover,
+input[type='button']:hover,
+input[type='submit']:hover,
+input[type='cancel']:hover { 
+       background-color: #F8F8F8; 
+       background-image: -webkit-linear-gradient(top , #F8F8F8, #F1F1F1); 
+       background-image: -moz-linear-gradient(top , #F8F8F8, #F1F1F1); 
+       background-image: -ms-linear-gradient(top , #F8F8F8, #F1F1F1); 
+       background-image: -o-linear-gradient(top , #F8F8F8, #F1F1F1); 
+       background-image: linear-gradient(top , #F8F8F8, #F1F1F1); 
+       border: 1px solid #C6C6C6; 
+       color: #333333; 
+}
+
+
+/*button,
+input[type='button'],
+input[type='submit'],
+input[type='cancel'] {
+	padding: 5px;
+	min-width: 75px;
+	text-align: center;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border: 1px solid;
+}*/
+
+button.create,
+input[type='button'].create,
+input[type='submit'].create,
+input[type='cancel'].create {
+	border-color: #5C87DC;
+	background-color: #7FAAFF;
+	color: #073287;
+}
+
+button.delete,
+input[type='button'].delete,
+input[type='submit'].delete,
+input[type='cancel'].delete {
+	border-color: #960C0C;
+	background-color: #B90F0F;
+	color: #FFF;
+}
+
+button.modify,
+input[type='button'].modify,
+input[type='submit'].modify,
+input[type='cancel'].modify {
+	border-color: #A7B600;
+	background-color: #CAD900;
+	color: #222;
+}
+
+button[disabled='disabled'],
+input[type='button'][disabled='disabled'],
+input[type='submit'][disabled='disabled'],
+input[type='cancel'][disabled='disabled'] {
+	border-color: #CCC;
+	background-color: #EFEFEF;
+	color: #999;
+}

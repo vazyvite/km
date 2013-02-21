@@ -1,0 +1,857 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"categorie",
+				"categorie_articles"
+			],
+			[
+				"cate",
+				"categorie_title"
+			],
+			[
+				"insert",
+				"insertArticle"
+			],
+			[
+				"bui",
+				"BuildNavigation()	Navigation.js"
+			],
+			[
+				"Build",
+				"BuildNavigation()	Navigation.js"
+			],
+			[
+				"list",
+				"list_articles"
+			],
+			[
+				"date",
+				"date_creation"
+			],
+			[
+				"get",
+				"getListCategoriesContent"
+			],
+			[
+				"for",
+				"foreach	foreach …"
+			],
+			[
+				"set",
+				"setListCategoriesContent  (function)"
+			],
+			[
+				"array",
+				"array_push"
+			],
+			[
+				"d",
+				"DBQuery  (class)"
+			],
+			[
+				"lis",
+				"listContentCategories"
+			],
+			[
+				"in",
+				"informations()	domReady.js"
+			],
+			[
+				"conte",
+				"content  (variable)"
+			],
+			[
+				"outer",
+				"outerWidth  (function)"
+			],
+			[
+				"refer",
+				"reference  (variable)"
+			],
+			[
+				"backgo",
+				"background-color"
+			],
+			[
+				"bod",
+				"body  (variable)"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"sett",
+				"settings  (namespace)"
+			],
+			[
+				"pass",
+				"password"
+			],
+			[
+				"re",
+				"ready  (function)"
+			],
+			[
+				"ti",
+				"title"
+			],
+			[
+				"hide",
+				"HideAll"
+			],
+			[
+				"Hide",
+				"Hide  (function)"
+			],
+			[
+				"A",
+				"AttachEventsOnShow  (function)"
+			],
+			[
+				"Show",
+				"ShowCache"
+			],
+			[
+				"dial",
+				"dialogCache"
+			],
+			[
+				"bac",
+				"background-image"
+			],
+			[
+				"dia",
+				"dialog_title"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"no",
+				"nowrap"
+			],
+			[
+				"whi",
+				"white-space:   (property)"
+			],
+			[
+				"g",
+				"_genericClass  (variable)"
+			],
+			[
+				"ge",
+				"getOwnClass  (function)"
+			],
+			[
+				"_",
+				"_ownClass"
+			],
+			[
+				"op",
+				"opacity:   (property)"
+			],
+			[
+				"time",
+				"timeEntry_wrap"
+			],
+			[
+				"un",
+				"undefined"
+			],
+			[
+				"a",
+				"attachEvents  (function)"
+			],
+			[
+				"w",
+				"width  (function)"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"h",
+				"header"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"inline-",
+				"inline-block"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"refere",
+				"reference"
+			],
+			[
+				"b",
+				"border-right"
+			],
+			[
+				"Miseen",
+				"MiseEnForme"
+			],
+			[
+				"de",
+				"delimiter"
+			],
+			[
+				"sto",
+				"storageContent"
+			],
+			[
+				"_Get",
+				"_GetNbItem  (function)"
+			],
+			[
+				"over",
+				"overlayClass"
+			],
+			[
+				"mouse",
+				"mousedown"
+			],
+			[
+				"mousele",
+				"mouseleaved"
+			],
+			[
+				"mouselea",
+				"mouseleave"
+			],
+			[
+				"mousel",
+				"mouseleave"
+			],
+			[
+				"click",
+				"clickEvent"
+			],
+			[
+				"se",
+				"settings"
+			],
+			[
+				"o",
+				"origWidth"
+			],
+			[
+				"build",
+				"buildOverlay"
+			],
+			[
+				"des",
+				"desactiveIESelect"
+			],
+			[
+				"sw",
+				"swicthIESelect"
+			],
+			[
+				"acti",
+				"activeIESelect"
+			],
+			[
+				"s",
+				"select"
+			],
+			[
+				"select",
+				"selectActif"
+			],
+			[
+				"remo",
+				"removeClass  (function)"
+			],
+			[
+				"is",
+				"isDirty"
+			],
+			[
+				"def",
+				"defaultValue"
+			],
+			[
+				"remove",
+				"removeClass"
+			],
+			[
+				"tag",
+				"tagName"
+			],
+			[
+				"ex",
+				"extension"
+			],
+			[
+				"cButton",
+				"cButtonActive"
+			],
+			[
+				"cButt",
+				"cButtonActive"
+			],
+			[
+				"clan",
+				"cLangActive"
+			],
+			[
+				"glo",
+				"global"
+			],
+			[
+				"Setbutton",
+				"SetButtonPlayState"
+			],
+			[
+				"setbutton",
+				"SetButtonStopState  (function)"
+			],
+			[
+				"IS",
+				"IsCurrentPlayer  (function)"
+			],
+			[
+				"Change",
+				"ChangeAndPlay"
+			],
+			[
+				"Play",
+				"PlayerWorkflow"
+			],
+			[
+				"has",
+				"hasClass"
+			],
+			[
+				"curre",
+				"currentState"
+			],
+			[
+				"pla",
+				"playing"
+			],
+			[
+				"P",
+				"Play  (function)"
+			],
+			[
+				"globa",
+				"globalState"
+			],
+			[
+				"play",
+				"player"
+			],
+			[
+				"SetBu",
+				"SetButtonPlayState"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"styl",
+				"stylesheet"
+			],
+			[
+				"idP",
+				"idPanIdentifier"
+			],
+			[
+				"ta",
+				"tabs"
+			],
+			[
+				"n",
+				"nbChildren"
+			],
+			[
+				"btn",
+				"btn_addinput"
+			],
+			[
+				"err",
+				"errorMessage"
+			],
+			[
+				"error",
+				"errorClass"
+			],
+			[
+				"rep",
+				"repeat-x"
+			],
+			[
+				"overla",
+				"overlayCSS"
+			],
+			[
+				"container",
+				"containerCSS"
+			],
+			[
+				"rea",
+				"ready	document ready (safe)"
+			],
+			[
+				"r",
+				"ready	document-ready"
+			],
+			[
+				"ready",
+				"ready	document-ready"
+			],
+			[
+				"read",
+				"ready	document ready (safe)"
+			],
+			[
+				"di",
+				"duplicate_line"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"p",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"package con",
+				"Package Control: Install Package"
+			],
+			[
+				"package control ",
+				"Package Control: Remove Package"
+			],
+			[
+				"package control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"package control: install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/km.project.sublime-project",
+		"/D/Users/JJACQUES/Desktop/test.html",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/css/main.css",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Portail.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Navigation.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.Article.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.CategorieContent.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Categorie.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.Navigation.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Portail.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/navigation.list.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/index.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.DBQuery.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/css/main.css",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/User.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/domReady.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/user.connect.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.User.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/portail.list.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.Categorie.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.User.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/class/Navigation.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/categorie.list.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/class/User.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.ListArticle.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/user.show.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpcontroller/UserController.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/class/Dialog.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/jquery.jqDnR.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/jquery.jqDnR.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/css/jquery.jqDnR.css",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpcontroller/DBController.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/Nouveau dossier/profilMenu.html",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/Nouveau dossier/js/views/hq_view_RVI_numtel_detail_profil_choixmenu.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/domReady.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.ui.Dialog.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/css/button-ui.css",
+		"/D/Users/JJACQUES/Desktop/annonceFlash.tag",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/Nouveau dossier/js/functions.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/Nouveau dossier/index.html",
+		"/D/Users/JJACQUES/Desktop/hq_taglib_annonceFlash.js",
+		"/D/Users/JJACQUES/Desktop/annonceFlash (2).tag",
+		"/c/temp/7zE70B5.tmp/annonceFlash.tag",
+		"/c/temp/7zE70B5.tmp/hq_taglib_annonceFlash.js",
+		"/D/Users/JJACQUES/Desktop/svg_all.css",
+		"/D/Users/JJACQUES/Desktop/KM/index.html",
+		"/D/Users/JJACQUES/Desktop/KM/css/main.css",
+		"/D/Users/JJACQUES/Desktop/KM/js/jquery.livequery.js",
+		"/D/Users/JJACQUES/Desktop/KM/js/class/Bloc.js",
+		"/D/Users/JJACQUES/Desktop/KM/js/jquery.defectManager.js",
+		"/D/Users/JJACQUES/Desktop/KM/js/jquery.bones.js",
+		"/D/Users/JJACQUES/Desktop/KM/test.html",
+		"/D/Users/JJACQUES/Desktop/KM/js/jquery.tools-1.2.7.min.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/ieSelect.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/index.html",
+		"/D/Users/JJACQUES/Desktop/Defects/js/jquery.defectManager.js",
+		"/D/Users/JJACQUES/Desktop/Defects/index.html",
+		"/D/Users/JJACQUES/Desktop/Nouveau dossier/index.html",
+		"/D/Users/JJACQUES/Desktop/jquery-ui-1.9.2.custom.js",
+		"/D/Users/JJACQUES/Desktop/jquery-ui-1.9.2.custom.min.js",
+		"/D/Users/JJACQUES/Desktop/hq_HistoriqueContextuel.js",
+		"/D/Users/JJACQUES/Desktop/hq_wavPlayer_test.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/test - DirtyForms Advance/js/dirtyforms.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/test - DirtyForms Advance/index.html",
+		"/D/projets/HydroQuebec/workspace2/pec-rvi-cti/hydro-quebec/hq-console/hq-console-gui/src/main/webapp/js/hq_wavPlayer.js",
+		"/D/projets/HydroQuebec/workspace2/pec-rvi-cti/hydro-quebec/hq-console/hq-console-gui/src/main/webapp/js/jquery.dirtyforms.js",
+		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/server.xml",
+		"/D/Users/JJACQUES/Desktop/test (2).html",
+		"/D/Users/JJACQUES/Desktop/selectivizr.js",
+		"/D/Users/JJACQUES/Desktop/selectivizr-min.js",
+		"/C/Users/jjacques/AppData/Local/Microsoft/Windows/Temporary Internet Files/Content.IE5/8XPRRJ1Z/selectivizr[1].js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/test - DirtyForms Advance/css/datatables.css",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/test - DirtyForms Advance/js/jquery-1.7.2.min.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/test - DirtyForms Advance/js/dataTables.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/index.php",
+		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/context.xml",
+		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/catalina.properties",
+		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/catalina.policy",
+		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/web.xml",
+		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/tomcat-users.xml",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/hq_TabOnError.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/css/docs.css",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/jquery.dirtyforms.js",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/ZenCoding/zen-coding.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/User/Preferences.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/SublimeCodeIntel/Base File.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/sublime-closure-linter/sublime-closure-linter.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Package Control/Package Control.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Local History/LocalHistory.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/JSLint/JSLint.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/CSSLint/CSSLint.sublime-settings",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/User/JSON.sublime-settings",
+		"/D/projets/HydroQuebec/workspace2/pec-rvi-cti/hydro-quebec/hq-console/hq-console-gui/src/main/webapp/js/hp_wavPlayer.js",
+		"/D/Users/jjacques/Desktop/hp_wavPlayer.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/facebox.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/css/facebox.css",
+		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/JavaScript/JavaScript.tmLanguage",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/hq_OngletOnError.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/showHide.js",
+		"/D/Users/jjacques/Downloads/jquery.tools.min.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/hq_AutoReload.js",
+		"/D/Users/jjacques/Desktop/numtel/index.html",
+		"/D/Users/JJACQUES/Desktop/numtel/js/selectivizr.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/popup/telephone-popup.js",
+		"/D/Users/JJACQUES/Desktop/numtel/css/RVI_numtel_detail_liste.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/sites.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/ie-select-width.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/loading.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/tags_style.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/formulaire.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/listes.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/dataTableStyle.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/jquery-ui-1.9.1.custom.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/navigation.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/all_dev.css",
+		"/D/Users/JJACQUES/Desktop/numtel/css/all.css",
+		"/D/Users/JJACQUES/Desktop/numtel/js/hq_view_RVI_numtel_detail_liste.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/hq_taglib_mca.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/hq_taglib_cible.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/listeActionSelectBox.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/localisation.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/ruban.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/functions.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/taglibHTML.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/listes.js",
+		"/D/Users/JJACQUES/Desktop/numtel/js/jquery.ie-select-width.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"settings.data",
+			"data",
+			"getPortailById",
+			"settings.user",
+			"settings.data",
+			"<!-- debut -->",
+			"<!--debut",
+			"<!-- debut",
+			"<!-- debut -->",
+			"etatSaisonnierId",
+			"<!-- debut",
+			"td>",
+			"<td>.*</td>",
+			"<td>",
+			"/hq-console-gui",
+			"Saisonnières",
+			"numSousBloc",
+			"Options",
+			"Saisonnières",
+			"Options Saisonnières",
+			"li2",
+			"li0",
+			"/hq-console-gui",
+			"ajax",
+			"==0",
+			"alert",
+			"pos",
+			"historique",
+			"timeEntry",
+			"timeEntry_wrap",
+			"timeEntry_wrap history",
+			"/hq-console-gui",
+			"UI.Connect",
+			"alert",
+			"_SetItem",
+			"debug",
+			"\"a",
+			"\"a\"",
+			"activeIESelect",
+			"mouseleaved",
+			"alert",
+			"tabs=",
+			"tabs",
+			"hidden",
+			"init",
+			"this.each",
+			"url",
+			"form",
+			"var isDirty",
+			"isDirty = function",
+			"isDirty",
+			"isDirty =",
+			"isDirty : ",
+			"tagname",
+			"select",
+			"checkbox",
+			"tagname",
+			"elements",
+			"setTimeout",
+			"setInterval",
+			"init",
+			"setDefaultValue",
+			"getNbChildren",
+			"myOptions",
+			"player.state",
+			"Debug",
+			"todo",
+			"SetButtonPlayState",
+			"StyleByWMPEvent",
+			"todo",
+			"isCurrentPlayer",
+			"IsCurrentPlayer",
+			"SwitchControl",
+			"ChangeURL",
+			"Pause",
+			"Play",
+			".Play",
+			"Play",
+			"Play(",
+			"Stop",
+			"Stop(",
+			"Stop()",
+			"Play",
+			"Play()",
+			"Play",
+			"Action",
+			"SetButtonState",
+			"SwitchControl",
+			"SetButtonState",
+			"SwitchControl",
+			"currentpl",
+			"this.settings.player.current.player",
+			"detect_slow_plugin",
+			"alert",
+			"data",
+			".langue.defaut",
+			")),",
+			"prevent",
+			"_fnGetUniqueThs",
+			"sSortingClass",
+			"sClass",
+			"sClass=",
+			"sClass =",
+			"sClass",
+			"sSortingClass",
+			"sSortable",
+			"sorting",
+			"sorting'",
+			"'sorting",
+			"'sorting'",
+			"sorting\"",
+			"\"sorting",
+			"\"sorting\"",
+			"sorting",
+			"_fnSortingClasses",
+			"oSettings.aoColumns.",
+			"oSettings.aoColumns.push",
+			"oSettings.aoColumns",
+			"oSettings.aoColumns=",
+			"oSettings.aoColumns =",
+			"oSettings.aoColumns = ",
+			"/*",
+			"//",
+			"value()",
+			"alert",
+			"hasError",
+			"isDirty",
+			"methods"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"."
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 239.0,
+	"status_bar_visible": true
+}
