@@ -2,7 +2,11 @@ function Article(){
 	this.settings = {
 		bloc: "#article",
 		blocCmd: "#informations",
-		data: null
+		blocTil: "#title",
+		data: null,
+		fontSize: 1,
+		minFontSize: .7,
+		maxFontSize: 1.3
 	};
 
 	this.Init();
@@ -51,9 +55,12 @@ Article.prototype = {
 	BuildArticle: function(){
 		$(this.settings.bloc).html(null);
 		$(this.settings.blocCmd).html(null);
+		$(this.settings.blocTil).html(null);
 		this.BuildTitle();
 		this.BuildContent();
 		this.BuildCommands();
+
+		$("#logos").animate({"opacity": 0}, 50, function(){ $(this).hide().css("opacity", 1); });
 	},
 
 	/**
@@ -64,9 +71,6 @@ Article.prototype = {
 		var json = this.settings.data;
 		var insert = $("<div></div>");
 			insert.addClass("article_header");
-
-		var title = $("<div></div>");
-			title.addClass("article_title").text(json.titre);
 
 		var infos = $("<div></div>");
 			infos.addClass("article_infos");
@@ -90,6 +94,9 @@ Article.prototype = {
 				motcle.on("click", function(){ recherche.SetRecherche($(this).text()); });
 		}
 
+		var title = $("<div></div>");
+			title.addClass("article_title").text(json.titre);
+
 		infos.append(type).append(author).append(date);
 		insert.append(title).append(infos).append(mc);
 		$(this.settings.bloc).append(insert);
@@ -104,6 +111,8 @@ Article.prototype = {
 		var insert = $("<div></div>");
 			insert.addClass("article_content").html(json.article);
 		$(this.settings.bloc).append(insert);
+
+		insert.height($(this.settings.bloc).outerHeight(true) - ($(this.settings.blocCmd).outerHeight(true)));
 	},
 
 	/**
@@ -111,10 +120,58 @@ Article.prototype = {
 	 * Construction du contenu de l'article
 	 */
 	BuildCommands: function(){
+		this.BuildAccessibility();
+		var t = this;
 		var json = this.settings.data;
-		var insert = $("<button></button>");
-			insert.attr("value", json.idArticle).text("Modifier");
-			insert.on("click", function(){ alert("Modification de l'article"); });
+
+		// bouton de fermeture
+		var btnClose = $("<button class='return_btn'>Retour</button>");
+			btnClose.on("click", function(){ t.ClearArticle(); });
+		$(this.settings.blocCmd).append(btnClose);
+
+		// bouton de modification 
+		var btnModif = $("<button>Modifier</button>");
+			btnModif.attr("value", json.idArticle);
+			btnModif.on("click", function(){ 
+				$('#article .article_content').redactor({ focus: true });
+			});
+		$(this.settings.blocCmd).append(btnModif);
+
+		$("#accessibility .btn_access_fontSize.smallFont").on("click", function(){
+			var fs = t.settings.fontSize;
+			fs = (fs - .1 > t.settings.minFontSize) ? fs - .1 : fs;
+			t.settings.fontSize = fs;
+			$("#article .article_content").css("font-size", fs + "em");
+		});
+		$("#accessibility .btn_access_fontSize.mediumFont").on("click", function(){
+			t.settings.fontSize = 1;
+			$("#article .article_content").css("font-size", t.settings.fontSize + "em");
+		});
+		$("#accessibility .btn_access_fontSize.largeFont").on("click", function(){
+			var fs = t.settings.fontSize;
+			fs = (fs + .1 < t.settings.maxFontSize) ? fs + .1 : fs;
+			t.settings.fontSize = fs;
+			$("#article .article_content").css("font-size", fs + "em");
+		});
+	},
+
+	/**
+	 * Méthode ClearArticle
+	 * Suppression des infos de l'article dans l'IHM
+	 */
+	ClearArticle: function(){
+		this.settings.data = null;
+		$("#informations").children().remove();
+		$("#article").css({"position": "absolute", "margin": 0}).animate({"left":5000}, 500, function(){ $(this).css({"position": "static","left":0, "margin": "5px"}).children().remove(); });
+		$("#logos").css("opacity", 0).show().animate({"opacity": 1}, 1000);
+	},
+
+	/*
+	* Méthode BuildAccessibility
+	* Construction du bloc d'accessibilité
+	*/
+	BuildAccessibility: function(){
+		var insert = $("<ul id='accessibility'><li class='btn_access_fontSize smallFont'></li><li class='btn_access_fontSize mediumFont'></li><li class='btn_access_fontSize largeFont'></li></ul>");
 		$(this.settings.blocCmd).append(insert);
 	}
 }

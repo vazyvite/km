@@ -102,9 +102,11 @@
 				$typeLibelle = $t->getType();
 				$arr_mc = array();
 
-				foreach ($article->getMotCles() as $motcle) {
-					$m = array('idMotCle' => $motcle->getId(), 'idArticle' => $motcle->getIdArticle(), 'motcle' => $motcle->getMotCle());
-					array_push($arr_mc, $m);
+				if($article->getMotCles() != null){
+					foreach ($article->getMotCles() as $motcle) {
+						$m = array('idMotCle' => $motcle->getId(), 'idArticle' => $motcle->getIdArticle(), 'motcle' => $motcle->getMotCle());
+						array_push($arr_mc, $m);
+					}
 				}
 				$json = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'motcles' => $arr_mc, 'type' => $typeLibelle, 'idUser' => $article->getIdUser(), 'user' => $userName, 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
 			}else{

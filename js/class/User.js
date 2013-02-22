@@ -223,7 +223,7 @@ User.prototype = {
 		 * @param t:Context 		Correspond au context this de la class
 		 */
 		Connect: function(t){
-			var html = "<button class='action_user_connexion'>Connexion</button>";
+			var html = "<div class='action_user_connexion'>Connexion</div>";
 			$(t.settings.content).html(html);
 		},
 
@@ -250,7 +250,7 @@ User.prototype = {
 		UserInfos: function(t){
 			var html = "<div class='user_infos'>" + t.settings.data.fstName + " " + t.settings.data.lstName + "</div>";
 				html += "<div class='user_role'>" + t.settings.titleRole[t.settings.idRole.indexOf(t.settings.data.role)] + "</div>"
-				html += "<div><button>Compte</button><button class='action_user_deconnexion'>Déconnexion</button></div>";
+				html += "<div class='menu_user'><ul><li><a class='action_user_compte'>Compte</a></li><li><a class='action_user_deconnexion'>Déconnexion</a></li></ul></div>";
 			$(t.settings.content).html(html);
 			$(t.settings.bloc + " .action_user_deconnexion").on("click", function(){ t.Disconnect(); });
 		}

@@ -27,7 +27,7 @@
 		const DB_ARTICLE_ALL = "SELECT * FROM article";
 		const DB_ARTICLE_LIST = "SELECT * FROM article WHERE idCategorie = '{{IDCATEGORIE}}'";
 		const DB_ARTICLE_BYID = "SELECT * FROM article WHERE idArticle = '{{IDARTICLE}}'";
-		const DB_ARTICLE_BYTERMS = "SELECT * FROM article A, categorie C, motcle M WHERE C.idCategorie = A.idCategorie AND M.idArticle = A.idArticle AND C.idPortail = {{IDPORTAIL}} AND ((A.titre LIKE '%{{TERMS}}%' OR A.article LIKE '%{{TERMS}}%') OR M.motcle LIKE '%{{TERMS}}%')";
+		const DB_ARTICLE_BYTERMS = "SELECT A.idArticle, A.idType, A.idUser, A.dt_creation, A.idCategorie, A.titre, A.article, C.idCategorie, C.categorie FROM article A INNER JOIN categorie C ON A.idCategorie = C.idCategorie LEFT OUTER JOIN motcle M ON A.idArticle = M.idArticle  WHERE C.idPortail = {{IDPORTAIL}} AND ((A.titre LIKE '%{{TERMS}}%' OR A.article LIKE '%{{TERMS}}%' ) OR M.motcle LIKE '%{{TERMS}}%')";
 		function getAllArticle(){ return DBQuery::DB_ARTICLE_ALL; }
 		function getListArticle(){ return DBQuery::DB_ARTICLE_LIST; }
 		function getArticleById(){ return DBQuery::DB_ARTICLE_BYID; }

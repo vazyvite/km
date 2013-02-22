@@ -75,7 +75,7 @@ Navigation.prototype = {
 				for(var j = 0; j < categorie.articles.length; j++){
 					insertArticle = null;
 					article = categorie.articles[j];
-					insertArticle = $("<li class='categorie_article' value='" + article.idArticle + "'>" + article.titre + "</li>");
+					insertArticle = $("<li class='categorie_article link_article' value='" + article.idArticle + "'>" + article.titre + "</li>");
 					insertCategorie.find("ul.categorie_articles").append(insertArticle);
 				}
 				
@@ -95,9 +95,9 @@ Navigation.prototype = {
 
 			$(".categorie_article").on("click", function(event){
 				event.stopPropagation();
-				//alert("ouverture article " + $(this).attr("value"));
 				articleContent.LoadArticle($(this).attr("value"));
 			});
+			
 		}
 	}
 }

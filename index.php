@@ -5,12 +5,14 @@
 
 		<link rel="stylesheet" href="./css/main.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="./css/button-ui.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="./css/redactor.css" />
 
 		<script type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.tools-1.2.7.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.livequery.js"></script>
 		<script type="text/javascript" src="./js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="./js/jquery.watermark.min.js"></script>
+		<script type="text/javascript" src="./js/redactor.min.js"></script>
 		
 		<script type="text/javascript" src="./js/class/Dialog.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
@@ -18,7 +20,6 @@
 		<script type="text/javascript" src="./js/class/Article.js"></script>
 		<script type="text/javascript" src="./js/class/Navigation.js"></script>
 		<script type="text/javascript" src="./js/class/Recherche.js"></script>
-		<!--<script type="text/javascript" src="./js/jquery.bones.js"></script>-->
 		<script type="text/javascript" src="./js/domReady.js"></script>
 	</head>
 	<body>
@@ -30,8 +31,10 @@
 						<input type="hidden" id="portaildata_portail" value="" />
 					</div>
 					<div class="bloc_content">
-						<div class='portail_action_select'><select></select></div>
-						<div class='portail_action_change'></div>
+						<div class='portail_action_select'>
+							<div class='portail_infos'></div>
+							<div class='menu_portail'></div>
+						</div>
 					</div>
 				</div>
 				<div id="menu">
@@ -56,9 +59,12 @@
 					<div id="navigation"><ul class='bloc_content'></ul></div>
 				</div>
 				<div id="content">
+					<div id="title"></div>
 					<div id="informations"></div>
 					<div id="article"></div>
+					<div id="logos">KM<span>v0.2</span></div>
 				</div>
+
 			</div>
 		</div>
 

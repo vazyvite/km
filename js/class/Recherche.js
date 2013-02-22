@@ -26,9 +26,7 @@ Recherche.prototype = {
 	AttachEvents: function(){
 		var t = this;
 
-		$("." + this.settings.input + " input").on("keyup", function(){
-			t.GetResults($(this).val());
-		}).on("change", function(){
+		$("." + this.settings.input + " input").bind("keyup change", function(){
 			t.GetResults($(this).val());
 		});
 	},
@@ -95,11 +93,15 @@ Recherche.prototype = {
 			if(this.settings.data.length > 0){
 				for(var i = 0; i < this.settings.data.length; i++){
 					var article = this.settings.data[i];
-					var insert = $("<li value='" + article.idArticle + "' class='result_article'>" + article.titre + "</li>");
+					var insert = $("<li value='" + article.idArticle + "' class='result_article link_article'>" + article.titre + "</li>");
 					$(".searchResults ul").append(insert);
 				}
 
-				$(".result_article").on("click", function(){ articleContent.LoadArticle($(this).attr("value")); });
+				$(".link_article").off("click").on("click", function(){ 
+					event.stopPropagation();
+					articleContent.LoadArticle($(this).attr("value"));
+				});
+
 			}else{
 				var insert = $("<li class='result_null'>aucun résultat</li>");
 				$(".searchResults ul").append(insert);

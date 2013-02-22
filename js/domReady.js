@@ -1,5 +1,5 @@
 function Resize(){
-	this.settings = {
+	this.s = {
 		window : {
 			width: $(window).width(),
 			height: $(window).height()
@@ -35,69 +35,73 @@ Resize.prototype = {
 		});
 	},
 	recalculWindowDims: function(){
-		this.settings.window = {
+		this.s.window = {
 			width: $(window).width(),
 			height: $(window).height()
 		};
 	},
 	all: function(){
 		this.recalculWindowDims();
+		this.main();
 		this.menu();
 		this.body();
 		this.reference();
-		this.content();
+		//this.content();
 		this.recherche();
 		this.navigation();
-		this.informations();
+		//this.informations();
 		this.article();
+	},
+	main: function(){
+		$(this.s.jqSelectors.main).width(this.s.window.width)
 	},
 	menu: function(){
 		var array_width = Array();
 		var total_width_fixed = 0;
 
-		$(this.settings.jqSelectors.header).children().each(function(){
+		$(this.s.jqSelectors.header).children().each(function(){
 			array_width.push($(this).outerWidth(true));
 		});
 
 		total_width_fixed = array_width[0] + array_width[2];
-		$(this.settings.jqSelectors.menu).width(this.settings.window.width - total_width_fixed);
+		$(this.s.jqSelectors.menu).width(this.s.window.width - total_width_fixed);
 	},
 	body: function(){
-		var totalHeight = $(this.settings.jqSelectors.main).height();
-		$(this.settings.jqSelectors.body).height(totalHeight - $(this.settings.jqSelectors.header).outerHeight());
+		var totalHeight = $(this.s.jqSelectors.main).height();
+		$(this.s.jqSelectors.body).height(totalHeight - $(this.s.jqSelectors.header).outerHeight());
 	},
 	reference: function(){
-		var totalWidth = $(this.settings.jqSelectors.main).outerWidth();
-		$(this.settings.jqSelectors.reference).width(Math.round(totalWidth * .20));
+		var totalWidth = $(this.s.jqSelectors.main).outerWidth();
+		$(this.s.jqSelectors.reference).width(Math.round(totalWidth * .20));
 	},
 	content: function(){
-		var totalWidth = $(this.settings.jqSelectors.main).outerWidth();
-		$(this.settings.jqSelectors.content).width(totalWidth - $(this.settings.jqSelectors.reference).outerWidth());
+		var totalWidth = $(this.s.jqSelectors.main).outerWidth();
+		$(this.s.jqSelectors.content).width(totalWidth - $(this.s.jqSelectors.reference).outerWidth());
 	},
 	recherche: function(){
 		var dim = {
-			height: $(this.settings.jqSelectors.reference).height(),
-			width: $(this.settings.jqSelectors.reference).width()
+			height: $(this.s.jqSelectors.reference).height(),
+			width: $(this.s.jqSelectors.reference).width()
 		};
-		$(this.settings.jqSelectors.recherche).width(dim.width - 10).height((dim.height / 2) - 7);
+		$(this.s.jqSelectors.recherche).width(dim.width - 10).height((dim.height / 2) - 7);
 	},
 	navigation: function(){
 		var dim = {
-			height: $(this.settings.jqSelectors.reference).height(),
-			width: $(this.settings.jqSelectors.reference).width()
+			height: $(this.s.jqSelectors.reference).height(),
+			width: $(this.s.jqSelectors.reference).width()
 		};
-		$(this.settings.jqSelectors.navigation).width(dim.width - 10).height((dim.height / 2) - 7);
+		$(this.s.jqSelectors.navigation).width(dim.width - 10).height((dim.height / 2) - 7);
 	},
 	informations: function(){
-		var contentWidth = $(this.settings.jqSelectors.content).outerWidth();
-		$(this.settings.jqSelectors.informations).width(contentWidth - 10);
+		/*var contentWidth = $(this.s.jqSelectors.content).outerWidth();
+		$(this.s.jqSelectors.informations).width(contentWidth - 10);*/
 	},
 	article: function(){
 		var dim = {
-			height: $(this.settings.jqSelectors.content).height(),
-			width: $(this.settings.jqSelectors.content).width()
+			height: $(this.s.jqSelectors.content).height(),
+			width: $(this.s.jqSelectors.content).width()
 		};
-		$(this.settings.jqSelectors.article).width(dim.width - 10).height(dim.height - $(this.settings.jqSelectors.informations).outerHeight(true) - 15);
+		$(this.s.jqSelectors.article)/*.width(dim.width - 10)*/.height(dim.height - $(this.s.jqSelectors.informations).outerHeight(true) - 15);
 	}
 }
 

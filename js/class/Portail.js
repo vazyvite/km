@@ -34,13 +34,7 @@ Portail.prototype = {
 	 */
 	AttachEvents: function(){
 		var t = this;
-		$(this.settings.bloc).find(".portail_action_select select").on("blur", function(){
-			if(t.settings.data.idPortail != null){
-				$(t.settings.bloc).find(".portail_action_select").hide();
-				$(t.settings.bloc).find(".portail_action_change").show();
-				$(this).val(0);
-			}
-		});
+
 	},
 
 	/** 
@@ -68,31 +62,29 @@ Portail.prototype = {
 	BuildPortailSelectList: function(){
 		if(this.settings.listPortail != null){
 			var t = this;
-			var insert = "<option value='0'></option>";
-			$(this.settings.content).find(".portail_action_select select").append(insert);
+			var bloc_info = $(this.settings.content).find(".portail_infos");
+			var bloc_list = $(this.settings.content).find(".menu_portail");
+			var insert;
+
+			bloc_list.append("<ul></ul>");
 
 			for(var i = 0; i < this.settings.listPortail.length; i++){
 				var portail = this.settings.listPortail[i];
-				insert = "<option value='" + portail.id + "'>" + portail.portail + "</option>";
-				$(this.settings.content).find(".portail_action_select select").append(insert);
+				insert = "<li value='" + portail.id + "'>" + portail.portail + "</li>";
+				bloc_list.find("ul").append(insert);
 			}
 
-			$(this.settings.content).find(".portail_action_select").show();
-			$(this.settings.content).find(".portail_action_change").hide();
-
-			$(".portail_action_select select").on("change", function(){
-				var accord = (t.settings.data.idPortail != null && $(this).val() != t.settings.data.idPortail) ? confirm("Vous allez quitter le portail " + t.settings.data.portail + ", souhaitez-vous continuer sur le portail " + $(this).find("option[value='" + $(this).val() + "']").text() + " ?") : true;
-				if(accord && $(this).val() != 0){
-					t.settings.data = { idPortail: $(this).val(), portail: $(this).find("option[value='" + $(this).val() + "']").text() };
-					$(this).val(0);
-					t.BuildInfosPortail();
-				}else{
-					$(this).blur();
-				}
-			}).val(0);
-
-			navigation = new Navigation();
+			t.BuildInfosPortail();
 		}
+		navigation = new Navigation();
+
+		$(".portail_action_select li").on("click", function(){
+			var accord = (t.settings.data.idPortail != null && $(this).attr("value") != t.settings.data.idPortail) ? confirm("Vous allez quitter le portail " + t.settings.data.portail + ", souhaitez-vous continuer sur le portail " + $(this).text() + " ?") : true;
+			t.settings.data = { idPortail: $(this).attr("value"), portail: $(this).text() };
+			if(accord && $(this).attr("value") != 0){
+				t.BuildInfosPortail();
+			}
+		});
 	},
 
 	/**
@@ -101,21 +93,27 @@ Portail.prototype = {
 	 */
 	BuildInfosPortail: function(){
 		var t = this;
-		if(this.settings.data.portail != null){
-			$(this.settings.content).find(".portail_action_change").text("Portail : " + this.settings.data.portail).show();
-			$(this.settings.content).find(".portail_action_select").hide();
+		var bloc_info = $(this.settings.content).find(".portail_infos");
 
+		if(this.settings.data.portail != null){
+			bloc_info.text(this.settings.data.portail).attr("value", this.settings.data.idPortail).parent().addClass("portail_selected");
 			$("#portaildata_idPortail").val(this.settings.data.idPortail);
 			$("#portaildata_portail").val(this.settings.data.portail);
-
-			navigation = new Navigation();
-
-			$(".portail_action_change").on("click", function(){
-				$(t.settings.content).find(".portail_action_select").show().find("select").focus();
-				$(t.settings.content).find(".portail_action_change").hide();
-			});
+			this.BuildInterface();
+			//navigation = new Navigation();
 		}else{
+			bloc_info.text("Sélectionner un portail").removeAttr("value").parent().removeClass("portail_selected");
+		}
+	},
 
+	BuildInterface: function(){
+		navigation = new Navigation();
+		var ref = $("#reference");
+		var content = $("#content");
+
+		if(!ref.is(":visible")){
+			ref.show().css({ "left": -ref.outerWidth(true) }).animate({ "left": 0 }, 300, "swing");
+			content.animate({ "width": $(window).width() - ref.outerWidth(true) }, 300, "swing");
 		}
 	}
 }
