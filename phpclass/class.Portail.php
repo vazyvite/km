@@ -69,7 +69,7 @@
 		function GetPortailById($idPortail){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{ID}}"), array($idPortail), $dbq->getPortailById()));
+			$res = $mysqli->Query($dbq->getPortailById($idPortail));
 
 			$f = $res->fetch_assoc();
 			$portail = new Portail($f['idPortail'], $f['portail']);

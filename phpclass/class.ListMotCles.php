@@ -24,7 +24,7 @@ class ListMotCles {
 	function GetMotClesForArticle($idArticle){
 		$dbq = new DBQuery();
 		$mysqli = new DB();
-		$res = $mysqli->Query(str_replace(array("{{IDARTICLE}}"), array($idArticle), $dbq->getListMotClesForArticle()));
+		$res = $mysqli->Query($dbq->getListMotClesForArticle($idArticle));
 		$list = array();
 
 		if($res != false){

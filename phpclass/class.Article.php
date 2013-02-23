@@ -52,7 +52,7 @@
 		function GetAllArticlesForTerms($idPortail, $terms){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{IDPORTAIL}}", "{{TERMS}}"), array($idPortail, $terms), $dbq->getListArticleByTerms()));
+			$res = $mysqli->Query($dbq->getListArticleByTerms($idPortail, $terms));
 			$list = array();
 
 			if($res != false){
@@ -74,7 +74,7 @@
 		function GetArticleById($idArticle){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{IDARTICLE}}"), array($idArticle), $dbq->getArticleById()));
+			$res = $mysqli->Query($dbq->getArticleById($idArticle));
 
 			if($res != false){
 				$f = $res->fetch_assoc();
@@ -125,5 +125,28 @@
 			$m = new ListMotCles();
 			return new Article($f['idArticle'],$f['idType'], $f['idUser'], $f['idCategorie'], $f['dt_creation'], $f['titre'], $f['article'], $m->GetMotClesForArticle($f['idArticle']));
 		}
+
+		/**
+		 * Méthode UpdateArticle
+		 * Sauve les modifications effectuées sur un article en base
+		 * @param id:Int 				Identifiant de l'article
+		 * @param titre:String 			Titre de l'article
+		 * @param content:String 		Contenu de l'article
+		 * @param motcles:String 		Mots clés liés à l'article
+		 */
+		/*function UpdateArticle($id, $titre; $content, $motcles){
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$res = $mysqli->Query($dbq->getArticleById($idArticle));
+
+			if($res != false){
+				$f = $res->fetch_assoc();
+				$article = $this->FormatArticleData($f);
+			}else{
+				$article = null;
+			}
+
+			return $article;
+		}*/
 	}
 ?>

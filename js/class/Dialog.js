@@ -9,7 +9,7 @@ function Dialog(options){
 		autoShow: (options.autoShow == undefined) ? true : options.autoShow
 	};
 
-	this.settings = {
+	this.s = {
 		jqSelector: {
 			close: ".dialog_closebtn",
 			cache: "#dialogCache",
@@ -54,8 +54,8 @@ Dialog.prototype = {
 	 **/
 	AttachEvents: function(){
 		var t = this;
-		if(!this.settings.isModal){
-			$(this.settings.jqSelector.cache).on("click", function(){ t.HideAll(); });
+		if(!this.s.isModal){
+			$(this.s.jqSelector.cache).on("click", function(){ t.HideAll(); });
 		}
 	},
 
@@ -67,10 +67,10 @@ Dialog.prototype = {
 	 */
 	AttachEventsOnShow: function(obj){
 		var t = this;
-		obj.find(this.settings.jqSelector.close).on("click", function(){ t.Hide(obj); });
+		obj.find(this.s.jqSelector.close).on("click", function(){ t.Hide(obj); });
 
-		if(this.settings.data.type == 1){ // UserConnect
-			$(this.settings.jqSelector.valide).on("click", function(){
+		if(this.s.data.type == 1){ // UserConnect
+			$(this.s.jqSelector.valide).on("click", function(){
 				var login = $("#user_dialog_login").val();
 				var mdp = $("#user_dialog_password").val();
 				user.Connect(login, mdp);
@@ -84,7 +84,7 @@ Dialog.prototype = {
 	 * @param obj:jQueryObject				objet jquery correspondant à l'élément activé
 	 */
 	DetachEventsOnShow: function(){
-		obj.find(this.settings.jqSelector.close).off("click");
+		obj.find(this.s.jqSelector.close).off("click");
 	},
 
 	/**
@@ -92,24 +92,24 @@ Dialog.prototype = {
 	 * Lance la construction de la boite de dialogue
 	 */
 	Build: function(){
-		var html = "<div class='" + this.settings.objets.dialog + " " + this.settings.data.class + "'></div>";
+		var html = "<div class='" + this.s.objets.dialog + " " + this.s.data.class + "'></div>";
 		var win = $(window);
 
 		$("body").append(html);
 
-		html = $("." + this.settings.data.class);
+		html = $("." + this.s.data.class);
 
-		html.append("<div class='" + this.settings.objets.title + "'>" + this.settings.data.title + "<a class='" + this.settings.objets.close + "'></a></div>");
+		html.append("<div class='" + this.s.objets.title + "'>" + this.s.data.title + "<a class='" + this.s.objets.close + "'></a></div>");
 		html.append("<div class='dialog_error'></div>");
-		html.append("<div class='" + this.settings.objets.content + "'>" + this.settings.data.content + "</div>");
+		html.append("<div class='" + this.s.objets.content + "'>" + this.s.data.content + "</div>");
 		
-		this.settings.pos = {
+		this.s.pos = {
 			top: (win.height() - html.outerHeight(true)) / 2,
 			left: (win.width() - html.outerWidth(true)) / 2};
 
 		html.css({
 			"top" : -html.outerHeight(true) + "px",
-			"left": this.settings.pos.left + "px"
+			"left": this.s.pos.left + "px"
 		});
 		
 		this.Show(html);
@@ -122,7 +122,7 @@ Dialog.prototype = {
 	 * @param error:String		Contenu de l'erreur à afficher
 	 */
 	DisplayError: function(error){
-		$("." + this.settings.data.class).find(".dialog_error").html(error).show(1000);
+		$("." + this.s.data.class).find(".dialog_error").html(error).show(1000);
 	},
 
 	/**
@@ -151,7 +151,7 @@ Dialog.prototype = {
 	 */
 	 HideAll: function(){
 	 	var t = this;
-	 	$("." + this.settings.objets.dialog).each(function(){
+	 	$("." + this.s.objets.dialog).each(function(){
 	 		t.Hide($(this));
 	 	});
 	 },
@@ -163,7 +163,7 @@ Dialog.prototype = {
 	 */
 	ShowDialog: function(obj){
 		var t = this;
-		obj.show().animate({top: this.settings.pos.top}, 500);
+		obj.show().animate({top: this.s.pos.top}, 500);
 		this.AttachEventsOnShow(obj);
 	},
 
@@ -191,8 +191,8 @@ Dialog.prototype = {
 	 * Affiche le cache de la boite de dialogue
 	 */
 	ShowCache: function(){
-		if($(this.settings.jqSelector.cache).is(":hidden")){
-			$(this.settings.jqSelector.cache).show().animate({"opacity" : 0.9}, 300);
+		if($(this.s.jqSelector.cache).is(":hidden")){
+			$(this.s.jqSelector.cache).show().animate({"opacity" : 0.9}, 300);
 		}
 	},
 
@@ -202,7 +202,7 @@ Dialog.prototype = {
 	 */
 	HideCache: function(){
 		if(this.NbActivesDialogs() <= 1){
-			var cache = $(this.settings.jqSelector.cache);
+			var cache = $(this.s.jqSelector.cache);
 			cache.animate({"opacity" : 0}, 200, function(){ cache.hide(); });
 		}
 	},
@@ -213,6 +213,6 @@ Dialog.prototype = {
 	 * @return Int 				Correspond au nombre de boites de dialogues actives dans la page
 	 */
 	 NbActivesDialogs: function(){
-	 	return $("." + this.settings.objets.dialog).size();
+	 	return $("." + this.s.objets.dialog).size();
 	 }
 }

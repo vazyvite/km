@@ -4,7 +4,7 @@
 		private $_lstName;
 		private $_fstName;
 		private $_email;
-		private $_role;
+		private $_role; // 00:Aucun , 01: Lecture, 10: Ecriture: 11: Administration
 		private $_password;
 		private $_login;
 
@@ -99,7 +99,7 @@
 		function GetUserById($idUser){
 			$mysqli = new DB();
 			$dbq = new DBQuery();
-			$res = $mysqli->Query(str_replace(array("{{IDUSER}}"), array($idUser), $dbq->getUserById()));
+			$res = $mysqli->Query($dbq->getUserById($idUser));
 			
 			if($res != false){
 				$f = $res->fetch_assoc();

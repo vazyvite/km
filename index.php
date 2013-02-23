@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="./js/redactor.min.js"></script>
 		
 		<script type="text/javascript" src="./js/class/Dialog.js"></script>
+		<script type="text/javascript" src="./js/class/Lang.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
 		<script type="text/javascript" src="./js/class/Portail.js"></script>
 		<script type="text/javascript" src="./js/class/Article.js"></script>
