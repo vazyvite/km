@@ -75,6 +75,29 @@ Portail.prototype = {
 			t.Data.SetJSON(t, { idPortail: null, portail: null });
 			t.Data.SetHTML(t);
 			t.UI.Reset(t);
+			menu.UI.BuildEmpty(menu);
+		},
+
+		/** 
+		 * Méthode Action.Open
+		 * Ouverture d'un portail
+		 * @param t:Contexte
+		 * @param element:JSON 		Informations sur le nouveau portail
+		 */
+		Open: function(t, new_portail){
+			var accord = (t.s.data.idPortail != null && new_portail.value != t.s.data.idPortail) ? confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + t.s.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + new_portail.text + " ?") : true;
+			var isNewInterface = (t.s.data.idPortail == null) ? true : false;
+
+			t.Data.SetJSON(t, { idPortail: new_portail.value, portail: new_portail.text });
+
+			if(accord && new_portail.value != 0){
+				t.UI.PortailInfos(t);
+				if(articleContent && !isNewInterface){
+					articleContent.UI.Close(articleContent);
+				}
+			}
+
+			menu.UI.BuildPortail(menu);
 		}
 	},
 
@@ -138,12 +161,7 @@ Portail.prototype = {
 				// navigation = new Navigation();
 
 				$(".portail_action_select li").on("click", function(){
-					var accord = (t.s.data.idPortail != null && $(this).attr("value") != t.s.data.idPortail) ? confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + t.s.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + $(this).text() + " ?") : true;
-					t.Data.SetJSON(t, { idPortail: $(this).attr("value"), portail: $(this).text() });
-
-					if(accord && $(this).attr("value") != 0){
-						t.UI.PortailInfos(t);
-					}
+					t.Action.Open(t, { value: $(this).val(), text: $(this).text() });
 				});
 			}else{
 				bloc_list.html(null);
@@ -218,6 +236,7 @@ Portail.prototype = {
 		 * @param t:Contexte
 		 */
 		Reset: function(t){
+			$(t.s.content).find(".menu_portail").children().remove();
 			t.UI.PortailInfos(t);
 			t.UI.PortailList(t);
 			t.UI.HideInterface(t);

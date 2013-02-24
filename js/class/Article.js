@@ -75,7 +75,6 @@ Article.prototype = {
 			var json = $.parseJSON(msg);
 			// this.Data.SetJSON(this, json);
 			// this.UI.Build(this, json);
-
 		});
 	},
 
@@ -231,6 +230,7 @@ Article.prototype = {
 			t.UI.Content(t, json);
 			t.UI.Commands(t, json);
 			t.UI.HideLogo(t);
+			menu.UI.BuildCategorie(menu);
 		},
 
 		/**
@@ -355,12 +355,14 @@ Article.prototype = {
 			var cancel = t.UI.BtnCancel(t);
 			var access = t.UI.Accessibility(t);
 			var commands = $(t.s.blocCmd);
+			var del = t.UI.BtnDelete(t);
 			
 			if(retour != null){ commands.append(retour); }
 			if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
 			if(cancel != null){ commands.append(cancel); }
 			if(access != null){ commands.append(access); }
+			if(del != null){ commands.append(del); }
 		},
 
 		/**
@@ -374,7 +376,7 @@ Article.prototype = {
 			var btnClose = null;
 
 			if(user.CheckUserAccess(lvl)){
-				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ t.UI.Close(t); });
+				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ t.UI.Close(t); menu.UI.BuildPortail(menu); });
 			}
 			return btnClose;
 		},
@@ -435,6 +437,24 @@ Article.prototype = {
 			return btnCancel;
 		},
 
+		/**
+		 * Méthode UI.BtnDelete
+		 * Création du bouton de suppression de l'article
+		 * @param t:Contexte
+		 * @return jQueryObject 	objet jQuery correspondant au bouton de suppression
+		 */
+		BtnDelete: function(t){
+			var lvl = "10";
+			var btnCancel = null;
+
+			if(user.CheckUserAccess(lvl)){
+				btnCancel = $("<button class='btn_delete'>" + Lang[user.GetLangue()].btn.delete + "</button>").hide().on("click", function(){ 
+					t.Action.Save(t, true);
+				});
+			}
+			return btnCancel;
+		},
+
 		/*
 		* Méthode UI.Accessibility
 		* Construction du bloc d'accessibilité
@@ -487,8 +507,7 @@ Article.prototype = {
 		 */
 		Close: function(t){
 			t.Data.SetJSON(t, null);
-			$("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ $(this).css({"position": "absolute","right":0}); t.UI.Clear(t) });
-			t.UI.ShowLogo(t);
+			$("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ $(this).css({"position": "absolute","right":0}); t.UI.Clear(t); t.UI.ShowLogo(t); });
 		},
 
 		/**

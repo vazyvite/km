@@ -176,6 +176,9 @@ User.prototype = {
 			t.Data.Connect(t, json);
 			t.UI.UserInfos(t);
 			portail.Init();
+
+			menu = new Menu();
+			menu.Init();
 		},
 
 		/**
@@ -187,6 +190,8 @@ User.prototype = {
 			t.Data.Disconnect(t);
 			t.UI.UserInfos(t);
 			t.UI.ClearInterface(t);
+
+			menu.UI.Clear(menu);
 		},
 
 		/**
