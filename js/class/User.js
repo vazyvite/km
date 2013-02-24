@@ -12,7 +12,7 @@ function User(){
 			role: "",
 			login: ""
 		},
-		lang: "EN", // FR, EN
+		lang: "FR", // FR, EN
 		jqs: {
 			idUser: "#userdata_idUser",
 			lstName: "#userdata_lstName",
@@ -55,7 +55,7 @@ User.prototype = {
 		if(user.id != null && user.pass != null){
 			this.ConnectById(user.id, user.pass);
 		}else{
-			this.UI.Connect(this);
+			this.UI.ConnectText(this);
 		}
 	},
 
@@ -110,7 +110,7 @@ User.prototype = {
 				var json = $.parseJSON(msg);
 				this.Action.Connect(this, json);
 			}else{		// erreur de connexion
-				this.UI.Connect(this);
+				this.UI.ConnectText(this);
 			}
 
 		});
@@ -128,7 +128,7 @@ User.prototype = {
 			type: "POST",
 			context: this
 		}).done(function(){
-			this.UI.Connect(this);
+			this.UI.ConnectText(this);
 		});
 	},
 
@@ -186,7 +186,7 @@ User.prototype = {
 		Disconnect: function(t){
 			t.Data.Disconnect(t);
 			t.UI.UserInfos(t);
-			portail.Init();
+			t.UI.ClearInterface(t);
 		},
 
 		/**
@@ -335,11 +335,11 @@ User.prototype = {
 	 */
 	UI: {
 		/**
-		 * Méthode UI.Connect
+		 * Méthode UI.ConnectText
 		 * Permet d'afficher les commandes de connexion dans le bloc de connexion
 		 * @param t:Contexte
 		 */
-		Connect: function(t){
+		ConnectText: function(t){
 			var html = "<div class='action_user_connexion'>" + Lang[t.GetLangue()].btn.connect + "</div>";
 			$(t.s.content).html(html);
 
@@ -394,6 +394,22 @@ User.prototype = {
 			$(t.s.bloc + " .action_user_lang").on("click", function(){ 
 				t.Action.SwitchLanguage(t);
 			});
+		},
+
+		/**
+		 * Méthode UI.ClearInterface
+		 * Nettoyage de l'ensemble de l'interface
+		 * @param t:Contexte
+		 */
+		ClearInterface: function(t){
+
+			if(portail){
+				portail.Action.Reset(portail);
+			}
+			
+			if(articleContent){
+				articleContent.UI.Close(articleContent);
+			}
 		}
 	}
 }

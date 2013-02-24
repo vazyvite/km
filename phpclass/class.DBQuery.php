@@ -40,7 +40,7 @@
 		function getListArticle($id_categorie){ 				return str_replace(array("{{IDCATEGORIE}}"), array($id_categorie), DBQuery::DB_ARTICLE_LIST); }
 		function getArticleById($id_article){ 					return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_ARTICLE_BYID); }
 		function getListArticleByTerms($id_portail, $terms){ 	return str_replace(array("{{IDPORTAIL}}", "{{TERMS}}"), array($id_portail, $terms), DBQuery::DB_ARTICLE_BYTERMS); }
-		function updateArticle($titre, $content, $id_article){ 	return str_replace(array("{{CONTENTARTICLE}}", "{{IDARTICLE}}", "{{IDARTICLE}}"), array($titre, $content, $id_article), DBQuery::DB_ARTICLE_UPDATE); }
+		function updateArticle($id_article, $titre, $content){ 	return str_replace(array("{{TITLEARTICLE}}", "{{CONTENTARTICLE}}", "{{IDARTICLE}}"), array($titre, $content, $id_article), DBQuery::DB_ARTICLE_UPDATE); }
 
 
 

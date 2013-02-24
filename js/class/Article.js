@@ -50,6 +50,25 @@ Article.prototype = {
 		});
 	},
 
+	UpdateArticle: function(){
+		var data = this.s.data;
+		$.ajax({
+
+			url: "phpforms/article.update.php",
+			type: "POST",
+			data: {idArticle:data.idArticle, titre:data.titre, content:data.article , motcles:data.motcles },
+			datatype: "json",
+			context: this
+
+		}).done(function(msg){
+
+			var json = $.parseJSON(msg);
+			// this.Data.SetJSON(this, json);
+			// this.UI.Build(this, json);
+
+		});
+	},
+
 	Action: {
 		/**
 		 * Méthode Action.Edit
@@ -60,6 +79,7 @@ Article.prototype = {
 			var lvl = "10";
 			var article = $("#article");
 			var infos = $("#informations");
+			var access = $("#accessibility");
 
 			if(user.CheckUserAccess(lvl)){
 				article.find('.article_content').redactor({ focus: true });
@@ -69,37 +89,45 @@ Article.prototype = {
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
 				infos.find('button.btn_modif').hide();
-				infos.find('button.btn_save').show();
+				infos.find('button.btn_save, button.btn_cancel').show();
+				access.hide();
 			}
 		},
 
-		/**
+		/** TODO gérer les mots clés
 		 * Méthode Action.Save
 		 * Lance le workflow de sauvegarde de l'article
 		 * @param t:Contexte
+		 * @param isCancel:Boolean 		indique si l'action est un cancel ou une sauvegarde de la modification
 		 */
-		Save: function(t){
+		Save: function(t, isCancel){
 			var lvl = "10";
 			var article = $("#article");
 			var infos = $("#informations");
+			var access = $("#accessibility");
 
 			if(user.CheckUserAccess(lvl)){
 				
 				var content = article.find(".article_content").getText();
 				var titre = article.find(".article_title_edit").val();
-				// var motcle = "";
+				var motcle = t.s.data.motcles;
 
 				article.find('.article_title_edit').replaceWith( "<div class='article_title'>" + titre + "</div>" );
 				article.find('.article_content').destroyEditor();
 
-				infos.find('button.btn_modif').show();
-				infos.find('button.btn_save').hide();
+				if(content != "" && titre != "" && motcle != ""){
+					infos.find('button.btn_modif').show();
+					infos.find('button.btn_save, button.btn_cancel').hide();
+					access.show();
 
-				t.s.data = {
-					titre: titre,
-					article: content,
-					// motcles: Array[2],
-				};
+					if(!isCancel){
+						t.Data.Update(t, titre, content, motcle);
+						t.UpdateArticle();
+					}else{
+						article.find(".article_content").html(t.s.data.article);
+						article.find(".article_title").text(t.s.data.titre);
+					}
+				}
 			}
 		}
 	},
@@ -119,6 +147,20 @@ Article.prototype = {
 		 */
 		SetJSON: function(t, json){
 			t.s.data = json;
+		},
+
+		/**
+		 * Méthode Data.Update
+		 * Modifie les données JSON dans le cadre d'un Update
+		 * @param t:Contexte
+		 * @param titre:String 			titre de l'article
+		 * @param content:String 		contenu de l'article
+		 * @param motcle:String 		mots clés de l'article
+		 */
+		Update: function(t, titre, content, motcle){
+			t.s.data.titre = titre;
+			t.s.data.article = content;
+			t.s.data.motcles = motcle;
 		}
 	},
 	
@@ -261,12 +303,14 @@ Article.prototype = {
 			var retour = t.UI.BtnRetour(t);
 			var modif = t.UI.BtnModifier(t, json);
 			var save = t.UI.BtnSave(t, json);
+			var cancel = t.UI.BtnCancel(t);
 			var access = t.UI.Accessibility(t);
 			var commands = $(t.s.blocCmd);
 			
 			if(retour != null){ commands.append(retour); }
 			if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
+			if(cancel != null){ commands.append(cancel); }
 			if(access != null){ commands.append(access); }
 		},
 
@@ -318,10 +362,28 @@ Article.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btnSave = $("<button class='btn_save'>" + Lang[user.GetLangue()].btn.save + "</button>").attr("value", json.idArticle).hide().on("click", function(){ 
-					t.Action.Save(t);
+					t.Action.Save(t, false);
 				});
 			}
 			return btnSave;
+		},
+
+		/**
+		 * Méthode UI.BtnCancel
+		 * Création du bouton d'annulation des modifs de l'article
+		 * @param t:Contexte
+		 * @return jQueryObject 	objet jQuery correspondant au bouton d'annulation
+		 */
+		BtnCancel: function(t){
+			var lvl = "10";
+			var btnCancel = null;
+
+			if(user.CheckUserAccess(lvl)){
+				btnCancel = $("<button class='btn_cancel'>" + Lang[user.GetLangue()].btn.cancel + "</button>").hide().on("click", function(){ 
+					t.Action.Save(t, true);
+				});
+			}
+			return btnCancel;
 		},
 
 		/*

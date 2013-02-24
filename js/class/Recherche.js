@@ -64,7 +64,23 @@ Recherche.prototype = {
 		this.GetResults(terms);
 	},
 
-	Action: {},
+
+
+	/**
+	 * Bloc Action
+	 * Gère les éléments d'actions
+	 */
+	Action: {
+		/**
+		 * Méthode Action.Reset
+		 * Workflow de remise à zéro de l'interface de recherche
+		 * @param t:Contexte
+		 */
+		Reset: function(t, json){
+			t.Data.SetJSON(t, null);
+			t.UI.Reset(t);
+		}
+	},
 
 
 
@@ -74,7 +90,7 @@ Recherche.prototype = {
 	 */
 	Data: {
 		/**
-		 * Méthode SetJSON
+		 * Méthode Data.SetJSON
 		 * Sauve les données de recherche dans le JSON
 		 * @param t:Contexte
 		 * @param json:JSON 		données de recherche
@@ -97,6 +113,7 @@ Recherche.prototype = {
 		 * @param t:Contexte
 		 */
 		Build: function(t){
+			t.UI.Reset(t);
 			t.UI.SearchInput(t);
 		},
 
@@ -153,7 +170,16 @@ Recherche.prototype = {
 				}
 
 			}
-		}
+		},
+
+		/**
+		 * Méthode UI.Reset
+		 * Remise à zero de l'interface de recherche
+		 * @param t:Contexte
+		 */
+		Reset: function(t){
+			$(t.s.bloc).children().remove();
+		},
 	}
 }
 

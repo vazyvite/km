@@ -110,6 +110,24 @@
 			return $user;
 		}
 
+		/**
+		 * Méthode CheckUserRights
+		 * Valide l'action en fonction des droits de l'utilisateur
+		 * @param lvl:String 			Niveau de sécurité de l'action
+		 * @param userRights:String 	Niveau de droits de l'utilisateur
+		 * @return Boolean 			 	true si l'utilisateur a les droits suffisants, false dans le cas contraire
+		 */
+		function CheckUserRights($lvl, $userRights){
+			$lvl = intval($lvl);
+			$userRights = intval($userRights);
+
+			if($userRights >= $lvl){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
 		function CreateUser(){ return null; }
 		function EditUser(){ return null; }
 		function DeleteUser(){ return null; }

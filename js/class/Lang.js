@@ -21,6 +21,7 @@ var Lang = {
 			modify: "Modifier",
 			switch_lang: "Switch to English",
 			save: "Sauver",
+			cancel: "Annuler",
 		},
 		err: {
 			bad_id: "identifiants incorrects",
@@ -52,6 +53,7 @@ var Lang = {
 			modify: "Edit",
 			switch_lang: "Passer en Français",
 			save: "Save",
+			cancel: "Cancel",
 		},
 		err: {
 			bad_id: "incorrect identifiers",

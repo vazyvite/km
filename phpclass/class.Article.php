@@ -134,19 +134,19 @@
 		 * @param content:String 		Contenu de l'article
 		 * @param motcles:String 		Mots clés liés à l'article
 		 */
-		/*function UpdateArticle($id, $titre; $content, $motcles){
+		function UpdateArticle($id, $titre, $content, $motcles){
+			$lvl = "10";
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query($dbq->getArticleById($idArticle));
+			$user = new User();
 
-			if($res != false){
-				$f = $res->fetch_assoc();
-				$article = $this->FormatArticleData($f);
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				echo "ok passé";
+				$res = $mysqli->Update($dbq->updateArticle($id, htmlentities($titre, ENT_QUOTES), htmlentities($content, ENT_QUOTES)));
+				echo " ..  resultat : " . $res;
 			}else{
-				$article = null;
+				echo "pas passé";
 			}
-
-			return $article;
-		}*/
+		}
 	}
 ?>

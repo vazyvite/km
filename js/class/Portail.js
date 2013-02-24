@@ -65,7 +65,18 @@ Portail.prototype = {
 	 * Bloc Action
 	 * Méthodes concernant les actions
 	 */
-	Action: {},
+	Action: {
+		/**
+		 * Méthode Action.Reset
+		 * Reset l'affichage et les données du portail
+		 * @param t:Contexte
+		 */
+		Reset: function(t){
+			t.Data.SetJSON(t, { idPortail: null, portail: null });
+			t.Data.SetHTML(t);
+			t.UI.Reset(t);
+		}
+	},
 
 
 	/**
@@ -110,9 +121,10 @@ Portail.prototype = {
 			var lvl = "01";
 			var insert, bloc_list;
 
+			bloc_list = $(t.s.content).find(".menu_portail");
+
 			if(t.s.listPortail != null && user.CheckUserAccess(lvl)){
 
-				bloc_list = $(t.s.content).find(".menu_portail");
 				bloc_list.append("<ul></ul>");
 
 				for(var i = 0; i < t.s.listPortail.length; i++){
@@ -133,6 +145,8 @@ Portail.prototype = {
 						t.UI.PortailInfos(t);
 					}
 				});
+			}else{
+				bloc_list.html(null);
 			}
 		},
 
@@ -156,6 +170,8 @@ Portail.prototype = {
 				}else{ // aucun portail sélectionné
 					bloc_info.text(Lang[user.GetLangue()].lbl.portail_select).removeAttr("value").parent().removeClass("portail_selected");
 				}
+			}else{
+				bloc_info.text("").removeAttr("value").parent().removeClass("portail_selected");
 			}
 		},
 
@@ -179,6 +195,32 @@ Portail.prototype = {
 					content.animate({ "width": $(window).width() - ref.outerWidth(true) }, 300, "swing");
 				}
 			}
+		},
+
+		/**
+		 * Méthode UI.HideInterface
+		 * Cache l'ensemble de l'interface à la désélection d'un portail
+		 * @param t:Contexte
+		 */
+		HideInterface: function(t){
+			var ref = $("#reference");
+			var content = $("#content");
+
+			if(ref.is(":visible")){
+				ref.css({ "left": 0 }).animate({ "left": -ref.outerWidth(true) }, 300, "swing", function(){ ref.hide(); recherche.Action.Reset(recherche); navigation.Action.Reset(navigation); });
+				content.animate({ "width": $(window).width() }, 300, "swing");
+			}
+		},
+
+		/**
+		 * Méthode UI.Reset
+		 * Reset l'affichage
+		 * @param t:Contexte
+		 */
+		Reset: function(t){
+			t.UI.PortailInfos(t);
+			t.UI.PortailList(t);
+			t.UI.HideInterface(t);
 		}
 	}
 }

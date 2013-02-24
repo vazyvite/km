@@ -54,7 +54,24 @@ Navigation.prototype = {
 		}
 	},
 
-	Action: {},
+
+
+
+	/**
+	 * Bloc Action
+	 * Gère les éléments d'actions
+	 */
+	Action: {
+		/**
+		 * Méthode Action.Reset
+		 * Workflow de remise à zéro de l'interface de navigation
+		 * @param t:Contexte
+		 */
+		Reset: function(t, json){
+			t.Data.SetJSON(t, null);
+			t.UI.Reset(t);
+		}
+	},
 
 
 
@@ -136,63 +153,17 @@ Navigation.prototype = {
 					articleContent.LoadArticle($(this).attr("value"));
 				});
 			}
+		},
+
+		/**
+		 * Méthode UI.Reset
+		 * Remise à zero de l'interface de navigation
+		 * @param t:Contexte
+		 */
+		Reset: function(t){
+			$(t.s.bloc).children().remove();
 		}
 	}
-	/**
-	 * Méthode ClearBloc
-	 * Vider le bloc Navigation
-	 */
-	/*ClearBloc: function(){
-		$(this.s.bloc).html(null);
-	},*/
-
-	/**
-	 * Méthode BuildNavigation
-	 * Affiche le contenu de navigation
-	 */
-	/*BuildNavigation: function(){
-		var lvl = "01";
-		if(user.CheckUserAccess(lvl)){
-			if(this.s.data != null){
-				var categorie, article, insertCategorie, insertArticle;
-				var content = $(this.s.bloc);
-				var ul = $("<ul class='navigation_content'></ul>");
-				content.append(ul);
-
-				for(var i = 0; i < this.s.data.length; i++){
-					//insertCategorie = null;
-					categorie = this.s.data[i];
-					insertCategorie = $("<li class='categorie_title off'><span>" + categorie.categorie + "</span><ul class='categorie_articles'></ul></li>");
-
-					for(var j = 0; j < categorie.articles.length; j++){
-						insertArticle = null;
-						article = categorie.articles[j];
-						insertArticle = $("<li class='categorie_article link_article' value='" + article.idArticle + "'>" + article.titre + "</li>");
-						insertCategorie.find("ul.categorie_articles").append(insertArticle);
-					}
-					
-					content.find("ul.navigation_content").append(insertCategorie);
-				}
-
-				$(".categorie_title").on("click", function(){
-					var articles = $(this).find(".categorie_articles");
-					if(articles.is(":visible")){
-						$(this).removeClass("on").addClass("off");
-						articles.hide(200);
-					}else{
-						$(this).removeClass("off").addClass("on");
-						articles.show(200);
-					}
-				});
-
-				$(".categorie_article").on("click", function(event){
-					event.stopPropagation();
-					articleContent.LoadArticle($(this).attr("value"));
-				});
-				
-			}
-		}
-	}*/
 }
 
 var navigation;
