@@ -52,11 +52,21 @@ Article.prototype = {
 
 	UpdateArticle: function(){
 		var data = this.s.data;
+		var idmc = Array();
+		var mc = Array();
+
+		for(var i = 0; i < data.motcles.length; i++){
+			idmc.push(data.motcles[i].idMotCle);
+			mc.push(data.motcles[i].motcle);
+		}
+		idmc = idmc.join(";");
+		mc = mc.join(";");
+
 		$.ajax({
 
 			url: "phpforms/article.update.php",
 			type: "POST",
-			data: {idArticle:data.idArticle, titre:data.titre, content:data.article , motcles:data.motcles },
+			data: {idArticle:data.idArticle, titre:data.titre, content:data.article, idmotcles:idmc, motcles:mc },
 			datatype: "json",
 			context: this
 
@@ -80,11 +90,30 @@ Article.prototype = {
 			var article = $("#article");
 			var infos = $("#informations");
 			var access = $("#accessibility");
+			var arr_mc = Array();
 
 			if(user.CheckUserAccess(lvl)){
 				article.find('.article_content').redactor({ focus: true });
 				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
-				//article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
+				
+				for(var i = 0; i < t.s.data.motcles.length; i++){
+					var motcle = t.s.data.motcles[i];
+					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
+				}
+
+				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
+				article.find("input.article_listMotCles_edit").tokenInput(
+					"phpforms/motcle.autocomplete.php", 
+					{ 	method: "POST",
+						prePopulate: arr_mc,
+						preventDuplicates: true,
+						theme: "facebook"
+					}
+		        );
+
+
+				
+
 
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
@@ -105,27 +134,47 @@ Article.prototype = {
 			var article = $("#article");
 			var infos = $("#informations");
 			var access = $("#accessibility");
+			var motcle = Array();
 
 			if(user.CheckUserAccess(lvl)){
 				
 				var content = article.find(".article_content").getText();
 				var titre = article.find(".article_title_edit").val();
-				var motcle = t.s.data.motcles;
+				var mc = article.find("input.article_listMotCles_edit").tokenInput("get");
 
 				article.find('.article_title_edit').replaceWith( "<div class='article_title'>" + titre + "</div>" );
 				article.find('.article_content').destroyEditor();
+				article.find('.article_listMotCles_edit').replaceWith( "<div class='article_listMotCles'></div>" );
 
-				if(content != "" && titre != "" && motcle != ""){
+				if(content != "" && titre != "" && mc != ""){
 					infos.find('button.btn_modif').show();
 					infos.find('button.btn_save, button.btn_cancel').hide();
+					$('.token-input-dropdown-facebook, .token-input-token-facebook, .token-input-list-facebook').remove();
 					access.show();
 
 					if(!isCancel){
+						for(var i = 0; i < mc.length; i++){
+							motcle.push({idArticle: t.s.data.idArticle, idMotCle: mc[i].id, motcle: mc[i].name});
+							var insert = $("<a></a>").addClass("motcle").attr("value", mc[i].id).text(mc[i].name);
+							article.find('.article_listMotCles').append(insert);
+						}
+
 						t.Data.Update(t, titre, content, motcle);
 						t.UpdateArticle();
+
 					}else{
 						article.find(".article_content").html(t.s.data.article);
 						article.find(".article_title").text(t.s.data.titre);
+
+						for(var i = 0; i < t.s.data.motcles.length; i++){
+							var motcle = t.s.data.motcles[i];
+							var insert = $("<a></a>").addClass("motcle").attr("value", motcle.idMotCle).text(motcle.motcle);
+							article.find('.article_listMotCles').append(insert);
+
+							insert.on("click", function(){ 
+								recherche.SetRecherche($(this).text());
+							});
+						}
 					}
 				}
 			}

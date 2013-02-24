@@ -129,23 +129,39 @@
 		/**
 		 * Méthode UpdateArticle
 		 * Sauve les modifications effectuées sur un article en base
-		 * @param id:Int 				Identifiant de l'article
-		 * @param titre:String 			Titre de l'article
-		 * @param content:String 		Contenu de l'article
-		 * @param motcles:String 		Mots clés liés à l'article
+		 * @param id:Int 					Identifiant de l'article
+		 * @param titre:String 				Titre de l'article
+		 * @param content:String 			Contenu de l'article
+		 * @param motcles:Array[String]		Mots clés liés à l'article
+		 * @param idmotcles:Array[String]	Identifiants des mots clés liés à l'article
 		 */
-		function UpdateArticle($id, $titre, $content, $motcles){
+		function UpdateArticle($id, $titre, $content, $motcles, $idmotcles){
 			$lvl = "10";
 			$dbq = new DBQuery();
 			$mysqli = new DB();
 			$user = new User();
 
+			$arr_motcles = explode(";", $motcles);
+			$arr_idMotcles = explode(";", $idmotcles);
+
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
-				echo "ok passé";
 				$res = $mysqli->Update($dbq->updateArticle($id, htmlentities($titre, ENT_QUOTES), htmlentities($content, ENT_QUOTES)));
-				echo " ..  resultat : " . $res;
+
+				$motcle = new MotCle();
+				$motcle->DeleteAllMotClesForArticleId($id);
+
+				if(count($arr_motcles) > 0){
+					for($i = 0; $i < count($arr_motcles); $i++){
+						// echo "Array : " . $arr_motcles[$i] . ", id: " . $arr_idMotcles[$i] . "      ";
+						if(intval($arr_idMotcles[$i]) != -1){
+							$motcle->UpdateMotCle($arr_idMotcles[$i], $arr_motcles[$i]);
+						}else{
+							$motcle->CreateMotCle($id, $arr_motcles[$i]);
+						}
+					}
+				}
 			}else{
-				echo "pas passé";
+
 			}
 		}
 	}

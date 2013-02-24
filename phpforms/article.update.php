@@ -7,16 +7,15 @@
 	require_once("../phpclass/class.MotCle.php");
 	require_once("../phpclass/class.ListMotCles.php");
 
-	$_POST['motcles'] = "ok";
-
-	if(isset($_POST['idArticle']) && isset($_POST['titre']) && isset($_POST['content']) && isset($_POST['motcles'])){
+	if(isset($_POST['idArticle']) && isset($_POST['titre']) && isset($_POST['content']) && isset($_POST['motcles'])  && isset($_POST['idmotcles'])){
 		$idArticle = $_POST['idArticle'];
 		$titre = $_POST['titre'];
 		$content = $_POST['content'];
 		$motcles = $_POST['motcles'];
+		$idmotcles = $_POST['idmotcles'];
 
 		$article = new Article();
-		$res = $article->UpdateArticle($idArticle, $titre, $content, $motcles);
+		$res = $article->UpdateArticle($idArticle, $titre, $content, $motcles, $idmotcles);
 
 	}else{
 
