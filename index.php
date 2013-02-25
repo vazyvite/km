@@ -15,9 +15,12 @@
 		<script type="text/javascript" src="./js/jquery.watermark.min.js"></script>
 		<script type="text/javascript" src="./js/redactor.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.tokeninput.js"></script>
+		<!-- <script type="text/javascript" src="./js/highcharts.js"></script>
+		<script type="text/javascript" src="./js/grid.js"></script> -->
 		
 		<script type="text/javascript" src="./js/class/Lang.js"></script>
 		<script type="text/javascript" src="./js/class/Dialog.js"></script>
+		<script type="text/javascript" src="./js/class/Popin.js"></script>
 		<script type="text/javascript" src="./js/class/Menu.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
 		<script type="text/javascript" src="./js/class/Portail.js"></script>

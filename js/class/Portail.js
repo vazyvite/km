@@ -24,7 +24,7 @@ Portail.prototype = {
 	 * Méthode d'initialisation de la class User
 	 */
 	Init: function(){
-		this.GetAllPortail();
+		this.GetAllPortail(true);
 	},
 
 	/** 
@@ -36,8 +36,10 @@ Portail.prototype = {
 	/** 
 	 * Méthode GetAllPortail
 	 * Affiche la liste des portails disponibles
+	 * @param show:Boolean 			true: indique que le résultat doit être affiché, false: le résultat est traité indépendemment
+	 * @param fnCallback:function	optionnelle - fonction de callback permettant de récupérer le résultat de l'Ajax
 	 */
-	GetAllPortail: function(){
+	GetAllPortail: function(show, fnCallback){
 		var lvl = "01";
 
 		if(user.CheckUserAccess(lvl)){
@@ -52,14 +54,55 @@ Portail.prototype = {
 
 				if(msg != ""){
 					var json = $.parseJSON(msg);
-					this.s.listPortail = json;
-					this.UI.PortailList(this);
+
+					if(show){
+						this.s.listPortail = json;
+						this.UI.PortailList(this);
+					}else{
+						fnCallback(json);
+					}
 				}
 			});
 		}
 	},
 
+	/**
+	 * Méthode Update
+	 * Met à jour un portail
+	 * @param data:JSON 	données correspondant au portail à modifier
+	 */
+	Update: function(data){
 
+		$.ajax({
+
+			url: "phpforms/portail.update.php",
+			type: "POST", 
+			context: this,
+			data: {id: data.id, portail: data.portail}
+
+		}).done(function(msg){
+			this.Action.Administration(this);
+		});
+	},
+
+	/**
+	 * Méthode Delete
+	 * Supprime un portail
+	 * @param id:Int 	Identifiant du portail à supprimer
+	 */
+	Delete: function(id){
+
+		$.ajax({
+
+			url: "phpforms/portail.delete.php",
+			type: "POST", 
+			context: this,
+			data: {id: id}
+
+		}).done(function(msg){
+			this.Action.Administration(this);
+		});
+	},
 
 	/**
 	 * Bloc Action
@@ -98,6 +141,34 @@ Portail.prototype = {
 			}
 
 			menu.UI.BuildPortail(menu);
+		},
+
+		/**
+		 * Méthode Action Administration
+		 * Gestion des Portails
+		 * @param t:Contexte
+		 */
+		Administration: function(t){
+			articleContent.UI.Clear(articleContent);
+			var strTabPortail = [ { title: "ID", key: "id", width: 10 }, { title: "Portail", key: "portail", width: null }, { title: "Actions", key: null, width: null } ];
+			var data = t.GetAllPortail(false, function(json){
+				articleContent.Action.AdminPortail(articleContent, json, strTabPortail, Lang[user.GetLangue()].lbl.admin_portail);
+				menu.UI.BuildAdminPortail(menu);
+			});
+		},
+
+		/**
+		 * Méthode Action AdministrationCategorie
+		 * Gestion des Catégories
+		 * @param t:Contexte
+		 */
+		AdministrationCategorie: function(t){
+			articleContent.UI.Clear(articleContent);
+			var strTabCategorie = [ { title: "ID", key: "id", width: 10 }, { title: "Catégorie", key: "categorie", width: 20 }, { title: "Description", key: "description", width: null }, { title: "Nb Articles", key: "articles", width: 10 }, { title: "Actions", key: null, width: null } ];
+			var data = navigation.GetNavigation(false, function(json){
+				articleContent.Action.AdminCategorie(articleContent, json, strTabCategorie, Lang[user.GetLangue()].lbl.admin_categorie);
+				menu.UI.BuildAdminCategorie(menu);
+			});
 		}
 	},
 

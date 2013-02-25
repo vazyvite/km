@@ -76,8 +76,39 @@
 			return $portail;
 		}
 
-		function CreatePortail(){ return null; }
-		function EditPortail(){ return null; }
-		function DeletePortail(){ return null; }
+		/**
+		 * Méthode UpdatePortail
+		 * Met à jour le portail
+		 * @package DB, DBQuery
+		 * @param $idPortail:Int		identifiant du portail
+		 * @param $portail:String 		Nom du portail
+		 */
+		function UpdatePortail($idPortail, $portail){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Update( $dbq->updatePortail($idPortail, htmlentities($portail, ENT_QUOTES)));
+			}
+		}
+
+		/**
+		 * Méthode DeletePortail
+		 * Supprime le portail
+		 * @package DB, DBQuery
+		 * @param $idPortail:Int		identifiant du portail
+		 */
+		function DeletePortail($idPortail){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Delete( $dbq->deletePortail($idPortail));
+			}
+		}
 	}
 ?>

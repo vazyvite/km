@@ -105,7 +105,7 @@ Resize.prototype = {
 	}
 }
 
-var resize;
+var resize, temp;
 $(document).ready(function(){ 
 	resize = new Resize();
 	

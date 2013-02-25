@@ -11,7 +11,19 @@ var Lang = {
 			no_result: "aucun résultat",
 			createdby: "créé par",
 			date_intro: "le",
-			title: "Titre"
+			title: "Titre",
+			admin_portail: "Administration des Portails",
+			admin_categorie: "Administration des Catégories",
+			admin_article: "Administration des Articles",
+			admin_user: "Administration des Utilisateurs",
+			form_portail: "Portail",
+			form_id: "ID",
+			form_categorie: "Catégorie",
+			form_description: "Description",
+			form_nb_article: "Nombre d'articles",
+			modif_portail: "Modification du portail",
+			modif_categorie: "Modification de la catégorie",
+			
 		},
 		btn: {
 			connect: "Connexion",
@@ -22,6 +34,7 @@ var Lang = {
 			switch_lang: "Switch to English",
 			save: "Sauver",
 			cancel: "Annuler",
+			valide: "Valider",
 			add_article: "Ajouter un nouvel article",
 			admin_portail: "Gestion des portails",
 			add_portail: "Ajouter un nouveau portail",
@@ -42,6 +55,7 @@ var Lang = {
 		msg: {
 			confirm_leave_portail1: "Vous allez quitter le portail",
 			confirm_leave_portail2: "souhaitez-vous continuer sur le portail",
+			confirm_delete_object: "Voulez-vous supprimer cet élément ?",
 		}
 	},
 	EN: {
@@ -56,7 +70,18 @@ var Lang = {
 			no_result: "no result",
 			createdby: "created by",
 			date_intro: "the",
-			title: "Title"
+			title: "Title",
+			admin_portail: "Portals Administration",
+			admin_categorie: "Categories Administration",
+			admin_article: "Articles Administration",
+			admin_user: "Users Administration",
+			form_portail: "Portal",
+			form_id: "ID",
+			form_categorie: "Category",
+			form_description: "Description",
+			form_nb_article: "Number of articles",
+			modif_portail: "Edit portal",
+			modif_categorie: "Edit category",
 		},
 		btn: {
 			connect: "Connection",
@@ -67,6 +92,7 @@ var Lang = {
 			switch_lang: "Passer en Français",
 			save: "Save",
 			cancel: "Cancel",
+			valide: "Ok",
 			add_article: "Add a new article",
 			admin_portail: "Portail administration",
 			add_portail: "Add a new portal",
@@ -87,6 +113,7 @@ var Lang = {
 		msg: {
 			confirm_leave_portail1: "You will leave the portal",
 			confirm_leave_portail2: "do you wish to continue in the portal",
+			confirm_delete_object: "Do you want to delete this element ?",
 		}
 	}
 }

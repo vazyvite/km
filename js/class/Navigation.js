@@ -14,7 +14,7 @@ Navigation.prototype = {
 	 */
 	Init: function(){
 		this.UI.Clear(this);
-		this.GetNavigation();
+		this.GetNavigation(true);
 	},
 
 	/**
@@ -27,7 +27,7 @@ Navigation.prototype = {
 	 * Méthode GetNavigation
 	 * Créer le contenu de la navigation
 	 */
-	GetNavigation: function(){
+	GetNavigation: function(show, fnCallback){
 		var idPortail = portail.s.data.idPortail;
 		var lvl = "01";
 
@@ -46,9 +46,13 @@ Navigation.prototype = {
 				}).done(function(msg){
 
 					var json = $.parseJSON(msg);
-					this.Data.SetJSON(this, json);
-					this.UI.Populate(this);
 
+					if(show){
+						this.Data.SetJSON(this, json);
+						this.UI.Populate(this);
+					}else{
+						fnCallback(json);
+					}
 				});
 			}
 		}

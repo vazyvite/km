@@ -28,8 +28,8 @@
 		function getPortailList(){ return DBQuery::DB_PORTAIL_LIST; }
 		function getPortailById($id_portail){ return str_replace(array("{{ID}}"), array($id_portail), DBQuery::DB_PORTAIL_BYID); }
 		function createPortail($portail){ return str_replace(array("{{PORTAIL}}"), array($portail), DBQuery::DB_PORTAIL_CREATE); }
-		function updatePortail($id_portail, $portail){ return str_replace(array("{{IDPORTAIL}}","{{PORTAIL}}"), array($id, $portail), DBQuery::DB_PORTAIL_UPDATE); }
-		function deletePortail($id_portail){ return str_replace(array("{{IDPORTAIL}}"), array($portail), DBQuery::DB_PORTAIL_DELETE); }
+		function updatePortail($id_portail, $portail){ return str_replace(array("{{IDPORTAIL}}","{{PORTAIL}}"), array($id_portail, $portail), DBQuery::DB_PORTAIL_UPDATE); }
+		function deletePortail($id_portail){ return str_replace(array("{{IDPORTAIL}}"), array($id_portail), DBQuery::DB_PORTAIL_DELETE); }
 
 
 

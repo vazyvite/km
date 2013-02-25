@@ -133,13 +133,53 @@ Menu.prototype = {
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
-				var editPortail = t.UI.Btn_EditPortail(t);
+				// var editPortail = t.UI.Btn_EditPortail(t);
 
 				var m = $(t.s.bloc).find("ul");
 
 				if(retour != null) { m.append(retour); }
-				if(editPortail != null) { m.append(editPortail); }
+				// if(editPortail != null) { m.append(editPortail); }
 				if(adminCategorie != null) { m.append(adminCategorie); }
+				if(addCategorie != null) { m.append(addCategorie); }
+				if(adminUser != null) { m.append(adminUser); }
+			}
+		},
+
+		/**
+		 * Méthode UI.BuildAdminPortail
+		 * Constuction du menu lorsque l'on est en écran d'administration des portails
+		 * @param t:Context
+		 */
+		BuildAdminPortail: function(t){
+			t.UI.Clear(t);
+			if(user.s.data.role != null){
+				var retour = t.UI.Btn_Retour(t);
+				var addPortail = t.UI.Btn_AddPortail(t);
+				var adminUser = t.UI.Btn_AdminUser(t);
+
+				var m = $(t.s.bloc).find("ul");
+
+				if(retour != null) { m.append(retour); }
+				if(addPortail != null) { m.append(addPortail); }
+				if(adminUser != null) { m.append(adminUser); }
+			}
+		},
+
+		/**
+		 * Méthode UI.BuildAdminCategorie
+		 * Constuction du menu lorsque l'on est en écran d'administration des catégories
+		 * @param t:Context
+		 */
+		BuildAdminCategorie: function(t){
+			t.UI.Clear(t);
+			if(user.s.data.role != null){
+				var retour = t.UI.Btn_Retour(t);
+				var addCategorie = t.UI.Btn_AddCategorie(t);
+				var adminUser = t.UI.Btn_AdminUser(t);
+
+				var m = $(t.s.bloc).find("ul");
+
+				if(retour != null) { m.append(retour); }
 				if(addCategorie != null) { m.append(addCategorie); }
 				if(adminUser != null) { m.append(adminUser); }
 			}
@@ -179,7 +219,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton admin_categorie' title='" + Lang[user.GetLangue()].btn.admin_categorie + "'></li>").on("click", function(){
-					// Action
+					portail.Action.AdministrationCategorie(portail);
 				});
 			}
 			return btn;
@@ -264,7 +304,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton admin_portail' title='" + Lang[user.GetLangue()].btn.admin_portail + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
+					portail.Action.Administration(portail);
 				});
 			}
 			return btn;

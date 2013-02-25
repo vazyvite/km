@@ -110,10 +110,6 @@ Article.prototype = {
 					}
 		        );
 
-
-				
-
-
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
 				infos.find('button.btn_modif').hide();
@@ -177,6 +173,50 @@ Article.prototype = {
 					}
 				}
 			}
+		},
+
+		/**
+		 * Méthode Action.BuildAdminPortail
+		 * Workflow de construction de la page d'administration des portails
+		 * @param t:Contexte
+		 * @param json:JSON 					données concernant les portails
+		 * @param strTabPortail:Array[JSON] 	données concernant la structure du tableau
+		 */
+		AdminPortail: function(t, json, strTabPortail, titre){
+			var lvl = "11";
+			var table = t.UI.TablePortail(t, strTabPortail);
+
+			if(table != null && user.CheckUserAccess(lvl)){
+				for(var i = 0; i < json.length; i++){
+					var line = t.UI.LinePortail(t, strTabPortail, json[i], "portail");
+					if(line != null){ table.find("tbody").append(line); }
+				}
+
+				t.UI.AdminTitle(t, titre);
+				t.UI.AdminContent(t, table);
+			}
+		},
+
+		/**
+		 * Méthode Action.AdminCategorie
+		 * Workflow de construction de la page d'administration des catégories
+		 * @param t:Contexte
+		 * @param json:JSON 					données concernant les catégories
+		 * @param strTabPortail:Array[JSON] 	données concernant la structure du tableau
+		 */
+		AdminCategorie: function(t, json, strTabCategorie, titre){
+			var lvl = "11";
+			var table = t.UI.TablePortail(t, strTabCategorie);
+
+			if(table != null && user.CheckUserAccess(lvl)){
+				for(var i = 0; i < json.length; i++){
+					var line = t.UI.LinePortail(t, strTabCategorie, json[i], "categorie");
+					if(line != null){ table.find("tbody").append(line); }
+				}
+
+				t.UI.AdminTitle(t, titre);
+				t.UI.AdminContent(t, table);
+			}
 		}
 	},
 
@@ -231,6 +271,7 @@ Article.prototype = {
 			t.UI.Commands(t, json);
 			t.UI.HideLogo(t);
 			menu.UI.BuildCategorie(menu);
+			$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
 		},
 
 		/**
@@ -338,8 +379,6 @@ Article.prototype = {
 		Content: function(t, json){
 			var insert = $("<div></div>").addClass("article_content").html(json.article);
 			$(t.s.bloc).append(insert);
-
-			insert.height($(t.s.bloc).outerHeight(true) - ($(t.s.blocCmd).outerHeight(true)));
 		},
 
 		/**
@@ -526,6 +565,206 @@ Article.prototype = {
 		 */
 		HideLogo: function(t){
 			$("#logos").animate({"opacity": 0}, 100, function(){ $(this).hide().css("opacity", 1); });
+		},
+
+		/**
+		 * Méthode UI.TablePortail
+		 * Constuction de la table d'administration des portails
+		 * @param t:Contexte
+		 * @param str:Array[String] 	Structure de la table d'administration des portails
+		 */
+		TablePortail: function(t, str){
+			var table = null;
+			var lvl = "11";
+			var w, className;
+
+			if(str.length && user.CheckUserAccess(lvl)){
+
+				table = $("<table><thead></thead><tbody></tbody></table>");
+				line = $("<tr></tr>");
+
+				for(var i = 0; i < str.length; i++){
+					w = 0;
+					className = "";
+					
+					if(str[i].key == null){
+						w = "80px";
+						className = "class='action'";
+					}else{
+						w = (str[i].width == null) ? "auto" : str[i].width + "%";
+					}
+
+					line.append($("<th " + className + " style='width:" + w + "'>" + str[i].title + "</th>"));
+				}
+
+				table.find("thead").append(line);
+			}
+
+			return table;
+		},
+
+		/**
+		 * Méthode UI.LinePortail
+		 * Constuction d'une ligne du tableau d'administration des portails
+		 * @param t:Contexte
+		 * @param str:Array[String] 	Structure de la table d'administration des portails
+		 * @param json:JSON 	 		Données du portail à afficher
+		 */
+		LinePortail: function(t, str, json, type){
+			var line = null;
+			var lvl = "11";
+			var page = "portail"
+
+			if(str.length && user.CheckUserAccess(lvl)){
+
+				line = ($("<tr value='" + json.id + "'></tr>"));
+
+				for(var i = 0; i < str.length; i++){
+					var popin_data_edit, popin_data_del;
+
+					switch(type){
+						case "portail": 
+							popin_data_edit = {
+								title: Lang[user.GetLangue()].lbl.modif_portail + " " + json.portail,
+								content:  "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_PORTAIL'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_portail + " : </div><div class='form_input'><input type='text' value='" + json.portail + "' /></div></div>",
+								cmd: ["valide", "cancel"],
+								onValidate: function(){
+									var p = $(".popin");
+									var data = { id: p.find(".p_ID .form_input input").val(), portail: p.find(".p_PORTAIL .form_input input").val() }
+									if(data.id != "" && data.portail != ""){ portail.Update(data); popin.Action.Hide(popin); }
+								},
+								onCancel: null, lvlRequise: "11", closeBtn: true
+							};
+
+							popin_data_del = {
+								title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+								content: "", cmd: ["valide", "cancel"],
+								onValidate: function(){
+									var p = $(".popin");
+									var id = p.find(".p_ID").val();
+									if(id != ""){ portail.Delete(id); popin.Action.Hide(popin); }
+								},
+								onCancel: null, lvlRequise: "11", closeBtn: false
+							};
+						break;
+
+						case "categorie":
+							popin_data_edit = {
+								title: Lang[user.GetLangue()].lbl.modif_categorie + " " + json.portail,
+								content: "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_CATEGORIE'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_categorie + " : </div><div class='form_input'><input type='text' value='" + json.categorie + "' /></div></div><div class='form_line p_DESCRIPTION'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_description + " : </div><div class='form_input'><input type='text' value='" + json.description + "' /></div></div><div class='form_line p_NBARTICLES'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_nb_article + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.articles.length + "' /></div></div>",
+								cmd: ["valide", "cancel"],
+								onValidate: null,
+								onCancel: null, lvlRequise: "11", closeBtn: true
+							};
+
+							popin_data_del = {
+								title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+								content: "", cmd: ["valide", "cancel"],
+								onValidate: null,
+								onCancel: null, lvlRequise: "11", closeBtn: false
+							};
+						break;
+					}
+
+					if(str[i].key != null){
+						if(typeof(json[str[i].key]) == 'object' && (json[str[i].key] instanceof Array)){
+							line.append($("<td>" + json[str[i].key].length + "</td>"));
+						}else{
+							line.append($("<td>" + json[str[i].key] + "</td>"));
+						}
+					}else{
+						var td = $("<td class='action'></td>").append(t.UI.AdminBtnEdit(t, page, popin_data_edit)).append(t.UI.AdminBtnDel(t, page, popin_data_del));
+						line.append(td);
+					}
+				}
+			}
+
+			return line;
+		},
+
+		/**
+		 * Méthode AdminTitle
+		 * Construction du titre des pages d'administration
+		 * @param t:Contexte
+		 * @parma title:String 			Titre de la page
+		 */
+		AdminTitle: function(t, title){
+			var lvl = "11";
+			
+			if(user.CheckUserAccess(lvl) && title != ""){
+				var insert = $("<div></div>").addClass("admin_title").html(title);
+				$(t.s.bloc).append(insert);
+			}
+		},
+
+		/**
+		 * Méthode AdminContent
+		 * Construction du contenu des pages d'administration
+		 * @param t:Contexte
+		 * @parma section:jQueryObject 	Contenu de la page
+		 */
+		AdminContent: function(t, section){
+			var lvl = "11";
+
+			if(user.CheckUserAccess(lvl) && title != ""){
+				var insert = $("<div></div>").addClass("admin_content").html(section);
+				$(t.s.bloc).append(insert);
+			}
+		},
+
+		/** obsolète
+		 * Méthode AdminStat
+		 * Construction de la partie Stat des pages administration
+		 * @param t:Contexte
+		 * @parma section:jQueryObject 	Contenu de la page
+		 */
+		AdminStat: function(t){
+			var lvl = "11";
+
+			if(user.CheckUserAccess(lvl)){
+				var insert = $("<div></div>").addClass("admin_stat");
+				$(t.s.bloc).append(insert);
+			}
+		},
+
+		/**
+		 * Méthode AdminBtnEdit
+		 * Construction des boutons de modification des pages d'administration
+		 * @param t:Contexte
+		 */
+		AdminBtnEdit: function(t, page, popin_data){
+			var lvl = "11";
+			var insert = null;
+
+			if(user.CheckUserAccess(lvl)){
+				insert = $("<a></a>").addClass(page + " btn_edit");
+				insert.on("click", function(){
+					popin = new Popin(popin_data);
+				});
+				$(t.s.bloc).append(insert);
+			}
+
+			return insert;
+		},
+
+		/**
+		 * Méthode AdminBtnDel
+		 * Construction des boutons de suppression des pages d'administration
+		 * @param t:Contexte
+		 */
+		AdminBtnDel: function(t, page, popin_data){
+			var lvl = "11";
+			var insert = null;
+
+			if(user.CheckUserAccess(lvl)){
+				insert = $("<a></a>").addClass(page + " btn_del");
+				insert.on("click", function(){
+					popin = new Popin(popin_data);
+				});
+				$(t.s.bloc).append(insert);
+			}
+
+			return insert;
 		}
 	}
 }
