@@ -4,12 +4,52 @@
 		"selected_items":
 		[
 			[
-				"margin",
-				"margin-bottom"
+				"padd",
+				"padding-left"
+			],
+			[
+				"chil",
+				"children  (function)"
 			],
 			[
 				"text",
-				"text-decoration"
+				"text-align"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"list",
+				"list-style-type"
+			],
+			[
+				"ba",
+				"background"
+			],
+			[
+				"outer",
+				"outerHeight  (function)"
+			],
+			[
+				"he",
+				"height  (function)"
+			],
+			[
+				"m",
+				"main  (variable)"
+			],
+			[
+				"borde",
+				"border-radius"
+			],
+			[
+				"margin",
+				"margin-bottom"
 			],
 			[
 				"pad",
@@ -44,10 +84,6 @@
 				"BuildNavigation()	Navigation.js"
 			],
 			[
-				"list",
-				"list_articles"
-			],
-			[
 				"date",
 				"date_creation"
 			],
@@ -78,10 +114,6 @@
 			[
 				"conte",
 				"content  (variable)"
-			],
-			[
-				"outer",
-				"outerWidth  (function)"
 			],
 			[
 				"refer",
@@ -138,14 +170,6 @@
 			[
 				"dia",
 				"dialog_title"
-			],
-			[
-				"ba",
-				"background-color"
-			],
-			[
-				"padd",
-				"padding-top"
 			],
 			[
 				"no",
@@ -455,15 +479,15 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 7137,
+				"buffer_size": 11251,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/class/User.js",
+			"file": "js/class/Article.js",
 			"settings":
 			{
-				"buffer_size": 8031,
+				"buffer_size": 5008,
 				"line_ending": "Windows"
 			}
 		},
@@ -471,15 +495,23 @@
 			"file": "index.php",
 			"settings":
 			{
-				"buffer_size": 2569,
+				"buffer_size": 2677,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/class/Portail.js",
+			"file": "js/domReady.js",
 			"settings":
 			{
-				"buffer_size": 3785,
+				"buffer_size": 2870,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "css/button-ui.css",
+			"settings":
+			{
+				"buffer_size": 2684,
 				"line_ending": "Windows"
 			}
 		}
@@ -540,6 +572,14 @@
 	},
 	"file_history":
 	[
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/css/redactor.css",
+		"/D/Users/JJACQUES/Desktop/test/redactor/redactor.css",
+		"/D/Users/JJACQUES/Desktop/test/index.html",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/index.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/domReady.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Portail.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/User.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Dialog.js",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/results.list.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.DBQuery.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Recherche.php",
@@ -550,7 +590,6 @@
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/km.project.sublime-project",
 		"/D/Users/JJACQUES/Desktop/test.html",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/css/main.css",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Portail.js",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Navigation.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.Article.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/class.CategorieContent.php",
@@ -560,8 +599,6 @@
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/navigation.list.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/index.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/css/main.css",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/User.js",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/domReady.js",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/user.connect.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.User.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/portail.list.php",
@@ -662,12 +699,7 @@
 		"/D/Users/JJACQUES/Desktop/numtel/css/dataTableStyle.css",
 		"/D/Users/JJACQUES/Desktop/numtel/css/jquery-ui-1.9.1.custom.css",
 		"/D/Users/JJACQUES/Desktop/numtel/css/navigation.css",
-		"/D/Users/JJACQUES/Desktop/numtel/css/all_dev.css",
-		"/D/Users/JJACQUES/Desktop/numtel/css/all.css",
-		"/D/Users/JJACQUES/Desktop/numtel/js/hq_view_RVI_numtel_detail_liste.js",
-		"/D/Users/JJACQUES/Desktop/numtel/js/hq_taglib_mca.js",
-		"/D/Users/JJACQUES/Desktop/numtel/js/hq_taglib_cible.js",
-		"/D/Users/JJACQUES/Desktop/numtel/js/listeActionSelectBox.js"
+		"/D/Users/JJACQUES/Desktop/numtel/css/all_dev.css"
 	],
 	"find":
 	{
@@ -685,6 +717,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"background",
+			"float",
+			"font-family",
+			"settings",
+			"bouton_action",
+			"dialog.dialoguserconnexion .dialog_title",
+			".dialog.dialog_undefined .dialog_title,",
+			".dialog.dialog_undefined .dialog_title,.dialog.dialoguserconnexion .dialog_title",
+			".dialog.dialog_undefined .dialog_title, .dialog.dialoguserconnexion .dialog_title",
+			"connexion",
+			"user",
 			"portail_action_change",
 			"alert",
 			"build",
@@ -801,18 +844,7 @@
 			"'sorting",
 			"'sorting'",
 			"sorting\"",
-			"\"sorting",
-			"\"sorting\"",
-			"sorting",
-			"_fnSortingClasses",
-			"oSettings.aoColumns.",
-			"oSettings.aoColumns.push",
-			"oSettings.aoColumns",
-			"oSettings.aoColumns=",
-			"oSettings.aoColumns =",
-			"oSettings.aoColumns = ",
-			"/*",
-			"//"
+			"\"sorting"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -820,6 +852,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"s",
 			"."
 		],
 		"reverse": false,
@@ -954,15 +987,15 @@
 					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 7137,
+						"buffer_size": 11251,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4178,
-								4190
+								10648,
+								10648
 							]
 						],
 						"settings":
@@ -1058,25 +1091,25 @@
 							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 546.0,
+						"translation.y": 1443.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "js/class/User.js",
+					"file": "js/class/Article.js",
 					"settings":
 					{
-						"buffer_size": 8031,
+						"buffer_size": 5008,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7733,
-								7733
+								3288,
+								3288
 							]
 						],
 						"settings":
@@ -1173,7 +1206,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2847.0,
+						"translation.y": 1443.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1183,15 +1216,15 @@
 					"file": "index.php",
 					"settings":
 					{
-						"buffer_size": 2569,
+						"buffer_size": 2677,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1600,
-								1600
+								623,
+								623
 							]
 						],
 						"settings":
@@ -1288,25 +1321,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 351.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "js/class/Portail.js",
+					"file": "js/domReady.js",
 					"settings":
 					{
-						"buffer_size": 3785,
+						"buffer_size": 2870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2208,
-								2208
+								2791,
+								2791
 							]
 						],
 						"settings":
@@ -1403,7 +1436,123 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 842.0,
+						"translation.y": 1053.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "css/button-ui.css",
+					"settings":
+					{
+						"buffer_size": 2684,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1263,
+								1680
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 7,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
