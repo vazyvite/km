@@ -52,7 +52,7 @@
 		function GetAllArticlesForTerms($idPortail, $terms){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{IDPORTAIL}}", "{{TERMS}}"), array($idPortail, $terms), $dbq->getListArticleByTerms()));
+			$res = $mysqli->Query($dbq->getListArticleByTerms($idPortail, $terms));
 			$list = array();
 
 			if($res != false){
@@ -74,7 +74,7 @@
 		function GetArticleById($idArticle){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{IDARTICLE}}"), array($idArticle), $dbq->getArticleById()));
+			$res = $mysqli->Query($dbq->getArticleById($idArticle));
 
 			if($res != false){
 				$f = $res->fetch_assoc();
@@ -124,6 +124,45 @@
 		function FormatArticleData($f){
 			$m = new ListMotCles();
 			return new Article($f['idArticle'],$f['idType'], $f['idUser'], $f['idCategorie'], $f['dt_creation'], $f['titre'], $f['article'], $m->GetMotClesForArticle($f['idArticle']));
+		}
+
+		/**
+		 * Méthode UpdateArticle
+		 * Sauve les modifications effectuées sur un article en base
+		 * @param id:Int 					Identifiant de l'article
+		 * @param titre:String 				Titre de l'article
+		 * @param content:String 			Contenu de l'article
+		 * @param motcles:Array[String]		Mots clés liés à l'article
+		 * @param idmotcles:Array[String]	Identifiants des mots clés liés à l'article
+		 */
+		function UpdateArticle($id, $titre, $content, $motcles, $idmotcles){
+			$lvl = "10";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			$arr_motcles = explode(";", $motcles);
+			$arr_idMotcles = explode(";", $idmotcles);
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Update($dbq->updateArticle($id, htmlentities($titre, ENT_QUOTES), htmlentities($content, ENT_QUOTES)));
+
+				$motcle = new MotCle();
+				$motcle->DeleteAllMotClesForArticleId($id);
+
+				if(count($arr_motcles) > 0){
+					for($i = 0; $i < count($arr_motcles); $i++){
+						// echo "Array : " . $arr_motcles[$i] . ", id: " . $arr_idMotcles[$i] . "      ";
+						if(intval($arr_idMotcles[$i]) != -1){
+							$motcle->UpdateMotCle($arr_idMotcles[$i], $arr_motcles[$i]);
+						}else{
+							$motcle->CreateMotCle($id, $arr_motcles[$i]);
+						}
+					}
+				}
+			}else{
+
+			}
 		}
 	}
 ?>

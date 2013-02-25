@@ -9,7 +9,7 @@ ul { margin: 0; padding: 0; }
 
 div.bloc_content { clear:both; width: 100%; }
 
-#main {	width: 100%; height: 100%; overflow: hidden; }
+#main {	width: 100%; height: 100%; overflow: hidden; background-color: #EFEFEF; }
 #logos { padding-left: 47px; height: 51px; display: block; position: absolute; bottom: 20px; left: 20px; background: url(../images/logo.png) no-repeat left center; z-index: 9; color: #333; }
 #logos span { display: block; font-size: .7em; text-align: right; }
 #header { width: 100%; height: 35px; border-bottom: 1px solid #DEDEDE; background-color: #333; position: absolute; box-shadow: 0 0px 8px #333; z-index: 10; }
@@ -17,9 +17,9 @@ div.bloc_content { clear:both; width: 100%; }
 #menu,
 #user { margin: 0; padding: 0; height: 100%; position: absolute; top: 0; }
 
-#body { width: 100%; position: absolute; top: 35px; z-index: 9; }
-#reference { width: 20%; height: 100%; border-right: 1px solid #DEDEDE; display: none; z-index: 8; position: absolute; box-shadow: 3px 0 5px #AAA; }
-#content { width: 100%; ; height: 100%; overflow-y: auto; overflow-x: hidden; background-color: #EFEFEF; position: absolute; right: 0; z-index: 7; }
+#body { position: absolute; top: 35px; z-index: 9; overflow: hidden; }
+#reference { width: 20%; height: 100%; border-right: 1px solid #DEDEDE; display: none; z-index: 8; position: absolute; box-shadow: 3px 0 5px #AAA; background-color: #FFF;  }
+#content { width: 100%; ; height: 100%; overflow-y: auto; overflow-x: hidden; position: absolute; right: 0; z-index: 7; }
 #recherche { border-bottom: 1px solid #DEDEDE; margin: 5px; }
 #recherche .searchInput { margin-bottom: 5px; }
 #recherche .searchInput input { width: 100%; }
@@ -62,6 +62,8 @@ div.bloc_content { clear:both; width: 100%; }
 #article .article_header .article_listMotCles { padding: 0 5px 5px 5px; border-bottom: 1px solid #333; color:#ccc; }
 #article .article_content { font-size: .9em; color: #333; padding: 15px; overflow-y: auto; text-align: justify; }
 
+#article .article_title_edit { width: 100%; }
+
 #portail { width: 250px; cursor: default; left: 0; }
 #portail div.cache,
 #portail .menu_portail { display: none; }
@@ -77,10 +79,44 @@ div.bloc_content { clear:both; width: 100%; }
 /*#portail div.bloc_content div.portail_action_select .portail_marker { display: none; }
 #portail div.bloc_content div.portail_action_select.portail_selected .portail_marker { display: block; border-radius: 200px; background-color: #FF7F00; position: absolute; width: 24px; height: 20px; left: -12px; top: 7px; box-shadow: 0 0 0px 2px #FF7F00 inset,0 0 0px 4px #333 inset, 0 0 5px #000; }*/
 
-#menu { width: 300px; left: 250px; }
-#menu .bouton { /*width: 48px; height: 48px;*/ cursor: pointer; display: inline-block; position: relative; top: 11px; border-radius: 200px; background-color: #FF7F00; width: 24px; height: 20px; box-shadow: 0 0 0px 2px #FF7F00 inset,0 0 0px 4px #333 inset, 0 0 5px #000; }
-#menu .bouton:hover { cursor: pointer; display: inline-block; top: 10px; }
-#menu .bouton.add { /*background: url(../images/add.png) no-repeat center center;*/ }
+#menu { width: 300px; left: 250px; padding-left: 15px; }
+#menu ul { }
+#menu ul li { list-style-type: none; float: left; margin: 0 5px 0 0; }
+#menu .bouton { /*width: 48px; height: 48px;*/ cursor: pointer; display: inline-block; position: relative; /*top: 11px;*/ width: 35px; height: 35px; /*border-radius: 200px; background-color: #FF7F00; box-shadow: 0 0 0px 2px #FF7F00 inset,0 0 0px 4px #333 inset, 0 0 5px #000;*/ }
+#menu .bouton:hover { cursor: pointer; display: inline-block; /*top: 10px;*/ }
+
+#menu .bouton.retour { background: url(../images/retour_btn.png) no-repeat center center; }
+#menu .bouton.retour:hover { background: url(../images/retour_btn_hover.png) no-repeat center center; }
+
+#menu .bouton.add_article { background: url(../images/add_btn.png) no-repeat center center; }
+#menu .bouton.add_article:hover { background: url(../images/add_btn_hover.png) no-repeat center center; }
+
+#menu .bouton.admin_portail { background: url(../images/admin_portail_btn.png) no-repeat center center; }
+#menu .bouton.admin_portail:hover { background: url(../images/admin_portail_btn_hover.png) no-repeat center center; }
+#menu .bouton.add_portail { background: url(../images/add_portail_btn.png) no-repeat center center; }
+#menu .bouton.add_portail:hover { background: url(../images/add_portail_btn_hover.png) no-repeat center center; }
+#menu .bouton.del_portail { background: url(../images/del_portail_btn.png) no-repeat center center; }
+#menu .bouton.del_portail:hover { background: url(../images/del_portail_btn_hover.png) no-repeat center center; }
+#menu .bouton.edit_portail { background: url(../images/edit_portail_btn.png) no-repeat center center; }
+#menu .bouton.edit_portail:hover { background: url(../images/edit_portail_btn_hover.png) no-repeat center center; }
+
+#menu .bouton.admin_categorie { background: url(../images/admin_categorie_btn.png) no-repeat center center; }
+#menu .bouton.admin_categorie:hover { background: url(../images/admin_categorie_btn_hover.png) no-repeat center center; }
+#menu .bouton.add_categorie { background: url(../images/add_categorie_btn.png) no-repeat center center; }
+#menu .bouton.add_categorie:hover { background: url(../images/add_categorie_btn_hover.png) no-repeat center center; }
+#menu .bouton.del_categorie { background: url(../images/del_categorie_btn.png) no-repeat center center; }
+#menu .bouton.del_categorie:hover { background: url(../images/del_categorie_btn_hover.png) no-repeat center center; }
+#menu .bouton.edit_categorie { background: url(../images/edit_categorie_btn.png) no-repeat center center; }
+#menu .bouton.edit_categorie:hover { background: url(../images/edit_categorie_btn_hover.png) no-repeat center center; }
+
+#menu .bouton.admin_user { background: url(../images/admin_user_btn.png) no-repeat center center; }
+#menu .bouton.admin_user:hover { background: url(../images/admin_user_btn_hover.png) no-repeat center center; }
+#menu .bouton.add_user { background: url(../images/add_user_btn.png) no-repeat center center; }
+#menu .bouton.add_user:hover { background: url(../images/add_user_btn_hover.png) no-repeat center center; }
+#menu .bouton.del_user { background: url(../images/del_user_btn.png) no-repeat center center; }
+#menu .bouton.del_user:hover { background: url(../images/del_user_btn_hover.png) no-repeat center center; }
+#menu .bouton.edit_user { background: url(../images/edit_user_btn.png) no-repeat center center; }
+#menu .bouton.edit_user:hover { background: url(../images/edit_user_btn_hover.png) no-repeat center center; }
 
 #user { width: 200px; text-align: center; cursor: default; right: 0; }
 #user div.bloc_content { color: #EFEFEF; }

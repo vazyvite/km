@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="./css/main.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="./css/button-ui.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="./css/redactor.css" />
+		<link rel="stylesheet" href="./css/token-input-facebook.css" />
 
 		<script type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.tools-1.2.7.min.js"></script>
@@ -13,8 +14,11 @@
 		<script type="text/javascript" src="./js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="./js/jquery.watermark.min.js"></script>
 		<script type="text/javascript" src="./js/redactor.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.tokeninput.js"></script>
 		
+		<script type="text/javascript" src="./js/class/Lang.js"></script>
 		<script type="text/javascript" src="./js/class/Dialog.js"></script>
+		<script type="text/javascript" src="./js/class/Menu.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
 		<script type="text/javascript" src="./js/class/Portail.js"></script>
 		<script type="text/javascript" src="./js/class/Article.js"></script>
@@ -38,8 +42,7 @@
 					</div>
 				</div>
 				<div id="menu">
-					<div class="bouton add"></div>
-					<div class="bouton add"></div>
+					<ul></ul>
 				</div>
 				<div id="user">
 					<div class="cache">

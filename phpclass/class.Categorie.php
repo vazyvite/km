@@ -37,7 +37,7 @@
 		function GetAllCategoriesForPortail($idPortail){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{IDPORTAIL}}"), array($idPortail), $dbq->getListCategorie()));
+			$res = $mysqli->Query($dbq->getListCategorie($idPortail));
 
 			$list = array();
 
@@ -79,7 +79,7 @@
 		function GetAllArticlesForCategorie($idCategorie){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query(str_replace(array("{{IDCATEGORIE}}"), array($idCategorie), $dbq->getListArticle()));
+			$res = $mysqli->Query($dbq->getListArticle($idCategorie));
 
 			$list = array();
 

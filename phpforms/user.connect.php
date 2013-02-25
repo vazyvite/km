@@ -10,12 +10,12 @@
 	if(isset($_POST['login']) && isset($_POST['pass'])) {
 		$login = $_POST['login'];
 		$password = md5($_POST['pass']);
-		$user->GetCurrentUser(str_replace(array("{{LOGIN}}", "{{PASS}}"), array($login, $password), $dbq->getUserCheck()));
+		$user->GetCurrentUser($dbq->getUserCheck($login, $password));
 
 	}elseif(isset($_POST['id']) && isset($_POST['pass'])){
 		$id = $_POST['id'];
 		$password = $_POST['pass'];		
-		$user->GetCurrentUser(str_replace(array("{{ID}}", "{{PASS}}"), array($id, $password), $dbq->getUserCheckId()));
+		$user->GetCurrentUser($dbq->getUserCheckId($id, $password));
 
 	}else{
 		// erreur de connexion, les identifiants sont manquants

@@ -68,7 +68,7 @@ Resize.prototype = {
 	},
 	body: function(){
 		var totalHeight = $(this.s.jqSelectors.main).height();
-		$(this.s.jqSelectors.body).height(totalHeight - $(this.s.jqSelectors.header).outerHeight());
+		$(this.s.jqSelectors.body).height(totalHeight - $(this.s.jqSelectors.header).outerHeight()).width(this.s.window.width);
 	},
 	reference: function(){
 		var totalWidth = $(this.s.jqSelectors.main).outerWidth();

@@ -29,7 +29,7 @@ class Type {
 	function GetTypeById($idType){
 		$dbq = new DBQuery();
 		$mysqli = new DB();
-		$res = $mysqli->Query(str_replace(array("{{IDTYPE}}"), array($idType), $dbq->getTypeById()));
+		$res = $mysqli->Query($dbq->getTypeById($idType));
 
 		if($res != false){
 			$f = $res->fetch_assoc();

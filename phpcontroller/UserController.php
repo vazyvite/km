@@ -3,8 +3,6 @@
 	require_once("../phpclass/class.User.php");
 	require_once("../phpcontroller/DBController.php");
 
-	define("BD_CHECK_USER", "SELECT * FROM user WHERE login = '{{LOGIN}}' && pass = '{{PASS}}'");
-
 	function getUserById($id){
 		$user
 		$user->GetUserById($id);
@@ -35,21 +33,7 @@
 	}
 
 	function connectUser(){
-		echo "ok";
-		/*if(isset($_POST['login']) && isset($_POST['pass'])){
-			$login = $_POST['login'];
-			$password = $_POST['pass'];
-			
-			$mysqli = new DB();
-			$mysqli->Query(str_replace(array("{{LOGIN}}", "{{PASS}}"), array($login, $password), BD_CHECK_USER));
 
-			echo "ok";
-			// tester la présence des logins et password
-			// récupérer les informations USER
-		}else{
-			alert("no");
-			// erreur de connexion, les identifiants sont manquants
-		}*/
 	}
 
 	function disconnectUser(){

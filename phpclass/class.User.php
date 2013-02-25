@@ -4,7 +4,7 @@
 		private $_lstName;
 		private $_fstName;
 		private $_email;
-		private $_role;
+		private $_role; // 00:Aucun , 01: Lecture, 10: Ecriture: 11: Administration
 		private $_password;
 		private $_login;
 
@@ -99,7 +99,7 @@
 		function GetUserById($idUser){
 			$mysqli = new DB();
 			$dbq = new DBQuery();
-			$res = $mysqli->Query(str_replace(array("{{IDUSER}}"), array($idUser), $dbq->getUserById()));
+			$res = $mysqli->Query($dbq->getUserById($idUser));
 			
 			if($res != false){
 				$f = $res->fetch_assoc();
@@ -108,6 +108,24 @@
 				$user = null;
 			}
 			return $user;
+		}
+
+		/**
+		 * Méthode CheckUserRights
+		 * Valide l'action en fonction des droits de l'utilisateur
+		 * @param lvl:String 			Niveau de sécurité de l'action
+		 * @param userRights:String 	Niveau de droits de l'utilisateur
+		 * @return Boolean 			 	true si l'utilisateur a les droits suffisants, false dans le cas contraire
+		 */
+		function CheckUserRights($lvl, $userRights){
+			$lvl = intval($lvl);
+			$userRights = intval($userRights);
+
+			if($userRights >= $lvl){
+				return true;
+			}else{
+				return false;
+			}
 		}
 
 		function CreateUser(){ return null; }
