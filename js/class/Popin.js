@@ -1,4 +1,4 @@
-function Popin (options){
+function Popin (options, structure, values){
 	this.s = {
 		title: options.title,
 		content: options.content,
@@ -6,7 +6,10 @@ function Popin (options){
 		onValidate: options.onValidate,
 		onClose: options.onCancel,
 		lvl: options.lvlRequise,
-		addCloseBtn: options.closeBtn
+		addCloseBtn: options.closeBtn,
+		structure: structure,
+		values: values,
+		type: options.type
 	};
 
 	this.Init();
@@ -67,7 +70,7 @@ Popin.prototype = {
 			var insert = null;
 
 			if(user.CheckUserAccess(lvl) && t.s.title != ""){
-				insert = $("<div></div>").addClass("popin_header").html(t.s.title);
+				insert = $("<div></div>").addClass("popin_header " + t.s.type).html(t.s.title);
 			}
 
 			return insert;
@@ -89,8 +92,50 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl) && t.s.content != ""){
-				insert = $("<div></div>").addClass("popin_body").html(t.s.content);
+			if(user.CheckUserAccess(lvl) && t.s.content != "" || t.s.structure){
+
+				insert = $("<div></div>").addClass("popin_body");
+				(t.s.content) ? insert.html(t.s.content) : insert.html(null);
+
+				if(t.s.structure){
+					for(var i = 0; i < t.s.structure.length; i++){
+						var line = t.UI.BuildLineForm(t, t.s.structure[i]);
+						if(line != null){ insert.append(line); }
+					}
+				}
+			}
+
+			return insert;
+		},
+
+		BuildLineForm: function(t, str){
+			var lvl = t.s.lvl;
+			var insert = null;
+
+			if(user.CheckUserAccess(lvl) && str && str.key != null){
+				insert = $("<div></div>").addClass("form_line p_" + str.key.toUpperCase().replace(/\s+/g, ' '));
+				var lbl = $("<div></div>").addClass("form_label").text(str.title);
+				var inp = $("<div></div>").addClass("form_input");
+				
+				var disabled = (str.editable) ? "" : " disabled='disabled' ";
+				var maxlength = (str.lim != null) ? " maxlength='" + str.lim + "' size='" + str.lim + "'" : "";
+				var value = (typeof(t.s.values[str.key]) == 'object' && (t.s.values[str.key] instanceof Array)) ? t.s.values[str.key].length : t.s.values[str.key];
+
+				if(str.lim < 50 && (!str.list || str.list == null)) { 
+					var input = $("<input type='text' " + disabled + " " + maxlength + "value='" + value + "' />");
+				}else if(str.lim >= 50 && (!str.list || str.list == null)){
+					var input = $("<textarea" + disabled + " " + maxlength + ">" + value + "</textarea>");
+				}else{
+					var input = $("<select" + disabled + "></select>");
+
+					for(var o=0; o < str.list.length; o++){
+						var s = (str.list[o].id == parseInt(t.s.values[str.key])) ? " selected='selected' " : "";
+						input.append($("<option " + s + " value='" + str.list[o].id + "'>" + str.list[o].name + "</option>"));
+					}
+				}
+
+				inp.append(input);
+				insert.append(lbl).append(inp);
 			}
 
 			return insert;

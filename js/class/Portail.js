@@ -86,6 +86,24 @@ Portail.prototype = {
 	},
 
 	/**
+	 * Méthode UpdateCategorie
+	 * Met à jour une categorie
+	 * @param data:JSON 	données correspondant à la categorie à modifier
+	 */
+	UpdateCategorie: function(data){
+		$.ajax({
+
+			url: "phpforms/categorie.update.php",
+			type: "POST", 
+			context: this,
+			data: { idCategorie: data.id, idPortail: data.idPortail, categorie: data.categorie, description: data.description }
+
+		}).done(function(msg){
+			this.Action.AdministrationCategorie(this);
+		});
+	},
+
+	/**
 	 * Méthode Delete
 	 * Supprime un portail
 	 * @param id:Int 	Identifiant du portail à supprimer
@@ -101,6 +119,25 @@ Portail.prototype = {
 
 		}).done(function(msg){
 			this.Action.Administration(this);
+		});
+	},
+
+	/**
+	 * Méthode DeleteCategorie
+	 * Supprime une catégorie
+	 * @param id:Int 	Identifiant de la catégorie à supprimer
+	 */
+	DeleteCategorie: function(id){
+
+		$.ajax({
+
+			url: "phpforms/categorie.delete.php",
+			type: "POST", 
+			context: this,
+			data: {idCategorie: id}
+
+		}).done(function(msg){
+			this.Action.AdministrationCategorie(this);
 		});
 	},
 
@@ -150,7 +187,12 @@ Portail.prototype = {
 		 */
 		Administration: function(t){
 			articleContent.UI.Clear(articleContent);
-			var strTabPortail = [ { title: "ID", key: "id", width: 10 }, { title: "Portail", key: "portail", width: null }, { title: "Actions", key: null, width: null } ];
+
+			var strTabPortail = [ 
+			{ title: Lang[user.GetLangue()].lbl.form_id, key: "id", width: 10, lim: null, editable: false }, 
+			{ title: Lang[user.GetLangue()].lbl.form_portail, key: "portail", width: null, lim: 25,editable: true },
+			{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null,editable: false }];
+			
 			var data = t.GetAllPortail(false, function(json){
 				articleContent.Action.AdminPortail(articleContent, json, strTabPortail, Lang[user.GetLangue()].lbl.admin_portail);
 				menu.UI.BuildAdminPortail(menu);
@@ -164,10 +206,25 @@ Portail.prototype = {
 		 */
 		AdministrationCategorie: function(t){
 			articleContent.UI.Clear(articleContent);
-			var strTabCategorie = [ { title: "ID", key: "id", width: 10 }, { title: "Catégorie", key: "categorie", width: 20 }, { title: "Description", key: "description", width: null }, { title: "Nb Articles", key: "articles", width: 10 }, { title: "Actions", key: null, width: null } ];
-			var data = navigation.GetNavigation(false, function(json){
-				articleContent.Action.AdminCategorie(articleContent, json, strTabCategorie, Lang[user.GetLangue()].lbl.admin_categorie);
-				menu.UI.BuildAdminCategorie(menu);
+			var list = Array();
+
+			var portails = t.GetAllPortail(false, function(json){
+				$.each(json, function(index){
+					list.push({id: json[index].id, name: json[index].portail});
+				});
+
+				var strTabCategorie = [
+				{ title: Lang[user.GetLangue()].lbl.form_id, key: "id", width: 10, lim: null, editable: false }, 
+				{ title: Lang[user.GetLangue()].lbl.form_categorie, key: "categorie", width: 20, lim: 25, editable: true },
+				{ title: Lang[user.GetLangue()].lbl.form_portail, key: "idPortail", width: 20, lim: 25, editable: true, list: list },
+				{ title: Lang[user.GetLangue()].lbl.form_description, key: "description", width: null, lim: 256, editable: true }, 
+				{ title: Lang[user.GetLangue()].lbl.form_nb_article, key: "articles", width: 10, lim: null, editable: false }, 
+				{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null, editable: false }];
+				
+				var data = navigation.GetNavigation(false, function(json){
+					articleContent.Action.AdminCategorie(articleContent, json, strTabCategorie, Lang[user.GetLangue()].lbl.admin_categorie);
+					menu.UI.BuildAdminCategorie(menu);
+				});
 			});
 		}
 	},
@@ -196,7 +253,69 @@ Portail.prototype = {
 		SetHTML: function(t){
 			$("#portaildata_idPortail").val(t.s.data.idPortail);
 			$("#portaildata_portail").val(t.s.data.portail);
-		}
+		},
+
+		PopinDataPortailEdit: function(t, json, str){
+			return {
+				title: Lang[user.GetLangue()].lbl.modif + " " + json.portail,
+				ontent: "",
+				cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+					var data = {
+						id: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+						portail: p.find(".p_" + str[1].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val()
+					}
+					if(data.id != "" && data.portail != ""){ portail.Update(data); popin.Action.Hide(popin); }
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: true, type: "portail"
+			};
+		},
+
+		PopinDataPortailDel: function(t, json){
+			return {
+				title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+				content: "", cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+					var id = p.find(".p_ID").val();
+					if(id != ""){ portail.Delete(id); popin.Action.Hide(popin); }
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: false, type: "portail"
+			};
+		},
+
+		PopinDataCategorieEdit: function(t, json, str){
+			return {
+				title: Lang[user.GetLangue()].lbl.modif + " " + json.categorie,
+				content: "",
+				cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+					var data = {
+						id: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+						idPortail: p.find(".p_" + str[2].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+						categorie: p.find(".p_" + str[1].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+						description: p.find(".p_" + str[3].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					}
+					if(data.id != "" && data.portail != "" && data.categorie != "" && data.description != ""){ portail.UpdateCategorie(data); popin.Action.Hide(popin); }
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: true, type: "categorie"
+			};
+		},
+
+		PopinDataCategorieDel: function(t, json){
+			return {
+				title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+				content: "", cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+					var id = p.find(".p_ID").val();
+					if(id != ""){ portail.DeleteCategorie(id); popin.Action.Hide(popin); }
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: false, type: "categorie"
+			};
+		},		
 	},
 
 

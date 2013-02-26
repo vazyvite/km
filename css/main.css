@@ -182,12 +182,15 @@ div.bloc_content { clear:both; width: 100%; }
 /**
  * CSS Formulaires
  */
-.form_line { width: 100%; clear: both; height: 25px; }
-.form_line .form_label { display: inline-block; width: 35%; padding-top: 4px; }
+.form_line { width: 100%; clear: both; }
+.form_line .form_label { display: inline-block; width: 35%; padding-top: 4px; vertical-align: top; }
+.form_line .form_label:after { content: " : "; }
 .form_line .form_input { display: inline-block; width: 65%; }
 .form_line .form_input input,
 .form_line .form_input select,
-.form_line .form_input textarea { width: 95%; }
+.form_line .form_input textarea { width: 95%; margin-left: 0; }
+.form_line .form_input input[maxlength],
+.form_line .form_input select[maxlength] { width: auto; }
 .form_line.last { margin-bottom: 15px; }
 .form_valid_single { width: 100%; clear: both; text-align: center; padding: 8px 0 7px 0; border-top: 1px solid #CCC; background-color: #efefef; border-radius: 0 0 15px 15px; }
 
@@ -198,7 +201,11 @@ div.bloc_content { clear:both; width: 100%; }
 /**
  * CSS popin
  */
-.popin { background: #1BA9C0; color: #fff; position: fixed; z-index: 10001; top: 20%; min-width: 300px; box-shadow: 0 0 8px 3px #333; }
-.popin .popin_header { padding: 5px; font-size: 1em; text-transform: uppercase; border-bottom: 1px solid #eee; }
-.popin .popin_body { padding: 20px 5px 40px 5px; }
+.popin { background: #1BA9C0; color: #fff; position: fixed; z-index: 10001; top: 20%; min-width: 500px; box-shadow: 0 0 8px 3px #333; }
+.popin .popin_header { padding: 5px 45px 5px 45px; height: 30px; background: url(../images/edit_btn_hover.png) no-repeat 3px 2px; font-size: 1.05em; text-transform: uppercase; border-bottom: 1px solid #eee; }
+.popin .popin_header.portail { background: url(../images/admin_portail_btn_hover.png) no-repeat 3px 2px; }
+.popin .popin_header.categorie { background: url(../images/admin_categorie_btn_hover.png) no-repeat 3px 2px; }
+.popin .popin_closebtn { height: 35px; width: 35px; background: url(../images/del_btn_hover.png) no-repeat; position: absolute; top: 2px; right: 3px; cursor: pointer; }
+.popin .popin_body { padding: 20px 5px 40px 5px; background: #2CBAD1; }
 .popin .popin_footer { border-top: 1px solid #eee; background: #0A98B0; padding: 10px 5px 10px 5px; text-align: center; }
+.popin .popin_footer button:last-child { margin-right: 0; }

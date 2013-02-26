@@ -38,7 +38,7 @@
 		const DB_CATEGORIE_LIST = 	"SELECT * FROM categorie WHERE idPortail = '{{IDPORTAIL}}'";
 		const DB_CATEGORIE_BYID = 	"SELECT * FROM categorie WHERE idCategorie = '{{IDCATEGORIE}}'";
 		const DB_CATEGORIE_CREATE = "INSERT INTO categorie (idPortail, categorie, description) VALUES idPortail = '{{IDPORTAIL}}', categorie = '{{CATEGORIE}}', description = '{{DESCRIPTION}}'";
-		const DB_CATEGORIE_UPDATE = "UPDATE categorie SET idPortail = '{{IDPORTAIL}}', categorie = '{{CATEGORIE}}', description = '{{DESCRIPTION}}' WHERE idPortail = '{{IDCATEGORIE}}'";
+		const DB_CATEGORIE_UPDATE = "UPDATE categorie SET idPortail = '{{IDPORTAIL}}', categorie = '{{CATEGORIE}}', description = '{{DESCRIPTION}}' WHERE idCategorie = '{{IDCATEGORIE}}'";
 		const DB_CATEGORIE_DELETE = "DELETE FROM categorie WHERE idCategorie = '{{IDCATEGORIE}}'";
 
 		function getAllCategorie(){ return DBQuery::DB_CATEGORIE_ALL; }

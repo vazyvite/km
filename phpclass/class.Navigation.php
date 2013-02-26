@@ -76,7 +76,7 @@
 						$jsonArt = array();
 					}
 
-					$cc = array('id' => $categorie->getIdCategorie(), 'categorie' => $categorie->getCategorie(), 'description' => $categorie->getDescription(), 'articles' => $jsonArt);
+					$cc = array('id' => $categorie->getIdCategorie(), 'idPortail' => $categorie->getIdPortail(),'categorie' => $categorie->getCategorie(), 'description' => $categorie->getDescription(), 'articles' => $jsonArt);
 					array_push($json, $cc);
 				}
 			}

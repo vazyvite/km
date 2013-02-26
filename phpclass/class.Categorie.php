@@ -91,5 +91,42 @@
 				return $list;
 			}
 		}
+
+		/**
+		 * Méthode UpdateCategorie
+		 * Met à jour la catégorie
+		 * @package DB, DBQuery
+		 * @param $idPortail:Int		identifiant de la catégorie
+		 * @param $portail:String 		Nom du portail
+		 */
+		function UpdateCategorie($idCategorie, $idPortail, $categorie, $description){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Update( $dbq->updateCategorie($idCategorie, $idPortail, htmlentities($categorie, ENT_QUOTES), htmlentities($description, ENT_QUOTES)));
+			}else{
+				echo "droits insuffisants";
+			}
+		}
+
+		/**
+		 * Méthode DeleteCategorie
+		 * Supprime la catégorie
+		 * @package DB, DBQuery
+		 * @param $idPortail:Int		identifiant de la catégorie
+		 */
+		function DeleteCategorie($idCategorie){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Delete( $dbq->deleteCategorie($idCategorie) );
+			}
+		}
 	}
 ?>

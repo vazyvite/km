@@ -19,11 +19,11 @@ var Lang = {
 			form_portail: "Portail",
 			form_id: "ID",
 			form_categorie: "Catégorie",
+			form_portail: "Portail",
+			form_action: "Actions",
 			form_description: "Description",
-			form_nb_article: "Nombre d'articles",
-			modif_portail: "Modification du portail",
-			modif_categorie: "Modification de la catégorie",
-			
+			form_nb_article: "Nb Articles",
+			modif: "Modification de "			
 		},
 		btn: {
 			connect: "Connexion",
@@ -78,10 +78,11 @@ var Lang = {
 			form_portail: "Portal",
 			form_id: "ID",
 			form_categorie: "Category",
+			form_portail: "Portal",
+			form_action: "Actions",
 			form_description: "Description",
-			form_nb_article: "Number of articles",
-			modif_portail: "Edit portal",
-			modif_categorie: "Edit category",
+			form_nb_article: "Nb of articles",
+			modif: "Edit ",
 		},
 		btn: {
 			connect: "Connection",

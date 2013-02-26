@@ -249,7 +249,62 @@ Article.prototype = {
 			t.s.data.titre = titre;
 			t.s.data.article = content;
 			t.s.data.motcles = motcle;
-		}
+		},
+
+		/**
+		 * Méthode Data.ReturnDataFormTypeOfAdmin
+		 * Retourne les données nécessaires à la construction d'une ligne d'administration en fonction du type d'administration
+		 * @param t:Contexte
+		 * @parma json:JSON 	Données d'administration
+		 * @parma type:String 	Type d'administration
+		 */
+		ReturnDataFormTypeOfAdmin: function(t, json, type, str){
+			switch(type){
+				case "portail": 
+					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) };
+					// popin_data_edit = {
+					// 	title: Lang[user.GetLangue()].lbl.modif_portail + " " + json.portail,
+					// 	content:  "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_PORTAIL'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_portail + " : </div><div class='form_input'><input type='text' value='" + json.portail + "' /></div></div>",
+					// 	cmd: ["valide", "cancel"],
+					// 	onValidate: function(){
+					// 		var p = $(".popin");
+					// 		var data = { id: p.find(".p_ID .form_input input").val(), portail: p.find(".p_PORTAIL .form_input input").val() }
+					// 		if(data.id != "" && data.portail != ""){ portail.Update(data); popin.Action.Hide(popin); }
+					// 	},
+					// 	onCancel: null, lvlRequise: "11", closeBtn: true
+					// };
+
+					// popin_data_del = {
+					// 	title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+					// 	content: "", cmd: ["valide", "cancel"],
+					// 	onValidate: function(){
+					// 		var p = $(".popin");
+					// 		var id = p.find(".p_ID").val();
+					// 		if(id != ""){ portail.Delete(id); popin.Action.Hide(popin); }
+					// 	},
+					// 	onCancel: null, lvlRequise: "11", closeBtn: false
+					// };
+				break;
+
+				case "categorie":
+					return { edit: portail.Data.PopinDataCategorieEdit(portail, json, str), del: portail.Data.PopinDataCategorieDel(portail, json) };
+					// popin_data_edit = {
+					// 	title: Lang[user.GetLangue()].lbl.modif_categorie + " " + json.portail,
+					// 	content: "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_CATEGORIE'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_categorie + " : </div><div class='form_input'><input type='text' value='" + json.categorie + "' /></div></div><div class='form_line p_DESCRIPTION'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_description + " : </div><div class='form_input'><input type='text' value='" + json.description + "' /></div></div><div class='form_line p_NBARTICLES'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_nb_article + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.articles.length + "' /></div></div>",
+					// 	cmd: ["valide", "cancel"],
+					// 	onValidate: null,
+					// 	onCancel: null, lvlRequise: "11", closeBtn: true
+					// };
+
+					// popin_data_del = {
+					// 	title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+					// 	content: "", cmd: ["valide", "cancel"],
+					// 	onValidate: null,
+					// 	onCancel: null, lvlRequise: "11", closeBtn: false
+					// };
+				break;
+			}
+		},
 	},
 	
 
@@ -622,58 +677,24 @@ Article.prototype = {
 				for(var i = 0; i < str.length; i++){
 					var popin_data_edit, popin_data_del;
 
-					switch(type){
-						case "portail": 
-							popin_data_edit = {
-								title: Lang[user.GetLangue()].lbl.modif_portail + " " + json.portail,
-								content:  "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_PORTAIL'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_portail + " : </div><div class='form_input'><input type='text' value='" + json.portail + "' /></div></div>",
-								cmd: ["valide", "cancel"],
-								onValidate: function(){
-									var p = $(".popin");
-									var data = { id: p.find(".p_ID .form_input input").val(), portail: p.find(".p_PORTAIL .form_input input").val() }
-									if(data.id != "" && data.portail != ""){ portail.Update(data); popin.Action.Hide(popin); }
-								},
-								onCancel: null, lvlRequise: "11", closeBtn: true
-							};
-
-							popin_data_del = {
-								title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
-								content: "", cmd: ["valide", "cancel"],
-								onValidate: function(){
-									var p = $(".popin");
-									var id = p.find(".p_ID").val();
-									if(id != ""){ portail.Delete(id); popin.Action.Hide(popin); }
-								},
-								onCancel: null, lvlRequise: "11", closeBtn: false
-							};
-						break;
-
-						case "categorie":
-							popin_data_edit = {
-								title: Lang[user.GetLangue()].lbl.modif_categorie + " " + json.portail,
-								content: "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_CATEGORIE'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_categorie + " : </div><div class='form_input'><input type='text' value='" + json.categorie + "' /></div></div><div class='form_line p_DESCRIPTION'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_description + " : </div><div class='form_input'><input type='text' value='" + json.description + "' /></div></div><div class='form_line p_NBARTICLES'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_nb_article + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.articles.length + "' /></div></div>",
-								cmd: ["valide", "cancel"],
-								onValidate: null,
-								onCancel: null, lvlRequise: "11", closeBtn: true
-							};
-
-							popin_data_del = {
-								title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
-								content: "", cmd: ["valide", "cancel"],
-								onValidate: null,
-								onCancel: null, lvlRequise: "11", closeBtn: false
-							};
-						break;
-					}
+					var data = t.Data.ReturnDataFormTypeOfAdmin(t, json, type, str);
 
 					if(str[i].key != null){
 						if(typeof(json[str[i].key]) == 'object' && (json[str[i].key] instanceof Array)){
 							line.append($("<td>" + json[str[i].key].length + "</td>"));
 						}else{
-							line.append($("<td>" + json[str[i].key] + "</td>"));
+							if(str[i].list && str[i].list.length){
+								for(var o = 0; o < str[i].list.length; o++){
+									if(str[i].list[o].id == json[str[i].key]){
+										line.append($("<td>" + str[i].list[o].name + "</td>"));
+									}
+								}
+							}else{
+								line.append($("<td>" + json[str[i].key] + "</td>"));
+							}
 						}
 					}else{
-						var td = $("<td class='action'></td>").append(t.UI.AdminBtnEdit(t, page, popin_data_edit)).append(t.UI.AdminBtnDel(t, page, popin_data_del));
+						var td = $("<td class='action'></td>").append(t.UI.AdminBtnEdit(t, page, data.edit, str, json)).append(t.UI.AdminBtnDel(t, page, data.del));
 						line.append(td);
 					}
 				}
@@ -732,14 +753,14 @@ Article.prototype = {
 		 * Construction des boutons de modification des pages d'administration
 		 * @param t:Contexte
 		 */
-		AdminBtnEdit: function(t, page, popin_data){
+		AdminBtnEdit: function(t, page, popin_data, str, json){
 			var lvl = "11";
 			var insert = null;
 
 			if(user.CheckUserAccess(lvl)){
 				insert = $("<a></a>").addClass(page + " btn_edit");
 				insert.on("click", function(){
-					popin = new Popin(popin_data);
+					popin = new Popin(popin_data, str, json);
 				});
 				$(t.s.bloc).append(insert);
 			}
@@ -759,7 +780,7 @@ Article.prototype = {
 			if(user.CheckUserAccess(lvl)){
 				insert = $("<a></a>").addClass(page + " btn_del");
 				insert.on("click", function(){
-					popin = new Popin(popin_data);
+					popin = new Popin(popin_data, null, null);
 				});
 				$(t.s.bloc).append(insert);
 			}
