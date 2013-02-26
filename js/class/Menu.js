@@ -110,12 +110,12 @@ Menu.prototype = {
 				var retour = t.UI.Btn_Retour(t);
 				var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
-				var editCategorie = t.UI.Btn_EditCategorie(t);
+				// var editCategorie = t.UI.Btn_EditCategorie(t);
 
 				var m = $(t.s.bloc).find("ul");
 
 				if(retour != null) { m.append(retour); }
-				if(editCategorie != null) { m.append(editCategorie); }
+				// if(editCategorie != null) { m.append(editCategorie); }
 				if(addArticle != null) { m.append(addArticle); }
 				if(adminUser != null) { m.append(adminUser); }
 			}
@@ -132,6 +132,7 @@ Menu.prototype = {
 				var retour = t.UI.Btn_Retour(t);
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
+				var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 				// var editPortail = t.UI.Btn_EditPortail(t);
 
@@ -141,6 +142,7 @@ Menu.prototype = {
 				// if(editPortail != null) { m.append(editPortail); }
 				if(adminCategorie != null) { m.append(adminCategorie); }
 				if(addCategorie != null) { m.append(addCategorie); }
+				if(addArticle != null) { m.append(addArticle); }
 				if(adminUser != null) { m.append(adminUser); }
 			}
 		},
@@ -195,7 +197,7 @@ Menu.prototype = {
 			var btn = null;
 
 			if(user.CheckUserAccess(lvl)){
-				btn = $("<li class='bouton retour' title='" + Lang[user.GetLangue()].btn.back + "'></li>").on("click", function(){
+				btn = $("<li class='bouton retour' title='" + Lang[user.GetLangue()].btn.out_portail + "'></li>").on("click", function(){
 					portail.Action.Reset(portail);
 
 					if(articleContent){
@@ -219,7 +221,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton admin_categorie' title='" + Lang[user.GetLangue()].btn.admin_categorie + "'></li>").on("click", function(){
-					portail.Action.AdministrationCategorie(portail);
+					navigation.Action.Administration(navigation);
 				});
 			}
 			return btn;
@@ -236,7 +238,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton add_categorie' title='" + Lang[user.GetLangue()].btn.add_categorie + "'></li>").on("click", function(){
-					// Action
+					navigation.Action.Create(navigation, $(this));
 				});
 			}
 			return btn;
@@ -287,7 +289,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton add_article' title='" + Lang[user.GetLangue()].btn.add_article + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
+					articleContent.Action.Create(articleContent);
 				});
 			}
 			return btn;
@@ -321,7 +323,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton add_portail' title='" + Lang[user.GetLangue()].btn.add_portail + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
+					portail.Action.Create(portail, $(this));
 				});
 			}
 			return btn;

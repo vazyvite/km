@@ -4,7 +4,15 @@
 ::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); border-radius: 10px; }
 ::-webkit-scrollbar-thumb { background-color: #1BA9C0; border-radius: 10px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); }
 
-body { margin: 0; padding: 0; font-family: 'Lato', sans-serif;}
+::selection {
+	background: #056473;
+	color:white;
+}
+
+body { margin: 0; padding: 0; font-family: 'Lato', sans-serif; -webkit-user-select: none; cursor: default; }
+input,
+textarea,
+.article_content { -webkit-user-select: text; cursor: text; }
 label,
 div.form_label,
 div.dialog_title,
@@ -14,7 +22,7 @@ ul { margin: 0; padding: 0; }
 div.bloc_content { clear:both; width: 100%; }
 
 #main {	width: 100%; height: 100%; overflow: hidden; background-color: #EFEFEF; }
-#logos { padding-left: 47px; height: 51px; display: block; position: absolute; bottom: 20px; left: 20px; background: url(../images/logo.png) no-repeat left center; z-index: 9; color: #333; }
+#logos {  padding-left: 47px; height: 51px; display: block; position: absolute; bottom: 20px; left: 20px; background: url(../images/logo.png) no-repeat left center; z-index: 9; color: #333; }
 #logos span { display: block; font-size: .7em; text-align: right; }
 #header { width: 100%; height: 35px; border-bottom: 1px solid #DEDEDE; background-color: #333; position: absolute; box-shadow: 0 0px 8px #333; z-index: 10; }
 #portail,
@@ -61,8 +69,8 @@ div.bloc_content { clear:both; width: 100%; }
 #article .article_header .article_infos .article_author,
 #article .article_header .article_infos .article_type,
 #article .article_header .article_infos .article_date { font-size: .9em; color: #333; }
-#article .article_header .article_listMotCles .motcle { font-size: .8em; margin: 0 5px 0 0; cursor: pointer; color: #61BFFF; }
-#article .article_header .article_listMotCles .motcle:hover { color: #50AEFF; text-decoration: underline; }
+#article .article_header .article_listMotCles .motcle { font-size: .8em; margin: 0 5px 0 0; cursor: pointer; /*color: #61BFFF;*/ color: #CA3179; }
+#article .article_header .article_listMotCles .motcle:hover { color: #8F144E; text-decoration: underline; }
 #article .article_header .article_listMotCles { padding: 0 5px 5px 5px; border-bottom: 1px solid #333; color:#ccc; }
 #article .article_content { font-size: .9em; color: #333; padding: 15px; overflow-y: auto; text-align: justify; }
 
@@ -73,7 +81,7 @@ div.bloc_content { clear:both; width: 100%; }
 #article .admin_content table { border-collapse: collapse; margin: 15px 10% 0 10%; width: 80%; border: 1px solid #DDD; }
 #article .admin_content table th,
 #article .admin_content table td { text-align: left; padding-left: 15px; cursor: default; height: 35px; }
-#article .admin_content table th { background-color: #1BA9C0; color: #fff; }
+#article .admin_content table th { background-color: #1BA9C0; color: #333; }
 #article .admin_content table td { color: #333; }
 #article .admin_content table th.action,
 #article .admin_content table td.action { width: 80px; padding: 0!important; }
@@ -83,9 +91,9 @@ div.bloc_content { clear:both; width: 100%; }
 #article .admin_content table tbody tr:nth-child(odd):hover { background-color: #DEDEDE; }
 #article .admin_content table tbody tr:nth-child(even):hover { background-color: #E5E5E5; }
 #article .admin_content table tbody td.action a { width: 35px; height: 35px; display: inline-block; margin: 1px; cursor: pointer; }
-#article .admin_content table tbody td.action a.btn_edit { background: url(../images/edit_btn.png) no-repeat center center; }
+#article .admin_content table tbody td.action a.btn_edit { background: #333 url(../images/edit_btn.png) no-repeat center center; }
 #article .admin_content table tbody td.action a.btn_edit:hover { background: #333 url(../images/edit_btn_hover.png) no-repeat center center; }
-#article .admin_content table tbody td.action a.btn_del { background: url(../images/del_btn.png) no-repeat center center; }
+#article .admin_content table tbody td.action a.btn_del { background: #333 url(../images/del_btn.png) no-repeat center center; }
 #article .admin_content table tbody td.action a.btn_del:hover { background: #333 url(../images/del_btn_hover.png) no-repeat center center; }
 
 
@@ -110,8 +118,8 @@ div.bloc_content { clear:both; width: 100%; }
 #menu .bouton { /*width: 48px; height: 48px;*/ cursor: pointer; display: inline-block; position: relative; /*top: 11px;*/ width: 35px; height: 35px; /*border-radius: 200px; background-color: #FF7F00; box-shadow: 0 0 0px 2px #FF7F00 inset,0 0 0px 4px #333 inset, 0 0 5px #000;*/ }
 #menu .bouton:hover { cursor: pointer; display: inline-block; /*top: 10px;*/ }
 
-#menu .bouton.retour { background: url(../images/retour_btn.png) no-repeat center center; }
-#menu .bouton.retour:hover { background: url(../images/retour_btn_hover.png) no-repeat center center; }
+#menu .bouton.retour { background: url(../images/home_btn.png) no-repeat center center; }
+#menu .bouton.retour:hover { background: url(../images/home_btn_hover.png) no-repeat center center; }
 
 #menu .bouton.add_article { background: url(../images/add_btn.png) no-repeat center center; }
 #menu .bouton.add_article:hover { background: url(../images/add_btn_hover.png) no-repeat center center; }

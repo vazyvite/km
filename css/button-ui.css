@@ -74,7 +74,19 @@ input[type='submit'].delete,
 input[type='cancel'].delete {
 	border-color: #960C0C;
 	background-color: #B90F0F;
+       background: -webkit-linear-gradient(bottom, rgba(185,15,15,1) 1%,rgba(183,62,62,1) 100%); 
+       background: -moz-linear-gradient(bottom, rgba(185,15,15,1) 1%, rgba(183,62,62,1) 100%);
+       background: -ms-linear-gradient(bottom, rgba(185,15,15,1) 1%,rgba(183,62,62,1) 100%); 
+       background: -o-linear-gradient(bottom, rgba(185,15,15,1) 1%,rgba(183,62,62,1) 100%); 
+       background: linear-gradient(to top, rgba(185,15,15,1) 1%,rgba(183,62,62,1) 100%); 
 	color: #FFF;
+}
+
+button.delete:hover,
+input[type='button'].delete:hover,
+input[type='submit'].delete:hover,
+input[type='cancel'].delete:hover {
+       box-shadow: 0 0 0 1px #740A0A; 
 }
 
 button.modify,

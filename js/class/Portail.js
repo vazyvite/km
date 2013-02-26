@@ -82,24 +82,7 @@ Portail.prototype = {
 
 		}).done(function(msg){
 			this.Action.Administration(this);
-		});
-	},
-
-	/**
-	 * Méthode UpdateCategorie
-	 * Met à jour une categorie
-	 * @param data:JSON 	données correspondant à la categorie à modifier
-	 */
-	UpdateCategorie: function(data){
-		$.ajax({
-
-			url: "phpforms/categorie.update.php",
-			type: "POST", 
-			context: this,
-			data: { idCategorie: data.id, idPortail: data.idPortail, categorie: data.categorie, description: data.description }
-
-		}).done(function(msg){
-			this.Action.AdministrationCategorie(this);
+			this.GetAllPortail(true, null);
 		});
 	},
 
@@ -119,25 +102,26 @@ Portail.prototype = {
 
 		}).done(function(msg){
 			this.Action.Administration(this);
+			this.GetAllPortail(true, null);
 		});
 	},
 
 	/**
-	 * Méthode DeleteCategorie
-	 * Supprime une catégorie
-	 * @param id:Int 	Identifiant de la catégorie à supprimer
+	 * Méthode Create
+	 * Créé un portail
+	 * @param p:Int 	nom du portail à créer
 	 */
-	DeleteCategorie: function(id){
+	Create: function(data){
 
 		$.ajax({
 
-			url: "phpforms/categorie.delete.php",
+			url: "phpforms/portail.create.php",
 			type: "POST", 
 			context: this,
-			data: {idCategorie: id}
+			data: {portail: data.portail}
 
 		}).done(function(msg){
-			this.Action.AdministrationCategorie(this);
+			this.GetAllPortail(true, null);
 		});
 	},
 
@@ -181,7 +165,7 @@ Portail.prototype = {
 		},
 
 		/**
-		 * Méthode Action Administration
+		 * Méthode Action.Administration
 		 * Gestion des Portails
 		 * @param t:Contexte
 		 */
@@ -190,43 +174,28 @@ Portail.prototype = {
 
 			var strTabPortail = [ 
 			{ title: Lang[user.GetLangue()].lbl.form_id, key: "id", width: 10, lim: null, editable: false }, 
-			{ title: Lang[user.GetLangue()].lbl.form_portail, key: "portail", width: null, lim: 25,editable: true },
-			{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null,editable: false }];
+			{ title: Lang[user.GetLangue()].lbl.form_portail, key: "portail", width: null, lim: 25, editable: true },
+			{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null, editable: false }];
 			
 			var data = t.GetAllPortail(false, function(json){
-				articleContent.Action.AdminPortail(articleContent, json, strTabPortail, Lang[user.GetLangue()].lbl.admin_portail);
+				articleContent.Action.BuildAdmin(articleContent, json, strTabPortail, Lang[user.GetLangue()].lbl.admin_portail, "portail");
 				menu.UI.BuildAdminPortail(menu);
 			});
 		},
 
 		/**
-		 * Méthode Action AdministrationCategorie
-		 * Gestion des Catégories
+		 * Méthode Action.Create
+		 * Création de Portails
 		 * @param t:Contexte
 		 */
-		AdministrationCategorie: function(t){
-			articleContent.UI.Clear(articleContent);
-			var list = Array();
+		Create: function(t, caller){
+			// articleContent.UI.Clear(articleContent);
 
-			var portails = t.GetAllPortail(false, function(json){
-				$.each(json, function(index){
-					list.push({id: json[index].id, name: json[index].portail});
-				});
-
-				var strTabCategorie = [
-				{ title: Lang[user.GetLangue()].lbl.form_id, key: "id", width: 10, lim: null, editable: false }, 
-				{ title: Lang[user.GetLangue()].lbl.form_categorie, key: "categorie", width: 20, lim: 25, editable: true },
-				{ title: Lang[user.GetLangue()].lbl.form_portail, key: "idPortail", width: 20, lim: 25, editable: true, list: list },
-				{ title: Lang[user.GetLangue()].lbl.form_description, key: "description", width: null, lim: 256, editable: true }, 
-				{ title: Lang[user.GetLangue()].lbl.form_nb_article, key: "articles", width: 10, lim: null, editable: false }, 
-				{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null, editable: false }];
-				
-				var data = navigation.GetNavigation(false, function(json){
-					articleContent.Action.AdminCategorie(articleContent, json, strTabCategorie, Lang[user.GetLangue()].lbl.admin_categorie);
-					menu.UI.BuildAdminCategorie(menu);
-				});
-			});
-		}
+			var strTab = [ 
+			{ title: Lang[user.GetLangue()].lbl.form_portail, key: "portail", width: null, lim: 25, editable: true }];
+			
+			popin = new Popin(t.Data.PopinDataPortailCreate(t, caller, strTab), strTab, null);
+		},
 	},
 
 
@@ -285,37 +254,20 @@ Portail.prototype = {
 			};
 		},
 
-		PopinDataCategorieEdit: function(t, json, str){
+		PopinDataPortailCreate: function(t, caller, str){
 			return {
-				title: Lang[user.GetLangue()].lbl.modif + " " + json.categorie,
-				content: "",
-				cmd: ["valide", "cancel"],
-				onValidate: function(){
-					var p = $(".popin");
-					var data = {
-						id: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
-						idPortail: p.find(".p_" + str[2].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
-						categorie: p.find(".p_" + str[1].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
-						description: p.find(".p_" + str[3].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
-					}
-					if(data.id != "" && data.portail != "" && data.categorie != "" && data.description != ""){ portail.UpdateCategorie(data); popin.Action.Hide(popin); }
-				},
-				onCancel: null, lvlRequise: "11", closeBtn: true, type: "categorie"
-			};
-		},
-
-		PopinDataCategorieDel: function(t, json){
-			return {
-				title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
+				title: Lang[user.GetLangue()].lbl.object_create,
 				content: "", cmd: ["valide", "cancel"],
 				onValidate: function(){
 					var p = $(".popin");
-					var id = p.find(".p_ID").val();
-					if(id != ""){ portail.DeleteCategorie(id); popin.Action.Hide(popin); }
+					var data = {
+						portail: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val() }
+
+					if(data.portail != ""){ portail.Create(data); popin.Action.Hide(popin); }
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: false, type: "categorie"
+				onCancel: null, lvlRequise: "11", closeBtn: false, type: "portail", caller: caller
 			};
-		},		
+		}
 	},
 
 
@@ -335,6 +287,7 @@ Portail.prototype = {
 			var insert, bloc_list;
 
 			bloc_list = $(t.s.content).find(".menu_portail");
+			bloc_list.children().remove();
 
 			if(t.s.listPortail != null && user.CheckUserAccess(lvl)){
 

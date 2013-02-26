@@ -108,7 +108,7 @@
 						array_push($arr_mc, $m);
 					}
 				}
-				$json = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'motcles' => $arr_mc, 'type' => $typeLibelle, 'idUser' => $article->getIdUser(), 'user' => $userName, 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+				$json = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'motcles' => $arr_mc, 'type' => $typeLibelle, 'idUser' => $article->getIdUser(), 'user' => $userName, 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => html_entity_decode($article->getArticle()), ENT_QUOTES);
 			}else{
 				$json = "";
 			}
@@ -152,16 +152,33 @@
 
 				if(count($arr_motcles) > 0){
 					for($i = 0; $i < count($arr_motcles); $i++){
-						// echo "Array : " . $arr_motcles[$i] . ", id: " . $arr_idMotcles[$i] . "      ";
-						if(intval($arr_idMotcles[$i]) != -1){
-							$motcle->UpdateMotCle($arr_idMotcles[$i], $arr_motcles[$i]);
-						}else{
-							$motcle->CreateMotCle($id, $arr_motcles[$i]);
-						}
+						$motcle->CreateMotCle($id, $arr_motcles[$i]);
 					}
 				}
 			}else{
 
+			}
+		}
+
+		/**
+		 * Méthode DeleteArticle
+		 * Sauve les modifications effectuées sur un article en base
+		 * @param idArticle:Int 			Identifiant de l'article
+		 */
+		function DeleteArticle($idArticle){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Delete($dbq->deleteArticle($idArticle));
+
+				$motcle = new MotCle();
+				$motcle->DeleteAllMotClesForArticleId($idArticle);
+
+			}else{
+				
 			}
 		}
 	}

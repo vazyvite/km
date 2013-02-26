@@ -110,5 +110,26 @@
 				$res = $mysqli->Delete( $dbq->deletePortail($idPortail));
 			}
 		}
+
+		/**
+		 * Méthode CreatePortail
+		 * Supprime le portail
+		 * @package DB, DBQuery
+		 * @param $idPortail:Int		identifiant du portail
+		 */
+		function CreatePortail($portail){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			echo "SQL : " . $dbq->createPortail($portail);
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Create( $dbq->createPortail($portail));
+			}else{
+				echo "droits insuffisants";
+			}
+		}
 	}
 ?>

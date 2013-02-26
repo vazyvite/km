@@ -128,5 +128,26 @@
 				$res = $mysqli->Delete( $dbq->deleteCategorie($idCategorie) );
 			}
 		}
+
+		/**
+		 * Méthode CreateCategorie
+		 * Créé la catégorie
+		 * @package DB, DBQuery
+		 * @param $categorie:String		nom de la catégorie
+		 * @param $idPortail:Int		Identifiant du portail auquel appartient la catégorie
+		 * @param $description:String	description de la catégorie
+		 */
+		function CreateCategorie($categorie, $idPortail, $description){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Delete( $dbq->createCategorie($idPortail, $categorie, $description) );
+			}else{
+				echo "droits insuffisants";
+			}
+		}
 	}
 ?>

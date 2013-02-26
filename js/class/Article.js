@@ -73,8 +73,27 @@ Article.prototype = {
 		}).done(function(msg){
 
 			var json = $.parseJSON(msg);
-			// this.Data.SetJSON(this, json);
-			// this.UI.Build(this, json);
+
+			this.LoadArticle(this.s.data.idArticle);
+		});
+	},
+
+	Delete: function(data){
+
+		$.ajax({
+
+			url: "phpforms/article.delete.php",
+			type: "POST",
+			data: { idArticle:data },
+			datatype: "json",
+			context: this
+
+		}).done(function(msg){
+
+			var json = $.parseJSON(msg);
+
+			navigation.GetNavigation(true, null);
+			this.UI.Clear(this);
 		});
 	},
 
@@ -84,7 +103,7 @@ Article.prototype = {
 		 * Lance le workflow d'édition de l'article
 		 * @param t:Contexte
 		 */
-		Edit: function(t){
+		Edit: function(t, json){
 			var lvl = "10";
 			var article = $("#article");
 			var infos = $("#informations");
@@ -95,10 +114,20 @@ Article.prototype = {
 				article.find('.article_content').redactor({ focus: true });
 				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				
-				for(var i = 0; i < t.s.data.motcles.length; i++){
-					var motcle = t.s.data.motcles[i];
+				var data_mc;
+				if(json && json.motcles && json.motcles.length){
+					data_mc = json.motcles;
+				}else if(t.s.data != null && t.s.data.motcles && t.s.data.motcles.length){
+					data_mc = t.s.data.motcles;
+				}else{
+					data_mc = Array();
+				}
+
+				for(var i = 0; i < data_mc.length; i++){
+					var motcle = data_mc[i];
 					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
 				}
+				
 
 				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
 				article.find("input.article_listMotCles_edit").tokenInput(
@@ -113,12 +142,39 @@ Article.prototype = {
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
 				infos.find('button.btn_modif').hide();
-				infos.find('button.btn_save, button.btn_cancel').show();
+				infos.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
 				access.hide();
 			}
 		},
 
-		/** TODO gérer les mots clés
+		Create: function(t){
+			var lvl = "10";
+			var article = $("#article");
+			var infos = $("#informations");
+			var access = $("#accessibility");
+			var access = $("#accessibility");
+			var arr_mc = Array();
+
+			if(user.CheckUserAccess(lvl)){
+
+				var json = {
+					idArticle: -1,
+					idType: 1,
+					idUser: user.s.idUser,
+					type: "Article",
+					user: user.s.data.fstName + " " + user.s.data.lstName,
+					dateCreation: Lang[user.GetLangue()].lbl.now,
+					titre: "",
+					article: "",
+					motcles: Array()
+				};
+
+				t.UI.Build(t, json);
+				t.Action.Edit(t, json);
+			}
+		},
+
+		/**
 		 * Méthode Action.Save
 		 * Lance le workflow de sauvegarde de l'article
 		 * @param t:Contexte
@@ -127,31 +183,19 @@ Article.prototype = {
 		Save: function(t, isCancel){
 			var lvl = "10";
 			var article = $("#article");
-			var infos = $("#informations");
-			var access = $("#accessibility");
 			var motcle = Array();
 
 			if(user.CheckUserAccess(lvl)){
 				
-				var content = article.find(".article_content").getText();
+				var content = article.find(".article_content").getCode();
 				var titre = article.find(".article_title_edit").val();
 				var mc = article.find("input.article_listMotCles_edit").tokenInput("get");
 
-				article.find('.article_title_edit').replaceWith( "<div class='article_title'>" + titre + "</div>" );
-				article.find('.article_content').destroyEditor();
-				article.find('.article_listMotCles_edit').replaceWith( "<div class='article_listMotCles'></div>" );
-
-				if(content != "" && titre != "" && mc != ""){
-					infos.find('button.btn_modif').show();
-					infos.find('button.btn_save, button.btn_cancel').hide();
-					$('.token-input-dropdown-facebook, .token-input-token-facebook, .token-input-list-facebook').remove();
-					access.show();
+				if(content != "" && titre != "" && mc.length){
 
 					if(!isCancel){
 						for(var i = 0; i < mc.length; i++){
 							motcle.push({idArticle: t.s.data.idArticle, idMotCle: mc[i].id, motcle: mc[i].name});
-							var insert = $("<a></a>").addClass("motcle").attr("value", mc[i].id).text(mc[i].name);
-							article.find('.article_listMotCles').append(insert);
 						}
 
 						t.Data.Update(t, titre, content, motcle);
@@ -170,25 +214,51 @@ Article.prototype = {
 								recherche.SetRecherche($(this).text());
 							});
 						}
+
+						t.LoadArticle(t.s.data.idArticle);
 					}
 				}
 			}
 		},
 
-		/**
-		 * Méthode Action.BuildAdminPortail
-		 * Workflow de construction de la page d'administration des portails
+		/** 
+		 * Méthode Action.Delete
+		 * Lance le workflow de suppression d'article
 		 * @param t:Contexte
-		 * @param json:JSON 					données concernant les portails
-		 * @param strTabPortail:Array[JSON] 	données concernant la structure du tableau
 		 */
-		AdminPortail: function(t, json, strTabPortail, titre){
+		Delete: function(t){
 			var lvl = "11";
-			var table = t.UI.TablePortail(t, strTabPortail);
+
+			if(user.CheckUserAccess(lvl)){
+				var str = {
+					title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + t.s.data.idArticle + "' />",
+					content: "", cmd: ["valide", "cancel"],
+					onValidate: function(){
+						var p = $(".popin");
+						var id = p.find(".p_ID").val();
+						if(id != ""){ t.Delete(id); popin.Action.Hide(popin); }
+					},
+					onCancel: null, lvlRequise: lvl, closeBtn: false, type: "article"
+				};
+
+				popin = new Popin(str, null, null);
+			}
+		},
+
+		/**
+		 * Méthode Action.BuildAdmin
+		 * Workflow de construction de la page d'administration
+		 * @param t:Contexte
+		 * @param json:JSON 			données concernant les portails
+		 * @param strTab:Array[JSON] 	données concernant la structure du tableau
+		 */
+		BuildAdmin: function(t, json, strTab, titre, type){
+			var lvl = "11";
+			var table = t.UI.TablePortail(t, strTab);
 
 			if(table != null && user.CheckUserAccess(lvl)){
 				for(var i = 0; i < json.length; i++){
-					var line = t.UI.LinePortail(t, strTabPortail, json[i], "portail");
+					var line = t.UI.LinePortail(t, strTab, json[i], type);
 					if(line != null){ table.find("tbody").append(line); }
 				}
 
@@ -196,28 +266,6 @@ Article.prototype = {
 				t.UI.AdminContent(t, table);
 			}
 		},
-
-		/**
-		 * Méthode Action.AdminCategorie
-		 * Workflow de construction de la page d'administration des catégories
-		 * @param t:Contexte
-		 * @param json:JSON 					données concernant les catégories
-		 * @param strTabPortail:Array[JSON] 	données concernant la structure du tableau
-		 */
-		AdminCategorie: function(t, json, strTabCategorie, titre){
-			var lvl = "11";
-			var table = t.UI.TablePortail(t, strTabCategorie);
-
-			if(table != null && user.CheckUserAccess(lvl)){
-				for(var i = 0; i < json.length; i++){
-					var line = t.UI.LinePortail(t, strTabCategorie, json[i], "categorie");
-					if(line != null){ table.find("tbody").append(line); }
-				}
-
-				t.UI.AdminTitle(t, titre);
-				t.UI.AdminContent(t, table);
-			}
-		}
 	},
 
 
@@ -261,48 +309,9 @@ Article.prototype = {
 		ReturnDataFormTypeOfAdmin: function(t, json, type, str){
 			switch(type){
 				case "portail": 
-					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) };
-					// popin_data_edit = {
-					// 	title: Lang[user.GetLangue()].lbl.modif_portail + " " + json.portail,
-					// 	content:  "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_PORTAIL'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_portail + " : </div><div class='form_input'><input type='text' value='" + json.portail + "' /></div></div>",
-					// 	cmd: ["valide", "cancel"],
-					// 	onValidate: function(){
-					// 		var p = $(".popin");
-					// 		var data = { id: p.find(".p_ID .form_input input").val(), portail: p.find(".p_PORTAIL .form_input input").val() }
-					// 		if(data.id != "" && data.portail != ""){ portail.Update(data); popin.Action.Hide(popin); }
-					// 	},
-					// 	onCancel: null, lvlRequise: "11", closeBtn: true
-					// };
-
-					// popin_data_del = {
-					// 	title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
-					// 	content: "", cmd: ["valide", "cancel"],
-					// 	onValidate: function(){
-					// 		var p = $(".popin");
-					// 		var id = p.find(".p_ID").val();
-					// 		if(id != ""){ portail.Delete(id); popin.Action.Hide(popin); }
-					// 	},
-					// 	onCancel: null, lvlRequise: "11", closeBtn: false
-					// };
-				break;
-
+					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) }; break;
 				case "categorie":
-					return { edit: portail.Data.PopinDataCategorieEdit(portail, json, str), del: portail.Data.PopinDataCategorieDel(portail, json) };
-					// popin_data_edit = {
-					// 	title: Lang[user.GetLangue()].lbl.modif_categorie + " " + json.portail,
-					// 	content: "<div class='form_line p_ID'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_id + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.id + "' /></div></div><div class='form_line p_CATEGORIE'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_categorie + " : </div><div class='form_input'><input type='text' value='" + json.categorie + "' /></div></div><div class='form_line p_DESCRIPTION'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_description + " : </div><div class='form_input'><input type='text' value='" + json.description + "' /></div></div><div class='form_line p_NBARTICLES'><div class='form_label'>" + Lang[user.GetLangue()].lbl.form_nb_article + " : </div><div class='form_input'><input type='text' disabled='disabled' value='" + json.articles.length + "' /></div></div>",
-					// 	cmd: ["valide", "cancel"],
-					// 	onValidate: null,
-					// 	onCancel: null, lvlRequise: "11", closeBtn: true
-					// };
-
-					// popin_data_del = {
-					// 	title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.id + "' />",
-					// 	content: "", cmd: ["valide", "cancel"],
-					// 	onValidate: null,
-					// 	onCancel: null, lvlRequise: "11", closeBtn: false
-					// };
-				break;
+					return { edit: navigation.Data.PopinDataCategorieEdit(navigation, json, str), del: navigation.Data.PopinDataCategorieDel(navigation, json) }; break;
 			}
 		},
 	},
@@ -318,6 +327,7 @@ Article.prototype = {
 		 * Méthode UI.Build
 		 * Workflow de construction de l'article
 		 * @param t:Contexte
+		 * @param json:JSON 	les données de l'article
 		 */
 		Build: function(t, json){
 			t.UI.Clear(t);
@@ -328,6 +338,21 @@ Article.prototype = {
 			menu.UI.BuildCategorie(menu);
 			$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
 		},
+
+		/**
+		 * Méthode UI.BuildCreate
+		 * Workflow de construction de l'article pour un ajout d'article
+		 * @param t:Contexte
+		 */
+		// BuildCreate: function(t){
+		// 	t.UI.Clear(t);
+		// 	t.UI.HeaderCreate(t);
+		// 	t.UI.Content(t, json);
+		// 	t.UI.Commands(t, json);
+		// 	t.UI.HideLogo(t);
+		// 	menu.UI.BuildCategorie(menu);
+		// 	$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
+		// },
 
 		/**
 		 * Méthode UI.Header
@@ -347,6 +372,21 @@ Article.prototype = {
 			insert.append(titre).append(infos).append(mc);
 			$(t.s.bloc).append(insert);
 		},
+
+		/**
+		 * Méthode UI.HeaderCreate
+		 * Construction de l'entête de l'article pour l'ajout d'un article
+		 * @param t:Contexte
+		 */
+		// HeaderCreate: function(t){
+		// 	var insert = $("<div></div>").addClass("article_header");
+		// 	var titre = t.UI.Title(t, json, true);
+		// 	var mc = t.UI.MotCles(t, json, true);
+
+		// 	infos.append(type).append(author).append(date);
+		// 	insert.append(titre).append(infos).append(mc);
+		// 	$(t.s.bloc).append(insert);
+		// },
 
 		/**
 		 * Méthode UI.Title
@@ -411,6 +451,7 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant aux mots clés
 		 */
 		MotCles: function(t, json){
+
 			var mc = $("<div></div>").addClass("article_listMotCles");
 
 			for(var i = 0; i < json.motcles.length; i++){
@@ -455,9 +496,12 @@ Article.prototype = {
 			if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
 			if(cancel != null){ commands.append(cancel); }
-			if(access != null){ commands.append(access); }
 			if(del != null){ commands.append(del); }
+			if(access != null){ commands.append(access); }
+			
 		},
+
+
 
 		/**
 		 * Méthode UI.BtnRetour
@@ -476,7 +520,7 @@ Article.prototype = {
 		},
 
 		/**
-		 * Méthode UI.nModifier
+		 * Méthode UI.BtnModifier
 		 * Création du bouton de modification de l'article
 		 * @param t:Contexte
 		 * @param json:JSON 		données de l'article
@@ -539,14 +583,14 @@ Article.prototype = {
 		 */
 		BtnDelete: function(t){
 			var lvl = "10";
-			var btnCancel = null;
+			var btnDel = null;
 
 			if(user.CheckUserAccess(lvl)){
-				btnCancel = $("<button class='btn_delete'>" + Lang[user.GetLangue()].btn.delete + "</button>").hide().on("click", function(){ 
-					t.Action.Save(t, true);
+				btnDel = $("<button class='btn_delete delete'>" + Lang[user.GetLangue()].btn.delete + "</button>").hide().on("click", function(){ 
+					t.Action.Delete(t);
 				});
 			}
-			return btnCancel;
+			return btnDel;
 		},
 
 		/*

@@ -21,7 +21,7 @@
 		// PORTAILS
 		const DB_PORTAIL_LIST = "SELECT * FROM portail";
 		const DB_PORTAIL_BYID = "SELECT * FROM portail WHERE idPortail = '{{ID}}'";
-		const DB_PORTAIL_CREATE = "INSERT INTO portail (portail) VALUES portail = '{{PORTAIL}}'";
+		const DB_PORTAIL_CREATE = "INSERT INTO portail (portail) VALUES ('{{PORTAIL}}')";
 		const DB_PORTAIL_UPDATE = "UPDATE portail SET portail = '{{PORTAIL}}' WHERE idPortail = '{{IDPORTAIL}}'";
 		const DB_PORTAIL_DELETE = "DELETE FROM portail WHERE idPortail = '{{IDPORTAIL}}'";
 
@@ -37,14 +37,14 @@
 		const DB_CATEGORIE_ALL = 	"SELECT * FROM categorie";
 		const DB_CATEGORIE_LIST = 	"SELECT * FROM categorie WHERE idPortail = '{{IDPORTAIL}}'";
 		const DB_CATEGORIE_BYID = 	"SELECT * FROM categorie WHERE idCategorie = '{{IDCATEGORIE}}'";
-		const DB_CATEGORIE_CREATE = "INSERT INTO categorie (idPortail, categorie, description) VALUES idPortail = '{{IDPORTAIL}}', categorie = '{{CATEGORIE}}', description = '{{DESCRIPTION}}'";
+		const DB_CATEGORIE_CREATE = "INSERT INTO categorie (idPortail, categorie, description) VALUES ('{{IDPORTAIL}}', '{{CATEGORIE}}', '{{DESCRIPTION}}')";
 		const DB_CATEGORIE_UPDATE = "UPDATE categorie SET idPortail = '{{IDPORTAIL}}', categorie = '{{CATEGORIE}}', description = '{{DESCRIPTION}}' WHERE idCategorie = '{{IDCATEGORIE}}'";
 		const DB_CATEGORIE_DELETE = "DELETE FROM categorie WHERE idCategorie = '{{IDCATEGORIE}}'";
 
 		function getAllCategorie(){ return DBQuery::DB_CATEGORIE_ALL; }
 		function getListCategorie($id_portail){ return str_replace(array("{{IDPORTAIL}}"), array($id_portail), DBQuery::DB_CATEGORIE_LIST); }
 		function getCategorieById($id_categorie){ return str_replace(array("{{IDCATEGORIE}}"), array($id_categorie), DBQuery::DB_CATEGORIE_BYID); }
-		function createCategorie($id_portail, $categorie, $description){ return str_replace(array("{{IDPORTAIL}}", "{{CATEGORIE}}", "{{DESCRIPTION}}"), array($$id_portail, $categorie, $description), DBQuery::DB_CATEGORIE_CREATE); }
+		function createCategorie($id_portail, $categorie, $description){ return str_replace(array("{{IDPORTAIL}}", "{{CATEGORIE}}", "{{DESCRIPTION}}"), array($id_portail, $categorie, $description), DBQuery::DB_CATEGORIE_CREATE); }
 		function updateCategorie($id_categorie, $id_portail, $categorie, $description){ return str_replace(array("{{IDCATEGORIE}}", "{{IDPORTAIL}}", "{{CATEGORIE}}", "{{DESCRIPTION}}"), array($id_categorie, $id_portail, $categorie, $description), DBQuery::DB_CATEGORIE_UPDATE); }
 		function deleteCategorie($id_categorie){ return str_replace(array("{{IDCATEGORIE}}"), array($id_categorie), DBQuery::DB_CATEGORIE_DELETE); }
 
@@ -55,7 +55,7 @@
 		const DB_ARTICLE_LIST = 	"SELECT * FROM article WHERE idCategorie = '{{IDCATEGORIE}}'";
 		const DB_ARTICLE_BYID = 	"SELECT * FROM article WHERE idArticle = '{{IDARTICLE}}'";
 		const DB_ARTICLE_BYTERMS = 	"SELECT A.idArticle, A.idType, A.idUser, A.dt_creation, A.idCategorie, A.titre, A.article, C.idCategorie, C.categorie FROM article A INNER JOIN categorie C ON A.idCategorie = C.idCategorie LEFT OUTER JOIN motcle M ON A.idArticle = M.idArticle  WHERE C.idPortail = {{IDPORTAIL}} AND ((A.titre LIKE '%{{TERMS}}%' OR A.article LIKE '%{{TERMS}}%' ) OR M.motcle LIKE '%{{TERMS}}%')";
-		const DB_ARTICLE_CREATE = 	"INSERT INTO article (idType, idUser, idCategorie, dt_creation, titre, article) VALUES idType = '{{IDTYPE}}', idUser = '{{IDUSER}}', idCategorie = '{{IDCATEGORIE}}', dt_creation = '{{DTCREATE}}', titre = '{{TITRE}}', article = '{{ARTICLE}}'";
+		const DB_ARTICLE_CREATE = 	"INSERT INTO article (idType, idUser, idCategorie, dt_creation, titre, article) VALUES ('{{IDTYPE}}', '{{IDUSER}}', '{{IDCATEGORIE}}', '{{DTCREATE}}', '{{TITRE}}', '{{ARTICLE}}')";
 		const DB_ARTICLE_UPDATE = 	"UPDATE article SET titre='{{TITLEARTICLE}}', article='{{CONTENTARTICLE}}' WHERE idArticle = '{{IDARTICLE}}'";
 		const DB_ARTICLE_DELETE = 	"DELETE FROM article WHERE idArticle = '{{IDARTICLE}}'";
 
