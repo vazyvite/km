@@ -188,6 +188,26 @@ Menu.prototype = {
 		},
 
 		/**
+		 * Méthode BuildAdminUser
+		 * Construction du menu lorsque l'on est en écran d'administration des utilisateurs
+		 * @param t:Contexte
+		 */
+		BuildAdminUser: function(t){
+			t.UI.Clear(t);
+			if(user.s.data.role != null){
+				var retour = t.UI.Btn_Retour(t);
+				var addUser = t.UI.Btn_AddUser(t);
+				var adminUser = t.UI.Btn_AdminUser(t);
+
+				var m = $(t.s.bloc).find("ul");
+
+				if(retour != null) { m.append(retour); }
+				if(adminUser != null) { m.append(adminUser); }
+				if(addUser != null) { m.append(addUser); }
+			}
+		},
+
+		/**
 		 * Méthode UI.Btn_Retour
 		 * Création du bouton de retour à la page d'accueil
 		 * @param t:Contexte
@@ -289,7 +309,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton add_article' title='" + Lang[user.GetLangue()].btn.add_article + "'></li>").on("click", function(){ 
-					articleContent.Action.Create(articleContent);
+					articleContent.Action.BuildCreate(articleContent);
 				});
 			}
 			return btn;
@@ -374,7 +394,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton admin_user' title='" + Lang[user.GetLangue()].btn.admin_user + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
+					user.Action.Administration(user);
 				});
 			}
 			return btn;
@@ -391,7 +411,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton add_user' title='" + Lang[user.GetLangue()].btn.add_user + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
+					user.Action.Create(user, $(this));
 				});
 			}
 			return btn;
@@ -408,7 +428,7 @@ Menu.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton del_user' title='" + Lang[user.GetLangue()].btn.del_user + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
+					// Action
 				});
 			}
 			return btn;

@@ -146,17 +146,17 @@ Popin.prototype = {
 					value = "";
 				}
 
-				if(str.lim < 50 && (!str.list || str.list == null)) { 
+				if(str.lim <= 100 && (!str.list || str.list == null)) { 
 					input = $("<input type='text' " + disabled + " " + maxlength + "value='" + value + "' />");
 
-				}else if(str.lim >= 50 && (!str.list || str.list == null)){
+				}else if(str.lim > 100 && (!str.list || str.list == null)){
 					input = $("<textarea" + disabled + " " + maxlength + ">" + value + "</textarea>");
 
 				}else{
 					input = $("<select" + disabled + "></select>");
 
 					for(var o=0; o < str.list.length; o++){
-						var s = (t.s.value && t.s.value != null && str.list[o].id == parseInt(t.s.values[str.key])) ? " selected='selected' " : "";
+						var s = (t.s.values && t.s.values != null && str.list[o].id == parseInt(t.s.values[str.key])) ? " selected='selected' " : "";
 						input.append($("<option " + s + " value='" + str.list[o].id + "'>" + str.list[o].name + "</option>"));
 					}
 				}

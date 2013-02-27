@@ -23,6 +23,12 @@ var Lang = {
 			form_action: "Actions",
 			form_description: "Description",
 			form_nb_article: "Nb Articles",
+			form_fstName: "Prénom",
+			form_lstName: "Nom",
+			form_email: "Email",
+			form_role: "Role",
+			form_login: "Identifiant",
+			form_pass: "Mot de passe",
 			modif: "Modification de ",
 			object_create: "Création",
 			now: "aujourd\'hui"
@@ -39,6 +45,7 @@ var Lang = {
 			cancel: "Annuler",
 			valide: "Valider",
 			delete: "Supprimer",
+			create: "Créer",
 			add_article: "Ajouter un nouvel article",
 			admin_portail: "Gestion des portails",
 			add_portail: "Ajouter un nouveau portail",
@@ -60,6 +67,7 @@ var Lang = {
 			confirm_leave_portail1: "Vous allez quitter le portail",
 			confirm_leave_portail2: "souhaitez-vous continuer sur le portail",
 			confirm_delete_object: "Voulez-vous supprimer cet élément ?",
+			err_delete_own_account: "Vous ne pouvez pas supprimer votre propre compte !"
 		}
 	},
 	EN: {
@@ -86,6 +94,12 @@ var Lang = {
 			form_action: "Actions",
 			form_description: "Description",
 			form_nb_article: "Nb of articles",
+			form_fstName: "Firstname",
+			form_lstName: "Lastname",
+			form_email: "Email",
+			form_role: "Role",
+			form_login: "Login",
+			form_pass: "Password",
 			modif: "Edit ",
 			object_create: "Creation",
 			now: "today"
@@ -102,6 +116,7 @@ var Lang = {
 			cancel: "Cancel",
 			valide: "Ok",
 			delete: "Delete",
+			create: "Create",
 			add_article: "Add a new article",
 			admin_portail: "Portail administration",
 			add_portail: "Add a new portal",
@@ -123,6 +138,7 @@ var Lang = {
 			confirm_leave_portail1: "You will leave the portal",
 			confirm_leave_portail2: "do you wish to continue in the portal",
 			confirm_delete_object: "Do you want to delete this element ?",
+			err_delete_own_account: "You can\'t delete your own account !"
 		}
 	}
 }

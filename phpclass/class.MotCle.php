@@ -54,5 +54,11 @@ class MotCle {
 			$res = $mysqli->Delete($dbq->deleteAllMotClesForArticle($id_article));
 		}
 	}
+
+	// function StripAccents($string){
+	// 	return strtr($string,
+	// 		'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ', 
+	// 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+	// }
 }
 ?>

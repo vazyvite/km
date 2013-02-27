@@ -289,13 +289,16 @@ Navigation.prototype = {
 
 				for(var i = 0; i < t.s.data.length; i++){
 					categorie = t.s.data[i];
-					insertCategorie = $("<li class='categorie_title off'><span>" + categorie.categorie + "</span><ul class='categorie_articles'></ul></li>");
 
-					for(var j = 0; j < categorie.articles.length; j++){
-						insertArticle = null;
-						article = categorie.articles[j];
-						insertArticle = $("<li class='categorie_article link_article' value='" + article.idArticle + "'>" + article.titre + "</li>");
-						insertCategorie.find("ul.categorie_articles").append(insertArticle);
+					if(categorie.articles.length){
+						insertCategorie = $("<li class='categorie_title off'><span>" + categorie.categorie + "</span><ul class='categorie_articles'></ul></li>");
+
+						for(var j = 0; j < categorie.articles.length; j++){
+							insertArticle = null;
+							article = categorie.articles[j];
+							insertArticle = $("<li class='categorie_article link_article' value='" + article.idArticle + "'>" + article.titre + "</li>");
+							insertCategorie.find("ul.categorie_articles").append(insertArticle);
+						}
 					}
 					
 					content.find("ul.navigation_content").append(insertCategorie);

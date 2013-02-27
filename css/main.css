@@ -51,7 +51,7 @@ div.bloc_content { clear:both; width: 100%; }
 #navigation ul.navigation_content li.categorie_title span { color: #333; letter-spacing: 1px; text-transform: capitalize; }
 #navigation ul.navigation_content li ul.categorie_articles { display: none; }
 #navigation ul.navigation_content li ul.categorie_articles li { margin-left: 5px; list-style: none; padding: 0; margin: 0; cursor: pointer; padding: 1px 0 1px 5px; border-radius: 5px; border: 1px solid #FFF; }
-#navigation ul.navigation_content li ul.categorie_articles li:hover { background: #EDEDED; border: 1px solid #DFDFDF; }
+#navigation ul.navigation_content li ul.categorie_articles li:hover { background: #1BA9C0; color: #000; font-weight: bold; border: 1px solid #DFDFDF; }
 
 #informations { margin: 5px; min-height: 30px; padding: 5px; width: 98%; }
 #accessibility { width: 150px; position: absolute; right: 13px; top: 13px; text-align: right; }
@@ -74,7 +74,7 @@ div.bloc_content { clear:both; width: 100%; }
 #article .article_header .article_listMotCles { padding: 0 5px 5px 5px; border-bottom: 1px solid #333; color:#ccc; }
 #article .article_content { font-size: .9em; color: #333; padding: 15px; overflow-y: auto; text-align: justify; }
 
-#article .article_title_edit { width: 100%; }
+#article .article_title_edit { width: 400px; }
 
 #article .admin_title { font-size: 1.7em; padding-left: 10%; }
 #article .admin_content { font-size: 2em; }
@@ -195,10 +195,10 @@ div.bloc_content { clear:both; width: 100%; }
 .form_line .form_label:after { content: " : "; }
 .form_line .form_input { display: inline-block; width: 65%; }
 .form_line .form_input input,
-.form_line .form_input select,
 .form_line .form_input textarea { width: 95%; margin-left: 0; }
+.form_line .form_input select { margin-left: 0; }
 .form_line .form_input input[maxlength],
-.form_line .form_input select[maxlength] { width: auto; }
+.form_line .form_input select[maxlength] { width: auto; max-width: 95%; }
 .form_line.last { margin-bottom: 15px; }
 .form_valid_single { width: 100%; clear: both; text-align: center; padding: 8px 0 7px 0; border-top: 1px solid #CCC; background-color: #efefef; border-radius: 0 0 15px 15px; }
 
@@ -217,3 +217,7 @@ div.bloc_content { clear:both; width: 100%; }
 .popin .popin_body { padding: 20px 5px 40px 5px; background: #2CBAD1; }
 .popin .popin_footer { border-top: 1px solid #eee; background: #0A98B0; padding: 10px 5px 10px 5px; text-align: center; }
 .popin .popin_footer button:last-child { margin-right: 0; }
+
+.highlight {
+    background-color: #FFFF88;
+}

@@ -34,8 +34,8 @@
 			$this->setFirstName($fstName);
 			$this->setMail($mail);
 			$this->setRole($role);
-			$this->setPassword($login);
-			$this->setLogin($password);
+			$this->setPassword($password);
+			$this->setLogin($login);
 		}
 
 		// méthodes
@@ -111,6 +111,52 @@
 		}
 
 		/**
+		 * Méthode GetAllUsers
+		 * Permet de récupérer tous les utilisateurs
+		 * @package DB, DBQuery
+		 * @param idUser:Int 				identifiant de l'utilisateur
+		 * @return user:User 				utilisateur
+		 */
+		function GetAllUsers(){
+			$mysqli = new DB();
+			$dbq = new DBQuery();
+			$list = array();
+
+			$res = $mysqli->Query($dbq->getAllUsers());
+
+			if($res != false){
+				while($f = $res->fetch_assoc()){
+					$u = new User($f['idUser'], $f['lstName'], $f['fstName'], $f['email'], $f['role'], $f['login'], $f['password']);
+					array_push($list, $u);
+				}
+				return $list;
+			}else{
+				return null;
+			}
+		}
+
+		/**
+		 * Méthode GetAllUsersForJS
+		 * Renvoie la liste des utilisateurs au format JSON
+		 * @param $list_portail:Array[Portail]			liste des utilisateurs
+		 * @return $:JSON 								liste des utilisateurs au format JSON
+		 */
+		function GetAllUsersForJS($list_users){
+			$json = array();
+			$users = array();
+
+			if(count($list_users) > 0){
+				for($i = 0; $i < count($list_users); $i++){
+					$users = array('idUser' => $list_users[$i]->getId(), 'lstName' => $list_users[$i]->getLastName(), 'fstName' => $list_users[$i]->getFirstName(), 'email' => $list_users[$i]->getMail(), 'role' => $list_users[$i]->getRole(), 'login' => $list_users[$i]->getLogin(), 'pass' => $list_users[$i]->getPassword());
+					array_push($json, $users);
+				}
+			}else{
+				echo "pas assez d'utilisateurs";
+			}
+			echo json_encode($json);
+		}
+
+		/**
 		 * Méthode CheckUserRights
 		 * Valide l'action en fonction des droits de l'utilisateur
 		 * @param lvl:String 			Niveau de sécurité de l'action
@@ -128,8 +174,77 @@
 			}
 		}
 
-		function CreateUser(){ return null; }
-		function EditUser(){ return null; }
-		function DeleteUser(){ return null; }
+		/**
+		 * Méthode UpdateUser
+		 * Met à jour l'utilisateur
+		 * @package DB, DBQuery
+		 * @param idUser:Int		identifiant de l'utilisateur
+		 * @param fstName:String	Prénom de l'utilisateur
+		 * @param lstName:String	Nom de l'utilisateur
+		 * @param email:String		Email de l'utilisateur
+		 * @param role:String		Role de l'utilisateur
+		 * @param login:String		Login de l'utilisateur
+		 * @param pass:String		Pass de l'utilisateur
+		 */
+		function UpdateUser($idUser, $fstName, $lstName, $email, $role, $login, $pass){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			$u = $user->GetUserById($idUser);
+
+			if(md5($pass) == $u->getPassword() || $pass == $u->getPassword()){
+				$password = $pass;
+			}else{
+				$password = md5($pass);
+			}
+
+			if((isset($_SESSION['role']) && $this->CheckUserRights($lvl, $_SESSION['role'])) || ($_SESSION['idUser'] && $idUser == $_SESSION['idUser'])){
+				$res = $mysqli->Update( $dbq->updateUser($idUser, htmlentities($lstName, ENT_QUOTES), htmlentities($fstName, ENT_QUOTES), $email, $role, htmlentities($login, ENT_QUOTES), $password));
+			}
+		}
+
+		/**
+		 * Méthode DeleteUser
+		 * Supprime l'utilisateur
+		 * @package DB, DBQuery
+		 * @param $idUser:Int		identifiant de l'utilisateur
+		 */
+		function DeleteUser($idUser){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role']) && $_SESSION['idUser'] && $_SESSION['idUser'] != $idUser){
+				$res = $mysqli->Delete( $dbq->deleteUser($idUser));
+			}
+		}
+
+		/**
+		 * Méthode CreateUser
+		 * Supprime l'utilisateur
+		 * @package DB, DBQuery
+		 * @param fstName:String 	Prénom de l'utlisateur
+		 * @param lstName:String 	Nom de l'utlisateur
+		 * @param email:String 		Email de l'utlisateur
+		 * @param role:String 		Role de l'utlisateur
+		 * @param login:String 		Login de l'utlisateur
+		 * @param pass:String 		Mot de passe de l'utlisateur
+		 */
+
+		function CreateUser($fstName, $lstName, $email, $role, $login, $pass){
+			$lvl = "11";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Create( $dbq->createUser($lstName, $fstName, $email, $role, $login, md5($pass)));
+			}else{
+				echo "droits insuffisants";
+			}
+		}
 	}
 ?>

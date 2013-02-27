@@ -97,6 +97,29 @@ Article.prototype = {
 		});
 	},
 
+	Create: function(data, fnCallBack){
+		var mc = Array();
+		for(var i = 0; i < data.motcles.length; i++){
+			mc.push(data.motcles[i].motcle);
+		}
+		mc = mc.join(";");
+
+		$.ajax({
+
+			url: "phpforms/article.create.php",
+			type: "POST",
+			data: { titre: data.titre, idType: data.idType, idUser: data.idUser, idCategorie: data.idCategorie, article: data.article, motcles: mc },
+			datatype: "json",
+			context: this
+
+		}).done(function(msg){
+			
+			if(msg != "" && !isNaN(parseInt(msg))){
+				fnCallBack(msg);
+			}
+		});
+	},
+
 	Action: {
 		/**
 		 * Méthode Action.Edit
@@ -115,10 +138,17 @@ Article.prototype = {
 				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				
 				var data_mc;
-				if(json && json.motcles && json.motcles.length){
-					data_mc = json.motcles;
+				if(json && json.idArticle == -1){
+					
+					if(json.motcles && json.motcles.length){
+						data_mc = json.motcles;
+					}else{
+						data_mc = Array();
+					}
+					
 				}else if(t.s.data != null && t.s.data.motcles && t.s.data.motcles.length){
 					data_mc = t.s.data.motcles;
+
 				}else{
 					data_mc = Array();
 				}
@@ -127,7 +157,16 @@ Article.prototype = {
 					var motcle = data_mc[i];
 					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
 				}
-				
+
+				if(json.idArticle == -1){
+					var select = $("<select></select>").addClass('article_categorie_edit');
+					for(var i = 0; i < navigation.s.data.length; i++){
+						var cat = navigation.s.data[i];
+
+						select.append($("<option value='" + cat.id + "' title='" + cat.description + "'>" + cat.categorie + "</option>"));
+					}
+					article.find(".article_title_edit").after(select);
+				}
 
 				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
 				article.find("input.article_listMotCles_edit").tokenInput(
@@ -142,12 +181,19 @@ Article.prototype = {
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
 				infos.find('button.btn_modif').hide();
-				infos.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
 				access.hide();
+
+				if(json.idArticle != -1){
+					infos.find('button.btn_create, button.btn_cancelCreate').hide();
+					infos.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
+				}else{
+					infos.find('button.btn_create, button.btn_cancelCreate').show();
+					infos.find('button.btn_save, button.btn_cancel, button.btn_delete').hide();
+				}
 			}
 		},
 
-		Create: function(t){
+		BuildCreate: function(t){
 			var lvl = "10";
 			var article = $("#article");
 			var infos = $("#informations");
@@ -160,7 +206,7 @@ Article.prototype = {
 				var json = {
 					idArticle: -1,
 					idType: 1,
-					idUser: user.s.idUser,
+					idUser: user.s.data.idUser,
 					type: "Article",
 					user: user.s.data.fstName + " " + user.s.data.lstName,
 					dateCreation: Lang[user.GetLangue()].lbl.now,
@@ -171,6 +217,44 @@ Article.prototype = {
 
 				t.UI.Build(t, json);
 				t.Action.Edit(t, json);
+			}
+		},
+
+		Create: function(t){
+			var lvl = "10";
+			var article = $("#article");
+			var motcle = Array();
+
+			if(user.CheckUserAccess(lvl)){
+
+				var content = article.find(".article_content").getCode();
+				var titre = article.find(".article_title_edit").val();
+				var mc = article.find("input.article_listMotCles_edit").tokenInput("get");
+				var categorie = article.find(".article_categorie_edit").val();
+
+				if(content != "" && titre != "" && mc.length && categorie != ""){
+					for(var i = 0; i < mc.length; i++){
+						motcle.push({idArticle: -1, idMotCle: -1, motcle: mc[i].name});
+					}
+
+					var data = {
+						idArticle: -1,
+						idType: 1,
+						idUser: user.s.data.idUser,
+						type: "Article",
+						user: user.s.data.fstName + " " + user.s.data.lstName,
+						dateCreation: Lang[user.GetLangue()].lbl.now,
+						titre: titre,
+						article: content,
+						motcles: motcle,
+						idCategorie: categorie
+					};
+
+					t.Create(data, function(idArticle){
+						t.LoadArticle(idArticle);
+						navigation.GetNavigation(true, null);
+					});
+				}
 			}
 		},
 
@@ -312,6 +396,8 @@ Article.prototype = {
 					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) }; break;
 				case "categorie":
 					return { edit: navigation.Data.PopinDataCategorieEdit(navigation, json, str), del: navigation.Data.PopinDataCategorieDel(navigation, json) }; break;
+				case "user":
+					return { edit: user.Data.PopinDataUserEdit(navigation, json, str), del: user.Data.PopinDataUserDel(navigation, json) }; break;
 			}
 		},
 	},
@@ -337,22 +423,8 @@ Article.prototype = {
 			t.UI.HideLogo(t);
 			menu.UI.BuildCategorie(menu);
 			$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
+			t.UI.HighlightArticles(t);
 		},
-
-		/**
-		 * Méthode UI.BuildCreate
-		 * Workflow de construction de l'article pour un ajout d'article
-		 * @param t:Contexte
-		 */
-		// BuildCreate: function(t){
-		// 	t.UI.Clear(t);
-		// 	t.UI.HeaderCreate(t);
-		// 	t.UI.Content(t, json);
-		// 	t.UI.Commands(t, json);
-		// 	t.UI.HideLogo(t);
-		// 	menu.UI.BuildCategorie(menu);
-		// 	$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
-		// },
 
 		/**
 		 * Méthode UI.Header
@@ -372,21 +444,6 @@ Article.prototype = {
 			insert.append(titre).append(infos).append(mc);
 			$(t.s.bloc).append(insert);
 		},
-
-		/**
-		 * Méthode UI.HeaderCreate
-		 * Construction de l'entête de l'article pour l'ajout d'un article
-		 * @param t:Contexte
-		 */
-		// HeaderCreate: function(t){
-		// 	var insert = $("<div></div>").addClass("article_header");
-		// 	var titre = t.UI.Title(t, json, true);
-		// 	var mc = t.UI.MotCles(t, json, true);
-
-		// 	infos.append(type).append(author).append(date);
-		// 	insert.append(titre).append(infos).append(mc);
-		// 	$(t.s.bloc).append(insert);
-		// },
 
 		/**
 		 * Méthode UI.Title
@@ -491,17 +548,19 @@ Article.prototype = {
 			var access = t.UI.Accessibility(t);
 			var commands = $(t.s.blocCmd);
 			var del = t.UI.BtnDelete(t);
+			var create = t.UI.BtnCreate(t, json);
+			var cclCreate = t.UI.BtnCancelCreate(t);
 			
 			if(retour != null){ commands.append(retour); }
 			if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
+			if(create != null){ commands.append(create); }
 			if(cancel != null){ commands.append(cancel); }
+			if(cclCreate != null){ commands.append(cclCreate); }
 			if(del != null){ commands.append(del); }
 			if(access != null){ commands.append(access); }
 			
 		},
-
-
 
 		/**
 		 * Méthode UI.BtnRetour
@@ -514,7 +573,10 @@ Article.prototype = {
 			var btnClose = null;
 
 			if(user.CheckUserAccess(lvl)){
-				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ t.UI.Close(t); menu.UI.BuildPortail(menu); });
+				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ 
+					t.UI.Close(t); 
+					menu.UI.BuildPortail(menu); 
+				});
 			}
 			return btnClose;
 		},
@@ -532,7 +594,7 @@ Article.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btnModif = $("<button class='btn_modif'>" + Lang[user.GetLangue()].btn.modify + "</button>").attr("value", json.idArticle).on("click", function(){ 
-					t.Action.Edit(t);
+					t.Action.Edit(t, json);
 				});
 			}
 			return btnModif;
@@ -558,6 +620,25 @@ Article.prototype = {
 		},
 
 		/**
+		 * Méthode UI.BtnCreate
+		 * Création du bouton de création de l'article
+		 * @param t:Contexte
+		 * @param json:JSON 		données de l'article
+		 * @return jQueryObject 	objet jQuery correspondant au bouton de modification
+		 */
+		BtnCreate: function(t, json){
+			var lvl = "10";
+			var btnModif = null;
+
+			if(user.CheckUserAccess(lvl)){
+				btnModif = $("<button class='btn_create'>" + Lang[user.GetLangue()].btn.create + "</button>").hide().on("click", function(){ 
+					t.Action.Create(t);
+				});
+			}
+			return btnModif;
+		},
+
+		/**
 		 * Méthode UI.BtnCancel
 		 * Création du bouton d'annulation des modifs de l'article
 		 * @param t:Contexte
@@ -570,6 +651,25 @@ Article.prototype = {
 			if(user.CheckUserAccess(lvl)){
 				btnCancel = $("<button class='btn_cancel'>" + Lang[user.GetLangue()].btn.cancel + "</button>").hide().on("click", function(){ 
 					t.Action.Save(t, true);
+				});
+			}
+			return btnCancel;
+		},
+
+		/**
+		 * Méthode UI.BtnCancel
+		 * Création du bouton d'annulation des modifs de l'article
+		 * @param t:Contexte
+		 * @return jQueryObject 	objet jQuery correspondant au bouton d'annulation
+		 */
+		BtnCancelCreate: function(t){
+			var lvl = "10";
+			var btnCancel = null;
+
+			if(user.CheckUserAccess(lvl)){
+				btnCancel = $("<button class='btn_cancelCreate'>" + Lang[user.GetLangue()].btn.cancel + "</button>").hide().on("click", function(){ 
+					t.UI.Close(t); 
+					menu.UI.BuildPortail(menu); 
 				});
 			}
 			return btnCancel;
@@ -830,6 +930,13 @@ Article.prototype = {
 			}
 
 			return insert;
+		},
+
+		/**
+		 * Test
+		 */
+		HighlightArticles: function(t){
+			$("#article .article_content").highlight("alert");
 		}
 	}
 }

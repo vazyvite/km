@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="./js/jquery.watermark.min.js"></script>
 		<script type="text/javascript" src="./js/redactor.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.tokeninput.js"></script>
+		<script type="text/javascript" src="./js/jquery.SearchHighlight.js"></script>
 		<!-- <script type="text/javascript" src="./js/highcharts.js"></script>
 		<script type="text/javascript" src="./js/grid.js"></script> -->
 		

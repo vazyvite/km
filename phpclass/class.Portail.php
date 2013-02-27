@@ -123,8 +123,6 @@
 			$mysqli = new DB();
 			$user = new User();
 
-			echo "SQL : " . $dbq->createPortail($portail);
-
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
 				$res = $mysqli->Create( $dbq->createPortail($portail));
 			}else{

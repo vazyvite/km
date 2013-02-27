@@ -158,6 +158,66 @@ User.prototype = {
 		return this.s.lang;
 	},
 
+	GetAllUsers: function(fnCallBack){
+		$.ajax({
+
+			url: "phpforms/user.list.php",
+			type: "POST",
+			context: this
+
+		}).done(function(msg){
+
+			var json = $.parseJSON(msg);
+			fnCallBack(json);
+
+		});
+	},
+
+	Update: function(data){
+		$.ajax({
+
+			url: "phpforms/user.update.php",
+			type: "POST", 
+			context: this,
+			data: { idUser: data.idUser, fstName: data.fstName, lstName: data.lstName, email: data.email, role: data.role, login: data.login, pass: data.pass }
+
+		}).done(function(msg){
+			this.Action.Administration(this);
+		});
+	},
+
+	Delete: function(id){
+		if(id == user.s.data.idUser){
+			alert(Lang[user.GetLangue()].msg.err_delete_own_account);
+			return false;
+		}
+
+		$.ajax({
+
+			url: "phpforms/user.delete.php",
+			type: "POST", 
+			context: this,
+			data: { idUser: id }
+
+		}).done(function(msg){
+			this.Action.Administration(this);
+		});
+	},
+
+	Create: function(data){
+
+		$.ajax({
+
+			url: "phpforms/user.create.php",
+			type: "POST", 
+			context: this,
+			data: { fstName: data.fstName, lstName: data.lstName, email: data.email, role: data.role, login: data.login, pass: data.pass }
+
+		}).done(function(msg){
+			this.Action.Administration(this);
+		});
+	},
+
 
 
 
@@ -202,18 +262,58 @@ User.prototype = {
 		SwitchLanguage: function(t){
 			switch(t.s.lang){
 				case "EN":
-					t.s.lang = "FR";
-					break;
-
+					t.s.lang = "FR"; break;
 				case "FR":
 				default: 
-					t.s.lang = "EN";
-					break;
+					t.s.lang = "EN"; break;
 			}
 
 			t.Data.SetCookie(t);
 			setTimeout(function(){ window.location.reload(); }, 500);
-		}
+		},
+
+		/**
+		 * Méthode Action.AdministrationCategorie
+		 * Gestion des Utilisateurs
+		 * @param t:Contexte
+		 */
+		Administration: function(t){
+			articleContent.UI.Clear(articleContent);
+			var list = Array();
+
+			var users = user.GetAllUsers(function(json){
+				var strTabUser = [
+				{ title: Lang[user.GetLangue()].lbl.form_id, key: "idUser", width: 5, lim: null, editable: false }, 
+				{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
+				{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
+				{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
+				{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: true, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
+				{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
+				{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }, 
+				{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null, editable: false }];
+			
+				articleContent.Action.BuildAdmin(articleContent, json, strTabUser, Lang[user.GetLangue()].lbl.admin_user, "user");
+				menu.UI.BuildAdminUser(menu);
+			});
+		},
+
+		/**
+		 * Méthode Action.Create
+		 * Création d'Utilisateur
+		 * @param t:Contexte
+		 * @param caller:jQueryObject 		objet jquery appelant
+		 */
+		Create: function(t, caller){
+			var strTab = [
+			{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
+			{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
+			{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
+			{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: true, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
+			{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: true }, 
+			{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
+			
+			popin = new Popin(t.Data.PopinDataUserCreate(t, caller, strTab), strTab, null);
+		},
 	},
 
 
@@ -328,12 +428,73 @@ User.prototype = {
 			var ca = document.cookie.split(';');
 
 			return {id: $.cookie("idCurrentUser"), pass: $.cookie("passUser"), lang: $.cookie("UserLang") };
+		},
+
+		PopinDataUserEdit: function(t, json, str){
+			return {
+				title: Lang[user.GetLangue()].lbl.modif + " " + json.fstName + " " + json.lstName,
+				content: "",
+				cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+					var data = {
+					 	idUser: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					 	fstName: p.find(".p_" + str[1].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					 	lstName: p.find(".p_" + str[2].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					 	email: p.find(".p_" + str[3].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					 	role: p.find(".p_" + str[4].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					 	login: p.find(".p_" + str[5].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
+					 	pass: p.find(".p_" + str[6].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val()
+					}
+					if(data.idUser != "" && data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
+						user.Update(data);
+						popin.Action.Hide(popin);
+					}
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: true, type: "user"
+			};
+		},
+
+		PopinDataUserDel: function(t, json){
+			return {
+				title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.idUser + "' />",
+				content: "", cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+					var id = p.find(".p_ID").val();
+					if(id != ""){ user.Delete(id); popin.Action.Hide(popin); }
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: false, type: "user"
+			};
+		},
+
+		PopinDataUserCreate: function(t, caller, str){
+			return {
+				title: Lang[user.GetLangue()].lbl.object_create,
+				content: "", cmd: ["valide", "cancel"],
+				onValidate: function(){
+					var p = $(".popin");
+
+					var data = {
+						fstName: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(), 
+						lstName: p.find(".p_" + str[1].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(), 
+						email: p.find(".p_" + str[2].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),  
+						role: p.find(".p_" + str[3].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),  
+						login: p.find(".p_" + str[4].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),  
+						pass: p.find(".p_" + str[5].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val() }
+
+					if(data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
+						user.Create(data);
+						popin.Action.Hide(popin);
+					}
+				},
+				onCancel: null, lvlRequise: "11", closeBtn: false, type: "user", caller: caller
+			};
 		}
 	},
 
 
-
-
+				
 	/**
 	 * Bloc d'Actions UI
 	 * Bloc d'actions liées à la construction d'interfaces

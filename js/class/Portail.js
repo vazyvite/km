@@ -227,7 +227,7 @@ Portail.prototype = {
 		PopinDataPortailEdit: function(t, json, str){
 			return {
 				title: Lang[user.GetLangue()].lbl.modif + " " + json.portail,
-				ontent: "",
+				content: "",
 				cmd: ["valide", "cancel"],
 				onValidate: function(){
 					var p = $(".popin");

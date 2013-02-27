@@ -108,7 +108,7 @@
 						array_push($arr_mc, $m);
 					}
 				}
-				$json = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'motcles' => $arr_mc, 'type' => $typeLibelle, 'idUser' => $article->getIdUser(), 'user' => $userName, 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => html_entity_decode($article->getArticle()), ENT_QUOTES);
+				$json = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'motcles' => $arr_mc, 'type' => html_entity_decode($typeLibelle, ENT_QUOTES), 'idUser' => $article->getIdUser(), 'user' => html_entity_decode($userName, ENT_QUOTES), 'dateCreation' => $article->getDtCreation(), 'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES), 'article' => html_entity_decode($article->getArticle(), ENT_QUOTES));
 			}else{
 				$json = "";
 			}
@@ -162,7 +162,7 @@
 
 		/**
 		 * Méthode DeleteArticle
-		 * Sauve les modifications effectuées sur un article en base
+		 * supprime un article en base
 		 * @param idArticle:Int 			Identifiant de l'article
 		 */
 		function DeleteArticle($idArticle){
@@ -176,6 +176,44 @@
 
 				$motcle = new MotCle();
 				$motcle->DeleteAllMotClesForArticleId($idArticle);
+
+			}else{
+				
+			}
+		}
+
+		/**
+		 * Méthode CreateArticle
+		 * Création d'un article en base
+		 * @param titre:String 			Titre de l'article
+		 * @param idType:Int 			Identifiant du type d'article
+		 * @param idUser:Int 			Identifiant de l'autreur de l'article
+		 * @param idCategorie:Int 		Identifiant de la catégorie de l'article
+		 * @param article:String		Contenu de l'article
+		 * @param motcles:String		Mots clés associés à l'article
+		 */
+		function CreateArticle($titre, $idtype, $iduser, $idcategorie, $article, $motcles){
+			$lvl = "10";
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$user = new User();
+
+			$arr_motcles = explode(";", $motcles);
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+				$res = $mysqli->Create($dbq->createArticle($idtype, $iduser, $idcategorie, $titre, $article));
+
+				$idArticle = $res;
+
+				if($idArticle > 0 && count($arr_motcles) > 0){
+					$mc = new MotCle();
+
+					for($i = 0; $i < count($arr_motcles); $i++){
+						$mc->CreateMotCle($idArticle, $arr_motcles[$i]);
+					}
+				}
+
+				echo $idArticle;
 
 			}else{
 				

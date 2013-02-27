@@ -38,7 +38,6 @@
 			$mysqli->set_charset("utf8");
 
 			if ($mysqli->connect_errno) {
-			  //  echo "Echec lors de la connexion à MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 			    return false;
 			}else{
 				return $mysqli;
@@ -58,9 +57,7 @@
 
 			if($mysqli != false){
 				$res = $mysqli->query($query);
-
 				return ($res->num_rows > 0) ? $res : false;
-
 			}else{
 				return false;
 			}
@@ -79,9 +76,7 @@
 
 			if($mysqli != false){
 				$res = $mysqli->query($query);
-
 				return ($mysqli->errno == 0) ? true : false;
-
 			}else{
 				return false;
 			}
@@ -100,9 +95,7 @@
 
 			if($mysqli != false){
 				$res = $mysqli->query($query);
-
-				return ($mysqli->errno == 0) ? true : false;
-
+				return $mysqli->insert_id;
 			}else{
 				return false;
 			}
@@ -121,9 +114,7 @@
 
 			if($mysqli != false){
 				$res = $mysqli->query($query);
-
 				return ($mysqli->errno == 0) ? true : false;
-
 			}else{
 				return false;
 			}
