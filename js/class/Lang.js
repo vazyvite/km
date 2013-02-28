@@ -31,7 +31,8 @@ var Lang = {
 			form_pass: "Mot de passe",
 			modif: "Modification de ",
 			object_create: "Création",
-			now: "aujourd\'hui"
+			now: "aujourd\'hui",
+			voir_article: "Voir l\'article"
 		},
 		btn: {
 			connect: "Connexion",
@@ -59,6 +60,7 @@ var Lang = {
 			add_categorie: "Ajouter une catégorie",
 			del_categorie: "Supprimer une catégorie",
 			edit_categorie: "Modifier une catégorie",
+			gabarit: "Appliquer le gabarit"
 		},
 		err: {
 			bad_id: "identifiants incorrects",
@@ -102,7 +104,8 @@ var Lang = {
 			form_pass: "Password",
 			modif: "Edit ",
 			object_create: "Creation",
-			now: "today"
+			now: "today",
+			voir_article: "See the article"
 		},
 		btn: {
 			connect: "Connection",
@@ -130,6 +133,7 @@ var Lang = {
 			add_categorie: "Add a new category",
 			del_categorie: "Delete the category",
 			edit_categorie: "Edit the category",
+			gabarit: "Apply the template"
 		},
 		err: {
 			bad_id: "incorrect identifiers",

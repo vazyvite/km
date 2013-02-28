@@ -144,10 +144,9 @@ Recherche.prototype = {
 		Populate: function(t, terms){
 			var lvl = "01";
 
+			$(".searchResults ul").remove();
+
 			if(terms != "" && user.CheckUserAccess(lvl)){
-
-				$(".searchResults ul").remove();
-
 				var insert = $("<div class='searchResults'><ul></ul></div>")
 				$(t.s.bloc).append(insert);
 

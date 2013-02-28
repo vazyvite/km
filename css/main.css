@@ -218,6 +218,13 @@ div.bloc_content { clear:both; width: 100%; }
 .popin .popin_footer { border-top: 1px solid #eee; background: #0A98B0; padding: 10px 5px 10px 5px; text-align: center; }
 .popin .popin_footer button:last-child { margin-right: 0; }
 
-.highlight {
-    background-color: #FFFF88;
-}
+.highlight { /*background-color: #FFFF88;*/ border-bottom: 1px dotted #CA3179; position: relative; cursor: pointer; }
+.highlight .hl_tooltip { display: none; cursor: default; min-width: 200px; font-family: Lato, sans-serif; }
+.highlight:hover .hl_tooltip { display: block; background: #fff; color: #000; position: absolute; top: 15px; left: 5px; z-index: 10; padding: 15px; box-shadow: 0 0 8px #333; }
+.highlight:hover .hl_tooltip h4 { margin: 0 0 5px 0; }
+.highlight:hover .hl_tooltip code { padding: 5px 0 5px 15px; display: block; white-space: nowrap; background-color: #EFEFEF; }
+.highlight:hover .hl_tooltip div.summary { display: block; margin: 5px 0 5px 10px; }
+.highlight:hover .hl_tooltip span { text-decoration: none; color: #1BA9C0; cursor: pointer; margin-top: 10px; padding-top: 5px; display: block; text-align: right; border-top: 1px solid #EFEFEF }
+.highlight:hover .hl_tooltip span:hover { text-decoration: underline; }
+
+.redactor_toolbar li a.redactor_btn_button_template  { background: url(../images/btn_redactor_toolbar_template.png) no-repeat; }

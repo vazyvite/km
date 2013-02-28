@@ -75,6 +75,7 @@ Article.prototype = {
 			var json = $.parseJSON(msg);
 
 			this.LoadArticle(this.s.data.idArticle);
+			navigation.GetNavigation(true, null);
 		});
 	},
 
@@ -134,7 +135,35 @@ Article.prototype = {
 			var arr_mc = Array();
 
 			if(user.CheckUserAccess(lvl)){
-				article.find('.article_content').redactor({ focus: true });
+				// article.find('.article_content').unhighlight().redactor({
+				// 	focus: true
+				// });
+				
+				var gabarit = "<section><code>syntaxe</code></section><div class='summary'>description</div><article>corps de l'article</article><nav>liens vers d'autres articles proches</nav>";
+
+				article.find('.article_content').unhighlight().redactor({
+					focus: true,
+					buttons: ['html', '|', 'formatting', 'button_template', '|', 'bold', 'italic', 'underline', 'deleted', '|', 'fontcolor', 'backcolor', '|', 'alignment', '|', 'unorderedlist', 'orderedlist', 'indent', 'outdent', '|', 'link', 'image', 'video', 'file', 'table', '|', 'horizontalrule'],
+					buttonsCustom: {
+						button_template: {
+							title: Lang[user.GetLangue()].btn.gabarit, 
+							callback: function(obj, event, key) {
+								if(article.find('.article_content').getCode() != ""){
+									if(confirm("En continuant vous allez effacer le contenu de l'article, souhaitez-vous continuer ?")){
+										article.find('.article_content').setCode(gabarit);
+									}
+								}else{
+									article.find('.article_content').setCode(gabarit);
+								}
+							} 
+						}
+           			 }
+				})
+
+				if(json.idArticle == -1){
+					article.find('.article_content').setCode(gabarit);
+				}
+
 				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				
 				var data_mc;
@@ -400,6 +429,34 @@ Article.prototype = {
 					return { edit: user.Data.PopinDataUserEdit(navigation, json, str), del: user.Data.PopinDataUserDel(navigation, json) }; break;
 			}
 		},
+
+		GetDataForHighLightTooltip: function(t, json, cible, idCategorie, categorie){
+			var insert = null;
+
+			for(var i = 0; i < json.length; i++){
+				if(cible.text() == json[i].titre){
+					insert = $("<div></div>");
+					var title = $("<h4></h4>").text(categorie.toLowerCase() + "." + json[i].titre.toLowerCase());
+					var art = json[i].article;
+					var art_html = $("<div></div>").append(art).text();
+					var jq_art = $("<div></div>").append(art_html);
+
+					var syntaxe = $(jq_art).find("section code");
+					var description = $(jq_art).find(".summary");
+
+					var link = $("<span></span>").addClass("tooltip_link").attr("value", json[i].idArticle).text(Lang[user.GetLangue()].lbl.voir_article);
+
+					insert.append(title).append(syntaxe).append(description).append(link);
+				}
+			}
+
+			insert.find(".tooltip_link").on("click", function(){
+				var idArticle = $(this).attr("value");
+				articleContent.LoadArticle(idArticle);
+			});
+
+			return insert;
+		}
 	},
 	
 
@@ -423,7 +480,7 @@ Article.prototype = {
 			t.UI.HideLogo(t);
 			menu.UI.BuildCategorie(menu);
 			$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
-			t.UI.HighlightArticles(t);
+			// t.UI.HighlightArticles(t);
 		},
 
 		/**
@@ -530,8 +587,11 @@ Article.prototype = {
 		 * @param json:JSON 		données de l'article
 		 */
 		Content: function(t, json){
-			var insert = $("<div></div>").addClass("article_content").html(json.article);
-			$(t.s.bloc).append(insert);
+			var content = $(json.article);
+			var container = $("<div></div>").addClass("article_content").append(content);
+			t.UI.HighlightArticles(t, content);
+			
+			$(t.s.bloc).append(container);
 		},
 
 		/**
@@ -933,10 +993,54 @@ Article.prototype = {
 		},
 
 		/**
-		 * Test
+		 * Méthode HighlightArticles
+		 * Encapsule les titre des articles partageant la même catégorie
+		 * @param t:Contexte
+		 * @param cible:jQueryObject 		objet jquery correspondant à l'élément dans lequel on doit rechercher les termes
 		 */
-		HighlightArticles: function(t){
-			$("#article .article_content").highlight("alert");
+		HighlightArticles: function(t, cible){
+			var idCategorie = t.s.data.idCategorie;
+			var terms = Array();
+			var termsStr = Array();
+			var className = "highlight";
+
+			for(var i = 0; i < navigation.s.data.length; i++){
+				if(navigation.s.data[i].id == idCategorie){
+					terms = navigation.s.data[i].articles;
+					categorie = navigation.s.data[i].categorie;
+					break;
+				}
+			}
+
+			if(terms.length){
+				for(var i = 0; i < terms.length; i ++){
+					termsStr.push(terms[i].titre);
+				}
+
+				cible.highlight(termsStr, { wordsOnly: true });
+				t.UI.BuildHighLightTooltip(t, cible, className, terms, idCategorie, categorie);
+			}
+		},
+
+		/**
+		 * Méthode BuildHighLightTooltip
+		 * Attache une tooltip à chaque élément highlighté
+		 * @param t:Contexte
+		 * @param cible:jQueryObject 		objet jquery sur lequel s'exécute la fonction d'HighLight
+		 * @param json:JSON 				données concernant les articles
+		 */
+		BuildHighLightTooltip: function(t, cible, className, json, idCategorie, categorie){
+			var cN = cible.find("." + className);
+			
+			if(cN.size()){
+				cN.each(function(){
+					var insert = $("<div></div>").addClass("hl_tooltip");
+
+					insert.html(t.Data.GetDataForHighLightTooltip(t, json, $(this), idCategorie, categorie));
+
+					$(this).append(insert);
+				});
+			}
 		}
 	}
 }
