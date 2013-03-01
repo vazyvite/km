@@ -234,10 +234,17 @@
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
 
 				for($i = 0; $i < count($arr_motcles); $i++){
-					array_push($json, $this->GetMatchingArticles($idCategorie, $arr_motcles[$i]));
-				}
 
-				echo json_encode(array_unique($json));
+					$matching_articles = $this->GetMatchingArticles($idCategorie, $arr_motcles[$i]);
+
+					for($j = 0; $j < count($matching_articles); $j++){
+						if(!in_array($matching_articles[$j], $json)){
+							array_push($json, $matching_articles[$j]);
+						}
+					}
+					
+				}
+				echo json_encode($json);
 			}else{
 
 			}

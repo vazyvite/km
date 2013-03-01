@@ -69,6 +69,22 @@
 			echo json_encode($json);
 		}
 
+		function GetCategorieById($id_categorie){
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+
+			$res = $mysqli->Query($dbq->getCategorieById($id_categorie));
+
+			if($res != false){
+				while($f = $res->fetch_assoc()){
+					$p = new Categorie($f['idCategorie'], $f['idPortail'], $f['categorie'], $f['description']);
+				}
+				return $p;
+			}else{
+				return null;
+			}
+		}
+
 		/**
 		 * Méthode GetAllArticlesForCategorie
 		 * Renvoie la liste des articles pour une catégorie

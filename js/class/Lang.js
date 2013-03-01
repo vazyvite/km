@@ -64,11 +64,12 @@ var Lang = {
 			add_categorie: "Ajouter une catégorie",
 			del_categorie: "Supprimer une catégorie",
 			edit_categorie: "Modifier une catégorie",
-			gabarit: "Appliquer le gabarit stadard",
+			gabarit: "Appliquer le gabarit standard",
 			syntaxe: "Insérer un bloc de syntaxe",
 			resume: "Insérer un bloc de résumé",
 			article: "Insérer un bloc d&apos;article",
 			nav: "Insérer un bloc d&apos;association",
+			pdf: "PDF"
 		},
 		err: {
 			bad_id: "identifiants incorrects",
@@ -150,6 +151,7 @@ var Lang = {
 			resume: "Insert a description bloc",
 			article: "Insert an article bloc",
 			nav: "Insert an association bloc",
+			pdf: "PDF"
 		},
 		err: {
 			bad_id: "incorrect identifiers",

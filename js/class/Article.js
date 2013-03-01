@@ -139,7 +139,8 @@ Article.prototype = {
 
 			}).done(function(msg){
 
-				var json = $.parseJSON(msg)[0];
+				var json = $.parseJSON(msg);
+				// var json = $.parseJSON(msg)[0];
 				fnCallBack(json);
 			});
 		}
@@ -167,6 +168,8 @@ Article.prototype = {
 					//navigation: "<nav title='" + Lang[user.GetLangue()].lbl.near_articles + "'>liens vers d'autres articles proches</nav>"
 					navigation: ""
 				};
+
+				article.find('.article_content nav').remove();
 
 				article.find('.article_content').unhighlight().redactor({
 					focus: true,
@@ -280,7 +283,7 @@ Article.prototype = {
 
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
-				infos.find('button.btn_modif').hide();
+				infos.find('button.btn_modif, button.btn_pdf').hide();
 				access.hide();
 
 				if(json.idArticle != -1){
@@ -518,10 +521,11 @@ Article.prototype = {
 					var link = $("<span></span>").addClass("tooltip_link").attr("value", json[i].idArticle).text(Lang[user.GetLangue()].lbl.voir_article);
 
 					insert.append(title).append(syntaxe).append(description).append(link);
+
 				}
 			}
-
-			insert.find(".tooltip_link").on("click", function(){
+			var tooltip = insert.find(".tooltip_link");
+			tooltip.on("click", function(){
 				var idArticle = $(this).attr("value");
 				articleContent.LoadArticle(idArticle);
 			});
@@ -550,8 +554,8 @@ Article.prototype = {
 			t.UI.Commands(t, json);
 			t.UI.HideLogo(t);
 			menu.UI.BuildCategorie(menu);
+			
 			$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
-			// t.UI.HighlightArticles(t);
 		},
 
 		/**
@@ -667,6 +671,21 @@ Article.prototype = {
 					t.GetAssociatedArticles(t.s.data.motcles, function(json_assoc){
 						t.UI.ShowAssociatedArticles(t, content, json_assoc);
 						t.UI.HighlightArticles(t, content);
+
+						$(t.s.bloc).find(".highlight").on("mouseover", function(){
+							var child = $(this).find(".hl_tooltip");
+							if($(this).offset().left + child.outerWidth(true) >= $(window).width() - 37){
+								child.css("left", $(window).width() - (child.outerWidth(true) + $(this).offset().left + 37) + "px");
+							}else{
+								child.css("left", "5px");
+							}
+
+							if($(this).offset().top + child.find(".hl_tooltip").outerHeight(true) >= $(window).height()){
+								child.css("top", $(window).height() - (child.outerHeight(true) + $(this).offset().top + 37) + "px");
+							}else{
+								child.css("top", $(this).height() + "px");
+							}
+						});
 					});
 				}
 			}
@@ -690,6 +709,7 @@ Article.prototype = {
 			var del = t.UI.BtnDelete(t);
 			var create = t.UI.BtnCreate(t, json);
 			var cclCreate = t.UI.BtnCancelCreate(t);
+			var pdf = t.UI.BtnPDF(t, json);
 			
 			if(retour != null){ commands.append(retour); }
 			if(modif != null){ commands.append(modif); }
@@ -698,6 +718,7 @@ Article.prototype = {
 			if(cancel != null){ commands.append(cancel); }
 			if(cclCreate != null){ commands.append(cclCreate); }
 			if(del != null){ commands.append(del); }
+			if(pdf != null){ commands.append(pdf); }
 			if(access != null){ commands.append(access); }
 			
 		},
@@ -735,6 +756,25 @@ Article.prototype = {
 			if(user.CheckUserAccess(lvl)){
 				btnModif = $("<button class='btn_modif'>" + Lang[user.GetLangue()].btn.modify + "</button>").attr("value", json.idArticle).on("click", function(){ 
 					t.Action.Edit(t, json);
+				});
+			}
+			return btnModif;
+		},
+
+		/**
+		 * Méthode UI.BtnPDF
+		 * Création du bouton de modification de l'article
+		 * @param t:Contexte
+		 * @param json:JSON 		données de l'article
+		 * @return jQueryObject 	objet jQuery correspondant au bouton de modification
+		 */
+		BtnPDF: function(t, json){
+			var lvl = "10";
+			var btnModif = null;
+
+			if(user.CheckUserAccess(lvl)){
+				btnModif = $("<button class='btn_pdf'>" + Lang[user.GetLangue()].btn.pdf + "</button>").attr("value", json.idArticle).on("click", function(){
+						window.open('./phpforms/article.exportPDF.php?idArticle=' + $(this).attr("value"), '_blank');
 				});
 			}
 			return btnModif;
@@ -1133,7 +1173,9 @@ Article.prototype = {
 				}
 			}
 
-			cible.add(insert);
+			t.UI.HighlightArticles(t, insert);
+
+			cible.last().after(insert);
 		}
 	}
 }
