@@ -185,7 +185,7 @@ div.bloc_content { clear:both; width: 100%; }
 .dialog .dialog_closebtn { float: right; background: #333 url("../images/del_btn.png") no-repeat 0 top; background-size: cover; width: 30px; height: 30px; cursor: pointer; }
 .dialog .dialog_title { color: #333; font-size: 1.5em; margin-bottom: 15px; padding: 0 15px 0 5px; background-color: #1BA9C0; border-bottom: 1px solid #0987A0; }
 .dialog .dialog_content { width: 100%; font-size: .9em; }
-.dialog .dialog_error { width: 100%; font-size: .9em; color: red; padding: 0 15px 0 15px; display: none; }
+.dialog_error { width: 100%; font-size: .9em; color: #D51816!important; padding: 0 15px 0 15px; display: none;  }
 
 .dialog.dialog_undefined,
 .dialog.dialogUserConnexion { width: 350px; }
@@ -208,7 +208,7 @@ div.bloc_content { clear:both; width: 100%; }
 .form_line .form_input input[maxlength],
 .form_line .form_input select[maxlength] { width: auto; max-width: 95%; }
 .form_line.last { margin-bottom: 15px; }
-.form_valid_single { width: 100%; clear: both; text-align: center; padding: 8px 0 7px 0; border-top: 1px solid #CCC; background-color: #efefef; border-radius: 0 0 15px 15px; }
+.form_valid_single { width: 100%; clear: both; text-align: center; padding: 8px 0 7px 0; border-top: 1px solid #1BA9C0; /*background-color: #efefef; border-radius: 0 0 15px 15px;*/ }
 
 
 .return_btn { background: url(../images/ptr_left.png) no-repeat 3px 8px; min-height: 11px; min-width: 12px; padding-left: 16px; }
@@ -217,13 +217,24 @@ div.bloc_content { clear:both; width: 100%; }
 /**
  * CSS popin
  */
-.popin { background: #1BA9C0; color: #fff; position: fixed; z-index: 10001; top: 20%; min-width: 500px; box-shadow: 0 0 8px 3px #333; }
+/*.popin { background: #1BA9C0; color: #fff; position: fixed; z-index: 10001; top: 20%; min-width: 500px; box-shadow: 0 0 8px 3px #333; }
 .popin .popin_header { padding: 5px 45px 5px 45px; height: 30px; background: url(../images/edit_btn_hover.png) no-repeat 3px 2px; font-size: 1.05em; text-transform: uppercase; border-bottom: 1px solid #eee; }
 .popin .popin_header.portail { background: url(../images/admin_portail_btn_hover.png) no-repeat 3px 2px; }
 .popin .popin_header.categorie { background: url(../images/admin_categorie_btn_hover.png) no-repeat 3px 2px; }
 .popin .popin_closebtn { height: 35px; width: 35px; background: url(../images/del_btn_hover.png) no-repeat; position: absolute; top: 2px; right: 3px; cursor: pointer; }
 .popin .popin_body { padding: 20px 5px 40px 5px; background: #2CBAD1; }
 .popin .popin_footer { border-top: 1px solid #eee; background: #0A98B0; padding: 10px 5px 10px 5px; text-align: center; }
+.popin .popin_footer button:last-child { margin-right: 0; }*/
+
+.popin { background: #FFF; color: #1BA9C0; position: fixed; z-index: 10001; top: 20%; min-width: 500px; box-shadow: 0 0 8px 3px #333; padding: 0 15px 15px 15px; }
+.popin.fixed { box-shadow: 0 0 8px 3px #AAA; }
+.popin .popin_header { padding: 9px 45px 0 45px; height: 30px; background: url(../images/edit_btn.png) no-repeat 3px 2px; font-size: 1.1em; text-transform: uppercase; /*border-bottom: 1px solid #1BA9C0;*/ font-weight: bold; color: #777; }
+.popin .popin_header.portail { background: url(../images/admin_portail_btn.png) no-repeat 3px 2px; }
+.popin .popin_header.categorie { background: url(../images/admin_categorie_btn.png) no-repeat 3px 2px; }
+.popin .popin_header.user { background: url(../images/admin_user_btn.png) no-repeat 3px 2px; }
+.popin .popin_closebtn { height: 35px; width: 35px; background: url(../images/del_btn.png) no-repeat; position: absolute; top: 2px; right: 3px; cursor: pointer; }
+.popin .popin_body { padding: 20px 5px 20px 5px; /*background: #2CBAD1;*/ }
+.popin .popin_footer { border-top: 1px solid #1BA9C0; /*background: #0A98B0;*/ padding: 10px 5px 10px 5px; text-align: center; }
 .popin .popin_footer button:last-child { margin-right: 0; }
 
 #article .article_content .highlight { /*background-color: #FFFF88;*/ border-bottom: 1px dotted #CA3179; position: relative; cursor: pointer; }
@@ -248,5 +259,11 @@ div.bloc_content { clear:both; width: 100%; }
 .redactor_toolbar li a.redactor_btn_button_navigation { background: url(../images/btn_redactor_toolbar_linked.png) no-repeat; }
 
 
-button.btn_pdf { background: url("../images/bg_btn_pdf.png") no-repeat left center; border: 1px solid #D51816; /*box-shadow: inset 0 0 0 1px #D51816, inset 0 0 0 2px #fff, 0 0 0 1px #D51816;*/ padding-left: 30px; }
-button.btn_pdf:hover { background: url("../images/bg_btn_pdf.png") no-repeat left center; border: 1px solid #A01816; /*box-shadow: inset 0 0 0 1px #A01816, inset 0 0 0 2px #fff,  0 0 0 1px #A01816;*/ padding-left: 30px; }
+button.btn_pdf { background: #fff url("../images/bg_btn_pdf.png") no-repeat left center; border: 1px solid #D51816; /*box-shadow: inset 0 0 0 1px #D51816, inset 0 0 0 2px #fff, 0 0 0 1px #D51816;*/ padding-left: 30px; }
+button.btn_pdf:hover { background: #fff url("../images/bg_btn_pdf.png") no-repeat left center; border: 1px solid #333; /*box-shadow: inset 0 0 0 1px #A01816, inset 0 0 0 2px #fff,  0 0 0 1px #A01816;*/ padding-left: 30px; }
+
+#article .connectBloc { position: absolute; width: 30%; padding: 0 15% 0 15%; }
+#article .connectBloc.left { left: 0; background: url(../images/logo_large.png) no-repeat center center; background-size: 50%; }
+#article .connectBloc.right { right: 0; }
+#article .connectBloc.right .form_line:first-child:before { content: "Connexion"; display: block; clear: both; margin: 25px 0 20px 0; font-weight: bold; color: #777; font-size: 1.1em; }
+#article .connectBloc.right .form_connect { margin-top: 50%; border: 1px solid #DDD; background: #FFF; padding: 0 15px 15px 15px; color: #1BA9C0; box-shadow: 0 0 8px #AAA; }

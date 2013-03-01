@@ -769,7 +769,7 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton de modification
 		 */
 		BtnPDF: function(t, json){
-			var lvl = "10";
+			var lvl = "01";
 			var btnModif = null;
 
 			if(user.CheckUserAccess(lvl)){

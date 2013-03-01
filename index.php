@@ -69,7 +69,7 @@
 					<div id="title"></div>
 					<div id="informations"></div>
 					<div id="article"></div>
-					<div id="logos">KM<span>v0.2</span></div>
+					<div id="logos">KM<span>v0.9</span></div>
 				</div>
 
 			</div>

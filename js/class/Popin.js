@@ -225,11 +225,11 @@ Popin.prototype = {
 		},
 
 		PopinPositionNearCaller: function(t){
-			var popin = $(".popin");
+			var popin = $(".popin").addClass("fixed");
 			if(t.s.caller && typeof t.s.caller == "object"){
 
 				popin.css(
-				{ 	"left": t.s.caller.offset().left,
+				{ 	"left": t.s.caller.offset().left - 18,
 					"top": -1000,
 					"z-index": 9
 				}).animate({"top": t.s.caller.position().top + t.s.caller.outerHeight(true) + 5}, 300)

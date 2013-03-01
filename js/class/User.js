@@ -48,6 +48,8 @@ User.prototype = {
 
 		var user = this.Data.GetCookie(this);
 
+		$("#logos").html(Lang["app"].appName + "<span>v" + Lang["app"].appVersion + "</span>");
+
 		if(user.lang != null){
 			this.s.lang = user.lang;
 		}
@@ -55,7 +57,7 @@ User.prototype = {
 		if(user.id != null && user.pass != null){
 			this.ConnectById(user.id, user.pass);
 		}else{
-			this.UI.ConnectText(this);
+			this.UI.ConnectText(this, true);
 		}
 	},
 
@@ -83,8 +85,9 @@ User.prototype = {
 			if(msg != ""){
 				var json = $.parseJSON(msg);
 				this.Action.Connect(this, json);
+				$("#article .connectBloc").remove();
 			}else{		// erreur de connexion
-				this.s.dialogue.connexion.DisplayError(Lang[this.GetLangue()].err.bad_id);
+				this.UI.DisplayError(Lang[this.GetLangue()].err.bad_id);
 			}
 		});
 	},
@@ -110,7 +113,7 @@ User.prototype = {
 				var json = $.parseJSON(msg);
 				this.Action.Connect(this, json);
 			}else{		// erreur de connexion
-				this.UI.ConnectText(this);
+				this.UI.ConnectText(this, true);
 			}
 
 		});
@@ -128,7 +131,7 @@ User.prototype = {
 			type: "POST",
 			context: this
 		}).done(function(){
-			this.UI.ConnectText(this);
+			this.UI.ConnectText(this, false);
 		});
 	},
 
@@ -257,6 +260,10 @@ User.prototype = {
 			t.Data.Disconnect(t);
 			t.UI.UserInfos(t);
 			t.UI.ClearInterface(t);
+
+			setTimeout(function(){
+				t.UI.DialogConnexion(t);
+			}, 1000);
 
 			menu.UI.Clear(menu);
 		},
@@ -512,13 +519,22 @@ User.prototype = {
 		 * Permet d'afficher les commandes de connexion dans le bloc de connexion
 		 * @param t:Contexte
 		 */
-		ConnectText: function(t){
-			var html = "<div class='action_user_connexion'>" + Lang[t.GetLangue()].btn.connect + "</div>";
+		ConnectText: function(t, showConnectForm){
+			var html = "<div class='action_user_connexion'>" + Lang["app"].appName + " <sup>v" + Lang["app"].appVersion + "</sup></div>";
 			$(t.s.content).html(html);
 
-			$(t.s.btn_connexion).on("click", function(){
+			if(showConnectForm){
 				t.UI.DialogConnexion(t);
-			});
+			}
+		},
+
+		/**
+		 * Méthode DisplayError
+		 * Affiche une erreur dans la boite de dialogue
+		 * @param error:String		Contenu de l'erreur à afficher
+		 */
+		DisplayError: function(error){
+			$(".connectBloc").find(".dialog_error").html(error).show(300);
 		},
 
 		/**
@@ -527,17 +543,28 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		DialogConnexion: function(t){
-			t.s.dialogue.connexion = new Dialog({
-				title: "Connexion", 
-				content:"<div class='form_line'><div class='form_label'>" + Lang[t.GetLangue()].lbl.log + " :</div><div class='form_input'><input type='text' id='user_dialog_login' value='' /></div></div><div class='form_line last'><div class='form_label'>" + Lang[t.GetLangue()].lbl.mdp + " : </div><div class='form_input'><input type='password' id='user_dialog_password' value='' /></div></div><div class='form_valid_single'><button class='dialogValidationConnexion'>" + Lang[t.GetLangue()].btn.connect + "</button></div>",
-				class: t.s.dialogue.connexionClass,
-				modal: true,
-				type: 1 // UserConnexion
+			var parent = $("#article");
+
+			h = $("body").innerHeight() - $("#informations").outerHeight(true) - $("#header").outerHeight(true) - 15;
+
+			var bloc_left = $("<div></div>").addClass('connectBloc left').height(h);
+			var bloc_right = $("<div></div>").addClass('connectBloc right').height(h);
+			var content = $("<div class='form_connect'><div class='form_line'><div class='form_label'>" + Lang[t.GetLangue()].lbl.log + "</div><div class='form_input'><input type='text' id='user_dialog_login' value='' /></div></div><div class='form_line last'><div class='form_label'>" + Lang[t.GetLangue()].lbl.mdp + "</div><div class='form_input'><input type='password' id='user_dialog_password' value='' /></div></div><div class='dialog_error'></div><div class='form_valid_single'><button class='dialogValidationConnexion'>" + Lang[t.GetLangue()].btn.connect + "</button></div></div>");
+			
+			content.find("button").on("click", function(){
+				var login = $("#user_dialog_login").val();
+				var mdp = $("#user_dialog_password").val();
+				t.Connect(login, mdp);
 			});
+
+			bloc_right.append(content);
+			parent.append(bloc_left).append(bloc_right);
+
+			parent.css("opacity", 0).animate({"opacity": 1}, 300);
 		},
 
 		HideDialogConnexion: function(t){
-			t.s.dialogue.connexion.Hide($("." + t.s.dialogue.connexionClass));
+			// t.s.dialogue.connexion.Hide($("." + t.s.dialogue.connexionClass));
 		},
 
 		/**

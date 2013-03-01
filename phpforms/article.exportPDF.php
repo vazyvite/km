@@ -36,7 +36,7 @@
 
 		$date = $a->getDtCreation();
 		if($date != null){
-			TraceSimpleElement($PDF, 5, "date de creation : ", date('d/m/Y', strtotime($date)), 0, 0, 'L', 10, '', false);
+			TraceSimpleElement($PDF, 5, "date de creation : ", $date, 0, 0, 'L', 10, '', false);
 		}
 
         $html = html_entity_decode($a->GetArticle(), ENT_QUOTES);

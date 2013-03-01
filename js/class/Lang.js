@@ -1,4 +1,8 @@
 var Lang = {
+	app: {
+		appName: "KM",
+		appVersion: 0.9
+	},
 	FR: {
 		lst: {
 			usr_role: Array("Aucun", "Lecteur", "Constributeur", "Administrateur"),
@@ -69,7 +73,7 @@ var Lang = {
 			resume: "Insérer un bloc de résumé",
 			article: "Insérer un bloc d&apos;article",
 			nav: "Insérer un bloc d&apos;association",
-			pdf: "PDF"
+			pdf: "Export PDF"
 		},
 		err: {
 			bad_id: "identifiants incorrects",
@@ -151,7 +155,7 @@ var Lang = {
 			resume: "Insert a description bloc",
 			article: "Insert an article bloc",
 			nav: "Insert an association bloc",
-			pdf: "PDF"
+			pdf: "Export PDF",
 		},
 		err: {
 			bad_id: "incorrect identifiers",

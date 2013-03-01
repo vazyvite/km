@@ -35,7 +35,7 @@
 			$this->setIdType($idType);
 			$this->setIdUser($idUser);
 			$this->setIdCategorie($idCategorie);
-			$this->setDtCreation($date_creation);
+			$this->setDtCreation(date('d/m/Y', strtotime($date_creation)));
 			$this->setTitre($titre);
 			$this->setArticle($article);
 			$this->setMotCles($motcles);

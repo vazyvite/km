@@ -198,12 +198,12 @@ Menu.prototype = {
 			if(user.s.data.role != null){
 				var retour = t.UI.Btn_Retour(t);
 				var addUser = t.UI.Btn_AddUser(t);
-				var adminUser = t.UI.Btn_AdminUser(t);
+				// var adminUser = t.UI.Btn_AdminUser(t);
 
 				var m = $(t.s.bloc).find("ul");
 
 				if(retour != null) { m.append(retour); }
-				if(adminUser != null) { m.append(adminUser); }
+				// if(adminUser != null) { m.append(adminUser); }
 				if(addUser != null) { m.append(addUser); }
 			}
 		},
