@@ -50,6 +50,23 @@ Article.prototype = {
 		});
 	},
 
+	GetArticleByUser: function(iduser){
+		$.ajax({
+
+			url: "phpforms/article.listUser.php",
+			type: "POST",
+			data: {idUser:iduser},
+			datatype: "json",
+			context: this
+
+		}).done(function(msg){
+
+			var json = $.parseJSON(msg);
+			this.UI.BuildHome(this, json);
+
+		});
+	},
+
 	UpdateArticle: function(){
 		var data = this.s.data;
 		var idmc = Array();
@@ -736,7 +753,7 @@ Article.prototype = {
 			if(user.CheckUserAccess(lvl)){
 				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ 
 					t.UI.Close(t); 
-					menu.UI.BuildPortail(menu); 
+					menu.UI.BuildPortail(menu);
 				});
 			}
 			return btnClose;
@@ -923,9 +940,17 @@ Article.prototype = {
 		 * Suppression des infos de l'article dans l'IHM
 		 * @param t:Contexte
 		 */
-		Close: function(t){
+		Close: function(t, fnCallBack){
+			if(fnCallBack == undefined){
+				fnCallBack = null;
+			}
 			t.Data.SetJSON(t, null);
-			$("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ $(this).css({"position": "absolute","right":0}); t.UI.Clear(t); t.UI.ShowLogo(t); });
+			$("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
+				$(this).css({"position": "absolute","right":0});
+				t.UI.Clear(t);
+				t.UI.ShowLogo(t);
+				if(fnCallBack) { fnCallBack(); }
+			});
 		},
 
 		/**
@@ -1176,6 +1201,28 @@ Article.prototype = {
 			t.UI.HighlightArticles(t, insert);
 
 			cible.last().after(insert);
+		},
+
+		BuildHome: function(t, json){
+			for(var i = 0; i < json.length; i++){
+				var article = json[i];
+				t.UI.TraceHomeTuileArticle(t, article);
+			}
+		},
+
+		TraceHomeTuileArticle: function(t, article){
+			var insert = $("<div></div>").addClass("tuile").attr("value", article.idArticle);
+
+			var title = $("<div></div>").addClass("tuile_title").text(article.titre);
+
+			var art = article.article;
+			var art_html = $("<div></div>").append(art).text();
+			var jq_art = $("<div></div>").append(art_html);
+
+			var description = $("<div></div>").addClass("tuile_content").html(jq_art.find("aside"));
+
+			insert.append(title).append(description);
+			$("#article").append(insert);
 		}
 	}
 }

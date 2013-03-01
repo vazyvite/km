@@ -57,6 +57,7 @@
 		const DB_ARTICLE_LIST = 	"SELECT * FROM article WHERE idCategorie = '{{IDCATEGORIE}}'";
 		const DB_ARTICLE_BYID = 	"SELECT * FROM article WHERE idArticle = '{{IDARTICLE}}'";
 		const DB_ARTICLE_BYTERMS = 	"SELECT A.idArticle, A.idType, A.idUser, A.dt_creation, A.idCategorie, A.titre, A.article, C.idCategorie, C.categorie FROM article A INNER JOIN categorie C ON A.idCategorie = C.idCategorie LEFT OUTER JOIN motcle M ON A.idArticle = M.idArticle  WHERE C.idPortail = {{IDPORTAIL}} AND ((A.titre LIKE '%{{TERMS}}%' OR A.article LIKE '%{{TERMS}}%' ) OR M.motcle LIKE '%{{TERMS}}%')";
+		const DB_ARTICLE_BYUSER = 	"SELECT * FROM article WHERE idUser = '{{IDUSER}}'";
 		const DB_ARTICLE_CREATE = 	"INSERT INTO article (idType, idUser, idCategorie, titre, article) VALUES ('{{IDTYPE}}', '{{IDUSER}}', '{{IDCATEGORIE}}', '{{TITRE}}', '{{ARTICLE}}')";
 		const DB_ARTICLE_UPDATE = 	"UPDATE article SET titre='{{TITLEARTICLE}}', article='{{CONTENTARTICLE}}' WHERE idArticle = '{{IDARTICLE}}'";
 		const DB_ARTICLE_DELETE = 	"DELETE FROM article WHERE idArticle = '{{IDARTICLE}}'";
@@ -65,6 +66,7 @@
 		function getAllArticle(){ return DBQuery::DB_ARTICLE_ALL; }
 		function getListArticle($id_categorie){ return str_replace(array("{{IDCATEGORIE}}"), array($id_categorie), DBQuery::DB_ARTICLE_LIST); }
 		function getArticleById($id_article){ return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_ARTICLE_BYID); }
+		function getArticleByUser($id_user){ return str_replace(array("{{IDUSER}}"), array($id_user), DBQuery::DB_ARTICLE_BYUSER); }
 		function getListArticleByTerms($id_portail, $terms){ return str_replace(array("{{IDPORTAIL}}", "{{TERMS}}"), array($id_portail, $terms), DBQuery::DB_ARTICLE_BYTERMS); }
 		function createArticle($id_type, $id_user, $id_categorie, $titre, $article){ return str_replace(array("{{IDTYPE}}", "{{IDUSER}}", "{{IDCATEGORIE}}", "{{TITRE}}", "{{ARTICLE}}"), array($id_type, $id_user, $id_categorie, $titre, $article), DBQuery::DB_ARTICLE_CREATE); }
 		function updateArticle($id_article, $titre, $content){ return str_replace(array("{{TITLEARTICLE}}", "{{CONTENTARTICLE}}", "{{IDARTICLE}}"), array($titre, $content, $id_article), DBQuery::DB_ARTICLE_UPDATE); }

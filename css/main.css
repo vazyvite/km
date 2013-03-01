@@ -267,3 +267,37 @@ button.btn_pdf:hover { background: #fff url("../images/bg_btn_pdf.png") no-repea
 #article .connectBloc.right { right: 0; }
 #article .connectBloc.right .form_line:first-child:before { content: "Connexion"; display: block; clear: both; margin: 25px 0 20px 0; font-weight: bold; color: #777; font-size: 1.1em; }
 #article .connectBloc.right .form_connect { margin-top: 50%; border: 1px solid #DDD; background: #FFF; padding: 0 15px 15px 15px; color: #1BA9C0; box-shadow: 0 0 8px #AAA; }
+
+.tuile { float: left; margin: 7px; background: #FFF; padding: 5px; box-shadow: 0 0 8px #AAA; color: #fff; overflow: hidden; text-overflow: ellipsis; height: 150px; width: 150px; 
+-webkit-transform: rotateY(0deg); -webkit-animation: myfirst 1s;
+}
+.tuile .tuile_title { color: #1BA9C0; font-weight: bold; display: block; margin-bottom: 15px; }
+.tuile .tuile_content { color: #333; font-size: 0.8em; }
+
+.tuile:hover { background: #1BA9C0; box-shadow: 0 5px 8px #AAA; position: relative; top: -5px; cursor: pointer; }
+.tuile:hover .tuile_title { color: #FFF; }
+.tuile:hover .tuile_content { color: #EFEFEF; }
+
+@keyframes myfirst
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+from {-moz-transform: rotateY(90deg);}
+to {-moz-transform: rotateY(0deg);}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+from {-webkit-transform: rotateY(90deg);}
+to {-webkit-transform: rotateY(0deg);}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+from {-o-transform: rotateY(90deg);}
+to {-o-transform: rotateY(0deg);}
+}

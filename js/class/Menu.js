@@ -222,7 +222,9 @@ Menu.prototype = {
 					portail.Action.Reset(portail);
 
 					if(articleContent){
-						articleContent.UI.Close(articleContent);
+						articleContent.UI.Close(articleContent, function(){
+							articleContent.GetArticleByUser(user.s.data.idUser);
+						});
 					}
 
 					t.UI.BuildEmpty(t);

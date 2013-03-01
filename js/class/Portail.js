@@ -24,7 +24,9 @@ Portail.prototype = {
 	 * Méthode d'initialisation de la class User
 	 */
 	Init: function(){
-		this.GetAllPortail(true);
+		this.GetAllPortail(true, function(){
+			articleContent.GetArticleByUser(user.s.data.idUser);
+		});
 	},
 
 	/** 
@@ -58,7 +60,8 @@ Portail.prototype = {
 					if(show){
 						this.s.listPortail = json;
 						this.UI.PortailList(this);
-					}else{
+					}
+					if(fnCallback != undefined){
 						fnCallback(json);
 					}
 				}

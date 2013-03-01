@@ -87,6 +87,32 @@
 		}
 
 		/**
+		 * Méthode GetArticleByUser
+		 * Récupère l'article pour un utilisateur donné
+		 * @package DB, DBQuery, Article
+		 * @param idUser:Int 			Identifiant de l'utilisateur
+		 * @return article:Article 		Articles
+		 */
+		function GetArticleByUser($idUser){
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$res = $mysqli->Query($dbq->getArticleByUser($idUser));
+			$list = array();
+
+			if($res != false){
+
+				while($f = $res->fetch_assoc()){
+					$a = $this->FormatArticleData($f);
+					array_push($list, $a);
+				}
+			}else{
+				$list = null;
+			}
+
+			return $list;
+		}
+
+		/**
 		 * Méthode BuildArticlesForJS
 		 * Retourne les données correspondant à un Article sous forme de JSON
 		 * @param idArticle:Int 		Identifiant de l'article

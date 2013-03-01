@@ -41,6 +41,25 @@
 		}
 
 		/**
+		 * Méthodes GetSearchResultsForIdUser
+		 * Permet de lancer une recherche d'articles à partir des idUsers
+		 * @package DB, DBQuery, Portail, ResultsList, Article
+		 * @param $idPortail:Int 			correspond à l'identifiant de l'objet Portail pour lequel on souhaite construire l'arborescence
+		 * @param $terms:String 			correspond à aux termes utilisés par la recherche
+		 * @return $recherche:Recherche 	objet Recherche rempli
+		 */
+		function GetSearchResultsForIdUser($idUser){
+			$article = new Article();
+			$listArt = array();
+			$recherche = new Recherche();
+
+			$listArt = $article->GetArticleByUser($idUser);
+			$recherche->setListResults($listArt);
+
+			return $recherche;
+		}
+
+		/**
 		 * Méthodes BuildResultsForJS
 		 * Permet de construire les résultats d'une recherche
 		 * @package DB, DBQuery, Portail, ResultList, Article
@@ -51,11 +70,11 @@
 			$json = array();
 			$list_results = $recherche->getListResults();
 			$added = array();
-
+			
 			if(count($list_results) > 0){
 				foreach ($list_results as $article) {
 					if(array_search($article->getIdArticle(), $added) === false){
-						$a = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+						$a = array('idArticle' => $article->getIdArticle(), 'idCategorie' => $article->getIdCategorie(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
 						array_push($added, $article->getIdArticle());
 						array_push($json, $a);
 					}
