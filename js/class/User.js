@@ -173,7 +173,7 @@ User.prototype = {
 		});
 	},
 
-	Update: function(data){
+	Update: function(data, reload){
 		$.ajax({
 
 			url: "phpforms/user.update.php",
@@ -182,7 +182,14 @@ User.prototype = {
 			data: { idUser: data.idUser, fstName: data.fstName, lstName: data.lstName, email: data.email, role: data.role, login: data.login, pass: data.pass }
 
 		}).done(function(msg){
-			this.Action.Administration(this);
+			if(data.idUser == this.s.data.idUser){
+				this.s.data = data;
+				this.UI.UserInfos(this);
+			}
+			if(reload){
+				this.Action.Administration(this);
+			}
+
 		});
 	},
 
@@ -430,7 +437,7 @@ User.prototype = {
 			return {id: $.cookie("idCurrentUser"), pass: $.cookie("passUser"), lang: $.cookie("UserLang") };
 		},
 
-		PopinDataUserEdit: function(t, json, str){
+		PopinDataUserEdit: function(t, json, str, reload){
 			return {
 				title: Lang[user.GetLangue()].lbl.modif + " " + json.fstName + " " + json.lstName,
 				content: "",
@@ -447,7 +454,7 @@ User.prototype = {
 					 	pass: p.find(".p_" + str[6].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val()
 					}
 					if(data.idUser != "" && data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
-						user.Update(data);
+						user.Update(data, reload);
 						popin.Action.Hide(popin);
 					}
 				},
@@ -553,6 +560,19 @@ User.prototype = {
 					 + "</ul></div>";
 			$(t.s.content).html(html);
 			
+			$(t.s.bloc + " .action_user_compte").on("click", function(){ 
+				var strTabUser = [
+				{ title: Lang[user.GetLangue()].lbl.form_id, key: "idUser", width: 5, lim: null, editable: false }, 
+				{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
+				{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
+				{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
+				{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: false, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
+				{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
+				{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
+
+				popin = new Popin(t.Data.PopinDataUserEdit(t, user.s.data, strTabUser, false), strTabUser, user.s.data);
+			});
+
 			$(t.s.bloc + " .action_user_deconnexion").on("click", function(){ 
 				t.Disconnect(); 
 			});

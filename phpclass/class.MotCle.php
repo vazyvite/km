@@ -55,10 +55,6 @@ class MotCle {
 		}
 	}
 
-	// function StripAccents($string){
-	// 	return strtr($string,
-	// 		'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ', 
-	// 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-	// }
+	
 }
 ?>

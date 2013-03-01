@@ -13,13 +13,14 @@ Menu.prototype = {
 	 */
 	Init: function(){
 		this.UI.BuildEmpty(this);
+		// this.AttachEvents();
 	},
 
 	/**
 	 * Méthode AttachEvents
 	 * Attache des évènements class Menu
 	 */
-	/*AttachEvents: function(){ },*/
+	// AttachEvents: function(){ },
 
 	Action: {},
 	Data: {},
@@ -108,7 +109,7 @@ Menu.prototype = {
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
 				var retour = t.UI.Btn_Retour(t);
-				var addArticle = t.UI.Btn_AddArticle(t);
+				// var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 				// var editCategorie = t.UI.Btn_EditCategorie(t);
 
@@ -116,7 +117,7 @@ Menu.prototype = {
 
 				if(retour != null) { m.append(retour); }
 				// if(editCategorie != null) { m.append(editCategorie); }
-				if(addArticle != null) { m.append(addArticle); }
+				// if(addArticle != null) { m.append(addArticle); }
 				if(adminUser != null) { m.append(adminUser); }
 			}
 		},

@@ -29,7 +29,7 @@ Popin.prototype = {
 		Show: function(t){
 			var lvl = t.s.lvl;
 
-			if(user.CheckUserAccess(lvl)){
+			if(user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)){
 				$(".popin").remove();
 
 				t.UI.Build(t);
@@ -59,7 +59,7 @@ Popin.prototype = {
 		Build: function(t){
 			var lvl = t.s.lvl;
 
-			if(user.CheckUserAccess(lvl)){
+			if(user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)){
 				var title = t.UI.BuildTitle(t);
 				var close = (t.s.addCloseBtn) ? t.UI.BuildCloseBtn(t) : null;
 				var content = t.UI.BuildContent(t);
@@ -86,7 +86,7 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl) && t.s.title != ""){
+			if((user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)) && t.s.title != ""){
 				insert = $("<div></div>").addClass("popin_header " + t.s.type).html(t.s.title);
 			}
 
@@ -97,7 +97,7 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl) && t.s.addCloseBtn){
+			if((user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)) && t.s.addCloseBtn){
 				insert = $("<div></div>").addClass("popin_closebtn");
 				insert.on("click", (typeof t.s.onClose === "function") ? t.s.onClose : function(){ t.Action.Hide(t) });
 			}
@@ -109,7 +109,7 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl) && t.s.content != "" || t.s.structure){
+			if((user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)) && t.s.content != "" || t.s.structure){
 
 				insert = $("<div></div>").addClass("popin_body");
 				(t.s.content) ? insert.html(t.s.content) : insert.html(null);
@@ -130,7 +130,7 @@ Popin.prototype = {
 			var insert = null;
 			var value, input;
 
-			if(user.CheckUserAccess(lvl) && str && str.key != null){
+			if((user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)) && str && str.key != null){
 
 				insert = $("<div></div>").addClass("form_line p_" + str.key.toUpperCase().replace(/\s+/g, ' '));
 				var lbl = $("<div></div>").addClass("form_label").text(str.title);
@@ -172,7 +172,7 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl) && t.s.cmd.length){
+			if((user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)) && t.s.cmd.length){
 				var btn = null;
 
 				insert = $("<div></div>").addClass("popin_footer");
@@ -197,7 +197,7 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)){
 				insert = $("<button></button>").addClass("btn_valide").text(Lang[user.GetLangue()].btn.valide);
 				insert.on("click", (typeof t.s.onValidate === "function") ? t.s.onValidate : function(){ t.Action.Hide(t) });
 			}
@@ -209,7 +209,7 @@ Popin.prototype = {
 			var lvl = t.s.lvl;
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(user.CheckUserAccess(lvl) || (t.s.type == "user" && user.s.data.idUser == t.s.values.idUser)){
 				insert = $("<button></button>").addClass("btn_valide").text(Lang[user.GetLangue()].btn.cancel);
 				insert.on("click", (typeof t.s.onClose === "function") ? t.s.onClose : function(){ 
 					t.Action.Hide(t) 
@@ -227,11 +227,6 @@ Popin.prototype = {
 		PopinPositionNearCaller: function(t){
 			var popin = $(".popin");
 			if(t.s.caller && typeof t.s.caller == "object"){
-				// popin.css(
-				// { 	"left": t.s.caller.offset().left,
-				// 	"top": t.s.caller.position().top + t.s.caller.outerHeight(true) + 5,
-				// 	"z-index": 9
-				// });
 
 				popin.css(
 				{ 	"left": t.s.caller.offset().left,

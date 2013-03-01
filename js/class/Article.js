@@ -121,6 +121,30 @@ Article.prototype = {
 		});
 	},
 
+	GetAssociatedArticles: function(motcles, fnCallBack){
+
+		var mc = Array();
+		for(var i = 0; i < motcles.length; i++){
+			mc.push(motcles[i].motcle);
+		}
+		mc = mc.join(";");
+
+		if(articleContent && articleContent.s.data && articleContent.s.data.idCategorie && mc.length){
+			$.ajax({
+
+				url: "phpforms/article.assoc.php",
+				type: "POST",
+				context: this,
+				data: { idCategorie: this.s.data.idCategorie, motcles: mc }
+
+			}).done(function(msg){
+
+				var json = $.parseJSON(msg)[0];
+				fnCallBack(json);
+			});
+		}
+	},
+
 	Action: {
 		/**
 		 * Méthode Action.Edit
@@ -135,33 +159,80 @@ Article.prototype = {
 			var arr_mc = Array();
 
 			if(user.CheckUserAccess(lvl)){
-				// article.find('.article_content').unhighlight().redactor({
-				// 	focus: true
-				// });
 				
-				var gabarit = "<section><code>syntaxe</code></section><div class='summary'>description</div><article>corps de l'article</article><nav>liens vers d'autres articles proches</nav>";
+				var gabarit = { 
+					description: "<aside title='" + Lang[user.GetLangue()].lbl.desc_article + "'>description</aside>",
+					syntaxe: "<section title='" + Lang[user.GetLangue()].lbl.syntaxe_code + "'><code>syntaxe</code></section>",
+					article: "<article title='" + Lang[user.GetLangue()].lbl.corps_article + "'>corps de l'article</article>",
+					//navigation: "<nav title='" + Lang[user.GetLangue()].lbl.near_articles + "'>liens vers d'autres articles proches</nav>"
+					navigation: ""
+				};
 
 				article.find('.article_content').unhighlight().redactor({
 					focus: true,
-					buttons: ['html', '|', 'formatting', 'button_template', '|', 'bold', 'italic', 'underline', 'deleted', '|', 'fontcolor', 'backcolor', '|', 'alignment', '|', 'unorderedlist', 'orderedlist', 'indent', 'outdent', '|', 'link', 'image', 'video', 'file', 'table', '|', 'horizontalrule'],
+					buttons: ['html', '|', 'formatting', 'button_template', 'button_syntaxe', 'button_resume', 'button_article', 'button_navigation', '|', 'bold', 'italic', 'underline', 'deleted', '|', 'fontcolor', 'backcolor', '|', 'alignment', '|', 'unorderedlist', 'orderedlist', 'indent', 'outdent', '|', 'link', 'image', 'video', 'file', 'table', '|', 'horizontalrule'],
 					buttonsCustom: {
 						button_template: {
 							title: Lang[user.GetLangue()].btn.gabarit, 
 							callback: function(obj, event, key) {
 								if(article.find('.article_content').getCode() != ""){
 									if(confirm("En continuant vous allez effacer le contenu de l'article, souhaitez-vous continuer ?")){
-										article.find('.article_content').setCode(gabarit);
+										article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article + gabarit.navigation);
 									}
 								}else{
-									article.find('.article_content').setCode(gabarit);
+									article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article + gabarit.navigation);
 								}
 							} 
-						}
+						},
+						button_syntaxe: {
+							title: Lang[user.GetLangue()].btn.syntaxe, 
+							callback: function(obj, event, key) {
+								var c = article.find('.article_content');
+								if(!c.find('section code').size()){
+									c.insertHtml( (c.getSelected() == "") ? gabarit.syntaxe : gabarit.syntaxe.replace($(gabarit.syntaxe).text(), c.getSelected()));
+								}else{
+									// alert("impossible d'ajouter un deuxième bloc de syntaxe");
+								}
+							} 
+						},
+						button_resume: {
+							title: Lang[user.GetLangue()].btn.resume, 
+							callback: function(obj, event, key) {
+								var c = article.find('.article_content');
+								if(!c.find("aside").size()){
+									c.insertHtml( (c.getSelected() == "") ? gabarit.description : gabarit.description.replace($(gabarit.description).text(), c.getSelected()));
+								}else{
+									// alert("impossible d'ajouter un deuxième bloc de description");
+								}
+							} 
+						},
+						button_article: {
+							title: Lang[user.GetLangue()].btn.article, 
+							callback: function(obj, event, key) {
+								var c = article.find('.article_content');
+								if(!c.find('article').size()){
+									c.insertHtml( (c.getSelected() == "") ? gabarit.article : gabarit.article.replace($(gabarit.article).text(), c.getSelected()));
+								}else{
+									// alert("impossible d'ajouter un deuxième bloc d'article");
+								}
+							} 
+						},
+						/*button_navigation: {
+							title: Lang[user.GetLangue()].btn.nav, 
+							callback: function(obj, event, key) {
+								var c = article.find('.article_content');
+								if(!c.find('nav').size()){
+									c.insertHtml( (c.getSelected() == "") ? gabarit.navigation : gabarit.navigation.replace($(gabarit.navigation).text(), c.getSelected()));
+								}else{
+									// alert("impossible d'ajouter un deuxième bloc d'information")
+								}
+							} 
+						}*/
            			 }
 				})
 
 				if(json.idArticle == -1){
-					article.find('.article_content').setCode(gabarit);
+					article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article + gabarit.navigation);
 				}
 
 				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
@@ -426,7 +497,7 @@ Article.prototype = {
 				case "categorie":
 					return { edit: navigation.Data.PopinDataCategorieEdit(navigation, json, str), del: navigation.Data.PopinDataCategorieDel(navigation, json) }; break;
 				case "user":
-					return { edit: user.Data.PopinDataUserEdit(navigation, json, str), del: user.Data.PopinDataUserDel(navigation, json) }; break;
+					return { edit: user.Data.PopinDataUserEdit(navigation, json, str, true), del: user.Data.PopinDataUserDel(navigation, json) }; break;
 			}
 		},
 
@@ -442,7 +513,7 @@ Article.prototype = {
 					var jq_art = $("<div></div>").append(art_html);
 
 					var syntaxe = $(jq_art).find("section code");
-					var description = $(jq_art).find(".summary");
+					var description = $(jq_art).find("aside");
 
 					var link = $("<span></span>").addClass("tooltip_link").attr("value", json[i].idArticle).text(Lang[user.GetLangue()].lbl.voir_article);
 
@@ -568,13 +639,15 @@ Article.prototype = {
 
 			var mc = $("<div></div>").addClass("article_listMotCles");
 
-			for(var i = 0; i < json.motcles.length; i++){
-				var motcle = $("<a></a>").addClass("motcle").attr("value", json.motcles[i].idMotCle).text(json.motcles[i].motcle);
-				mc.append(motcle);
+			if(json.motcles.length){
+				for(var i = 0; i < json.motcles.length; i++){
+					var motcle = $("<a></a>").addClass("motcle").attr("value", json.motcles[i].idMotCle).text(json.motcles[i].motcle);
+					mc.append(motcle);
 
-				motcle.on("click", function(){ 
-					recherche.SetRecherche($(this).text());
-				});
+					motcle.on("click", function(){ 
+						recherche.SetRecherche($(this).text());
+					});
+				}
 			}
 
 			return mc;
@@ -589,7 +662,14 @@ Article.prototype = {
 		Content: function(t, json){
 			var content = $(json.article);
 			var container = $("<div></div>").addClass("article_content").append(content);
-			t.UI.HighlightArticles(t, content);
+			if(json.idArticle != -1){
+				if(t.s.data.motcles.length){
+					t.GetAssociatedArticles(t.s.data.motcles, function(json_assoc){
+						t.UI.ShowAssociatedArticles(t, content, json_assoc);
+						t.UI.HighlightArticles(t, content);
+					});
+				}
+			}
 			
 			$(t.s.bloc).append(container);
 		},
@@ -1041,6 +1121,19 @@ Article.prototype = {
 					$(this).append(insert);
 				});
 			}
+		},
+
+		ShowAssociatedArticles: function(t, cible, json){
+			var insert = $("<nav></nav>");
+
+			for(var i = 0; i < json.length; i++){
+				if(json[i].id != t.s.data.idArticle){
+					var virgule = (insert.text() == "") ? "" : ", ";
+					insert.append(virgule + json[i].titre);
+				}
+			}
+
+			cible.add(insert);
 		}
 	}
 }

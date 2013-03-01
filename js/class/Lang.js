@@ -32,7 +32,11 @@ var Lang = {
 			modif: "Modification de ",
 			object_create: "Création",
 			now: "aujourd\'hui",
-			voir_article: "Voir l\'article"
+			voir_article: "Voir l\'article",
+			syntaxe_code: "Syntaxe de l&apos;article",
+			desc_article: "Description de l&apos;article",
+			corps_article: "Corps de l&apos;article",
+			near_articles: "Articles proches",
 		},
 		btn: {
 			connect: "Connexion",
@@ -60,7 +64,11 @@ var Lang = {
 			add_categorie: "Ajouter une catégorie",
 			del_categorie: "Supprimer une catégorie",
 			edit_categorie: "Modifier une catégorie",
-			gabarit: "Appliquer le gabarit"
+			gabarit: "Appliquer le gabarit stadard",
+			syntaxe: "Insérer un bloc de syntaxe",
+			resume: "Insérer un bloc de résumé",
+			article: "Insérer un bloc d&apos;article",
+			nav: "Insérer un bloc d&apos;association",
 		},
 		err: {
 			bad_id: "identifiants incorrects",
@@ -105,7 +113,11 @@ var Lang = {
 			modif: "Edit ",
 			object_create: "Creation",
 			now: "today",
-			voir_article: "See the article"
+			voir_article: "See the article",
+			syntaxe_code: "Article&apos; syntaxe code",
+			desc_article: "Article&apos;s description",
+			corps_article: "Article&apos;s body",
+			near_articles: "Atricle&apos;s relatives",
 		},
 		btn: {
 			connect: "Connection",
@@ -133,7 +145,11 @@ var Lang = {
 			add_categorie: "Add a new category",
 			del_categorie: "Delete the category",
 			edit_categorie: "Edit the category",
-			gabarit: "Apply the template"
+			gabarit: "Apply the standart template",
+			syntaxe: "Insert a syntax bloc",
+			resume: "Insert a description bloc",
+			article: "Insert an article bloc",
+			nav: "Insert an association bloc",
 		},
 		err: {
 			bad_id: "incorrect identifiers",

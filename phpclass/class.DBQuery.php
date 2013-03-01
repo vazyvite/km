@@ -60,6 +60,7 @@
 		const DB_ARTICLE_CREATE = 	"INSERT INTO article (idType, idUser, idCategorie, titre, article) VALUES ('{{IDTYPE}}', '{{IDUSER}}', '{{IDCATEGORIE}}', '{{TITRE}}', '{{ARTICLE}}')";
 		const DB_ARTICLE_UPDATE = 	"UPDATE article SET titre='{{TITLEARTICLE}}', article='{{CONTENTARTICLE}}' WHERE idArticle = '{{IDARTICLE}}'";
 		const DB_ARTICLE_DELETE = 	"DELETE FROM article WHERE idArticle = '{{IDARTICLE}}'";
+		const DB_ARTICLE_MATCH = 	"SELECT A.idArticle, A.titre FROM article A, motcle M WHERE A.idArticle = M.idArticle AND A.idCategorie = '{{IDCATEGORIE}}' AND M.motcle = '{{MOTCLE}}'";
 
 		function getAllArticle(){ return DBQuery::DB_ARTICLE_ALL; }
 		function getListArticle($id_categorie){ return str_replace(array("{{IDCATEGORIE}}"), array($id_categorie), DBQuery::DB_ARTICLE_LIST); }
@@ -68,6 +69,7 @@
 		function createArticle($id_type, $id_user, $id_categorie, $titre, $article){ return str_replace(array("{{IDTYPE}}", "{{IDUSER}}", "{{IDCATEGORIE}}", "{{TITRE}}", "{{ARTICLE}}"), array($id_type, $id_user, $id_categorie, $titre, $article), DBQuery::DB_ARTICLE_CREATE); }
 		function updateArticle($id_article, $titre, $content){ return str_replace(array("{{TITLEARTICLE}}", "{{CONTENTARTICLE}}", "{{IDARTICLE}}"), array($titre, $content, $id_article), DBQuery::DB_ARTICLE_UPDATE); }
 		function deleteArticle($id_article){ return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_ARTICLE_DELETE); }
+		function getMatchingArticles($id_categorie, $motcle){ return str_replace(array("{{IDCATEGORIE}}", "{{MOTCLE}}"), array($id_categorie, $motcle), DBQuery::DB_ARTICLE_MATCH); }
 
 
 

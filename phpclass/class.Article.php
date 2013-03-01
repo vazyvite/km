@@ -201,7 +201,8 @@
 			$arr_motcles = explode(";", $motcles);
 
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
-				$res = $mysqli->Create($dbq->createArticle($idtype, $iduser, $idcategorie, $titre, $article));
+
+				$res = $mysqli->Create($dbq->createArticle($idtype, $iduser, $idcategorie, htmlentities($titre, ENT_QUOTES), htmlentities($article, ENT_QUOTES) ) );
 
 				$idArticle = $res;
 
@@ -211,13 +212,50 @@
 					for($i = 0; $i < count($arr_motcles); $i++){
 						$mc->CreateMotCle($idArticle, $arr_motcles[$i]);
 					}
+				}else{
+					// echo "erreur dans la création";
 				}
 
 				echo $idArticle;
 
 			}else{
-				
+				//echo "pas les droits";
 			}
+		}
+
+		function GetAssociatedArticles($idCategorie, $motcles){
+			$lvl = "01";
+			$user = new User();
+			$motcle = new MotCle();
+			$json = array();
+
+			$arr_motcles = explode(";", $motcles);
+
+			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
+
+				for($i = 0; $i < count($arr_motcles); $i++){
+					array_push($json, $this->GetMatchingArticles($idCategorie, $arr_motcles[$i]));
+				}
+
+				echo json_encode(array_unique($json));
+			}else{
+
+			}
+		}
+
+		function GetMatchingArticles($idCategorie, $motcle){
+			$list = array();
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+			$res = $mysqli->Query($dbq->getMatchingArticles($idCategorie, $motcle));
+
+			if($res != false){
+				while($f = $res->fetch_assoc()){
+					$a = array('id' => $f['idArticle'], 'titre' => $f['titre']);
+					array_push($list, $a);
+				}
+			}
+			return $list;
 		}
 	}
 ?>
