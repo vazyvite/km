@@ -42,7 +42,7 @@ Menu.prototype = {
 		Build: function(t){
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
-				var retour = t.UI.Btn_Retour(t);
+				var retour = t.UI.Btn_Home(t);
 
 				var adminPortail = t.UI.Btn_AdminPortail(t);
 				var delPortail = t.UI.Btn_DelPortail(t);
@@ -108,7 +108,7 @@ Menu.prototype = {
 		BuildCategorie: function(t){
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
-				var retour = t.UI.Btn_Retour(t);
+				var retour = t.UI.Btn_Home(t);
 				// var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 				// var editCategorie = t.UI.Btn_EditCategorie(t);
@@ -130,7 +130,7 @@ Menu.prototype = {
 		BuildPortail: function(t){
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
-				var retour = t.UI.Btn_Retour(t);
+				var retour = t.UI.Btn_Home(t);
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 				var addArticle = t.UI.Btn_AddArticle(t);
@@ -156,7 +156,7 @@ Menu.prototype = {
 		BuildAdminPortail: function(t){
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
-				var retour = t.UI.Btn_Retour(t);
+				var retour = t.UI.Btn_Home(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 
@@ -176,7 +176,7 @@ Menu.prototype = {
 		BuildAdminCategorie: function(t){
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
-				var retour = t.UI.Btn_Retour(t);
+				var retour = t.UI.Btn_Home(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 
@@ -196,7 +196,7 @@ Menu.prototype = {
 		BuildAdminUser: function(t){
 			t.UI.Clear(t);
 			if(user.s.data.role != null){
-				var retour = t.UI.Btn_Retour(t);
+				var retour = t.UI.Btn_Home(t);
 				var addUser = t.UI.Btn_AddUser(t);
 				// var adminUser = t.UI.Btn_AdminUser(t);
 
@@ -209,11 +209,11 @@ Menu.prototype = {
 		},
 
 		/**
-		 * Méthode UI.Btn_Retour
+		 * Méthode UI.Btn_Home
 		 * Création du bouton de retour à la page d'accueil
 		 * @param t:Contexte
 		 */
-		Btn_Retour: function(t){
+		Btn_Home: function(t){
 			var lvl = "01";
 			var btn = null;
 			var idPortail = null;

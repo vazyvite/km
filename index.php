@@ -20,7 +20,6 @@
 		<script type="text/javascript" src="./js/grid.js"></script> -->
 		
 		<script type="text/javascript" src="./js/class/Lang.js"></script>
-		<script type="text/javascript" src="./js/class/Dialog.js"></script>
 		<script type="text/javascript" src="./js/class/Popin.js"></script>
 		<script type="text/javascript" src="./js/class/Menu.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
@@ -28,7 +27,9 @@
 		<script type="text/javascript" src="./js/class/Article.js"></script>
 		<script type="text/javascript" src="./js/class/Navigation.js"></script>
 		<script type="text/javascript" src="./js/class/Recherche.js"></script>
+		<script type="text/javascript" src="./js/class/jsExtends.js"></script>
 		<script type="text/javascript" src="./js/domReady.js"></script>
+		
 	</head>
 	<body>
 		<div id="main">

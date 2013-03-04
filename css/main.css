@@ -269,7 +269,7 @@ button.btn_pdf:hover { background: url("../images/bg_btn_pdf.png") no-repeat lef
 #article .connectBloc.right .form_connect { margin-top: 50%; border: 1px solid #DDD; background: #FFF; padding: 0 15px 15px 15px; color: #1BA9C0; box-shadow: 0 0 8px #AAA; }
 
 .tuile { float: left; margin: 7px; background: #FFF; padding: 5px; box-shadow: 0 0 8px #AAA; color: #fff; overflow: hidden; text-overflow: ellipsis; height: 150px; width: 150px; 
--webkit-transform: rotateY(0deg); -webkit-animation: myfirst .5s; -webkit-transform-style: preserve-3d; transform-style: preserve-3d;
+-webkit-transform: rotateY(0deg); -webkit-animation: myfirst .3s; -webkit-transform-style: preserve-3d; transform-style: preserve-3d;
 }
 .tuile .tuile_title { color: #1BA9C0; font-weight: bold; display: block; margin-bottom: 15px; }
 .tuile .tuile_content { color: #333; font-size: 0.8em; }

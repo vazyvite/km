@@ -73,8 +73,7 @@ Article.prototype = {
 	 * @param iduser:Int 		Identifiant de l'utilisateur courant
 	 * @param idPortail:Int 	Identifiant du portail courant, dans le cas où il n'y a pas de portail courant, idPortail doit valloir null
 	 */
-	UpdateArticle: function(){
-		var data = this.s.data;
+	UpdateArticle: function(data){
 		var idmc = Array();
 		var mc = Array();
 
@@ -437,7 +436,7 @@ Article.prototype = {
 						}
 
 						t.Data.Update(t, titre, content, motcle);
-						t.UpdateArticle();
+						t.UpdateArticle(t.s.data);
 
 					}else{
 						article.find(".article_content").html(t.s.data.article);
