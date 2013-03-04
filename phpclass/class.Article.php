@@ -93,10 +93,15 @@
 		 * @param idUser:Int 			Identifiant de l'utilisateur
 		 * @return article:Article 		Articles
 		 */
-		function GetArticleByUser($idUser){
+		function GetArticleByUser($idUser, $idPortail){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
-			$res = $mysqli->Query($dbq->getArticleByUser($idUser));
+
+			if(is_numeric($idPortail)){
+				$res = $mysqli->Query($dbq->getArticleByUserAndPortail($idUser, $idPortail));
+			}else{
+				$res = $mysqli->Query($dbq->getArticleByUser($idUser));
+			}
 			$list = array();
 
 			if($res != false){

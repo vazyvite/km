@@ -37,16 +37,20 @@
 			$listCat = $categorie->GetAllCategoriesForPortail($idPortail);
 			$navigation->setListCategoriesContent($listCat);
 
-			foreach($listCat as $cat){
-				$c = new CategorieContent();
-				$c->setCategorie($cat);
-				$c->setListArticles($cat->GetAllArticlesForCategorie($cat->getIdCategorie()));
-				array_push($listCategorieContent,$c);
+			if(count($listCat) > 0){
+				foreach($listCat as $cat){
+					$c = new CategorieContent();
+					$c->setCategorie($cat);
+					$c->setListArticles($cat->GetAllArticlesForCategorie($cat->getIdCategorie()));
+					array_push($listCategorieContent,$c);
+				}
+
+				$navigation->setListCategoriesContent($listCategorieContent);
+
+				return $navigation;
+			}else{
+				return null;
 			}
-
-			$navigation->setListCategoriesContent($listCategorieContent);
-
-			return $navigation;
 		}
 
 		/**
@@ -57,30 +61,34 @@
 		 * @return $:JSON 						Arborescence de navigation au format JSON
 		 */
 		function BuildNavigationForJS($navigation){
-			$json = array();
-			$list_categorieContent = $navigation->getListCategoriesContent();
+			if($navigation != null){
+				$json = array();
+				$list_categorieContent = $navigation->getListCategoriesContent();
 
-			if(count($list_categorieContent) > 0){
-				foreach ($list_categorieContent as $categorieContent){
-					$jsonArt = array();
-					$categorie = $categorieContent->getCategorie();
-					$idCategorie = $categorie->getIdCategorie();
-					$list_articles = $categorie->GetAllArticlesForCategorie($idCategorie);
-
-					if(count($list_articles) > 0){
-						foreach ($list_articles as $article) {
-							$a = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
-							array_push($jsonArt, $a);
-						}
-					}else{
+				if(count($list_categorieContent) > 0){
+					foreach ($list_categorieContent as $categorieContent){
 						$jsonArt = array();
-					}
+						$categorie = $categorieContent->getCategorie();
+						$idCategorie = $categorie->getIdCategorie();
+						$list_articles = $categorie->GetAllArticlesForCategorie($idCategorie);
 
-					$cc = array('id' => $categorie->getIdCategorie(), 'idPortail' => $categorie->getIdPortail(),'categorie' => $categorie->getCategorie(), 'description' => $categorie->getDescription(), 'articles' => $jsonArt);
-					array_push($json, $cc);
+						if(count($list_articles) > 0){
+							foreach ($list_articles as $article) {
+								$a = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+								array_push($jsonArt, $a);
+							}
+						}else{
+							$jsonArt = array();
+						}
+
+						$cc = array('id' => $categorie->getIdCategorie(), 'idPortail' => $categorie->getIdPortail(),'categorie' => $categorie->getCategorie(), 'description' => $categorie->getDescription(), 'articles' => $jsonArt);
+						array_push($json, $cc);
+					}
 				}
+				echo json_encode($json);
+			}else{
+				echo "";
 			}
-			echo json_encode($json);
 		}
 	}
 ?>

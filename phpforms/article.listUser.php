@@ -10,13 +10,14 @@
 	require_once("../phpclass/class.ResultList.php");
 	require_once("../phpclass/class.ListMotCles.php");
 
-	if(isset($_POST['idUser'])){
+	if(isset($_POST['idUser']) && isset($_POST['idPortail'])){
 		$idUser = $_POST['idUser'];
+		$idPortail = $_POST['idPortail'];
 
 		// $article = new Article();
 		$recherche = new Recherche();
 		
-		$res = $recherche->GetSearchResultsForIdUser($idUser);
+		$res = $recherche->GetSearchResultsForIdUser($idUser, $idPortail);
 		$recherche->BuildResultsForJS($res);
 	}else{
 		// l'idUser n'est pas défini

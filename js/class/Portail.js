@@ -25,7 +25,7 @@ Portail.prototype = {
 	 */
 	Init: function(){
 		this.GetAllPortail(true, function(){
-			articleContent.GetArticleByUser(user.s.data.idUser);
+			articleContent.GetArticleByUser(user.s.data.idUser, null);
 		});
 	},
 
@@ -160,7 +160,11 @@ Portail.prototype = {
 			if(accord && new_portail.value != 0){
 				t.UI.PortailInfos(t);
 				if(articleContent && !isNewInterface){
-					articleContent.UI.Close(articleContent);
+					articleContent.UI.Close(articleContent, function(){
+						articleContent.GetArticleByUser(user.s.data.idUser, portail.s.data.idPortail);
+					});
+				}else{
+					articleContent.GetArticleByUser(user.s.data.idUser, new_portail.value);
 				}
 			}
 

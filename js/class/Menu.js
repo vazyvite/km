@@ -216,6 +216,7 @@ Menu.prototype = {
 		Btn_Retour: function(t){
 			var lvl = "01";
 			var btn = null;
+			var idPortail = null;
 
 			if(user.CheckUserAccess(lvl)){
 				btn = $("<li class='bouton retour' title='" + Lang[user.GetLangue()].btn.out_portail + "'></li>").on("click", function(){
@@ -223,7 +224,13 @@ Menu.prototype = {
 
 					if(articleContent){
 						articleContent.UI.Close(articleContent, function(){
-							articleContent.GetArticleByUser(user.s.data.idUser);
+							if(portail && portail.s.data && portail.s.data.idPortail != null){
+								idPortail = portail.s.data.idPortail;
+							}else{
+								idPortail = null;
+							}
+
+							articleContent.GetArticleByUser(user.s.data.idUser, idPortail);
 						});
 					}
 

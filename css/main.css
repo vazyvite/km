@@ -63,7 +63,7 @@ div.bloc_content { clear:both; width: 100%; }
 #accessibility li.mediumFont:hover { background: #F5F5F5 url(../images/font_medium.png) no-repeat center center; border: 1px solid #DDD; }
 #accessibility li.largeFont { background: url(../images/font_large.png) no-repeat center center;  }
 #accessibility li.largeFont:hover { background: #F5F5F5 url(../images/font_large.png) no-repeat center center; border: 1px solid #DDD; }
-#article { margin: 5px; overflow: hidden; }
+#article { margin: 5px; overflow: hidden; perspective:1500; -webkit-perspective:1500; }
 #article .article_header { box-shadow: 0 0 20px rgba(0,0,0,.1); background: rgb(239,239,239); background: -moz-linear-gradient(top, rgba(239,239,239,1) 0%, rgba(216,216,216,1) 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,239,239,1)), color-stop(100%,rgba(216,216,216,1))); background: -webkit-linear-gradient(top, rgba(239,239,239,1) 0%,rgba(216,216,216,1) 100%); background: -o-linear-gradient(top, rgba(239,239,239,1) 0%,rgba(216,216,216,1) 100%); background: -ms-linear-gradient(top, rgba(239,239,239,1) 0%,rgba(216,216,216,1) 100%); background: linear-gradient(to bottom, rgba(239,239,239,1) 0%,rgba(216,216,216,1) 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#d8d8d8',GradientType=0 ); }
 #article .article_header .article_title { padding: 5px 5px 5px 5px; font-size: 1.3em; font-weight: bold; }
 #article .article_header .article_infos { padding: 0 5px 5px 5px; font-style: italic; }
@@ -269,7 +269,7 @@ button.btn_pdf:hover { background: #fff url("../images/bg_btn_pdf.png") no-repea
 #article .connectBloc.right .form_connect { margin-top: 50%; border: 1px solid #DDD; background: #FFF; padding: 0 15px 15px 15px; color: #1BA9C0; box-shadow: 0 0 8px #AAA; }
 
 .tuile { float: left; margin: 7px; background: #FFF; padding: 5px; box-shadow: 0 0 8px #AAA; color: #fff; overflow: hidden; text-overflow: ellipsis; height: 150px; width: 150px; 
--webkit-transform: rotateY(0deg); -webkit-animation: myfirst 1s;
+-webkit-transform: rotateY(0deg); -webkit-animation: myfirst .5s; -webkit-transform-style: preserve-3d; transform-style: preserve-3d;
 }
 .tuile .tuile_title { color: #1BA9C0; font-weight: bold; display: block; margin-bottom: 15px; }
 .tuile .tuile_content { color: #333; font-size: 0.8em; }
@@ -280,8 +280,8 @@ button.btn_pdf:hover { background: #fff url("../images/bg_btn_pdf.png") no-repea
 
 @keyframes myfirst
 {
-from {transform: rotateY(90deg);}
-to {transform: rotateY(0deg);}
+from {transform: rotateY(90deg); /*perspective: 150;*/ }
+to {transform: rotateY(0deg); /*perspective: 1000;*/ }
 }
 
 @-moz-keyframes myfirst /* Firefox */
@@ -292,8 +292,8 @@ to {-moz-transform: rotateY(0deg);}
 
 @-webkit-keyframes myfirst /* Safari and Chrome */
 {
-from {-webkit-transform: rotateY(90deg);}
-to {-webkit-transform: rotateY(0deg);}
+from {-webkit-transform: rotateY(90deg); /*-webkit-perspective: 150;*/ }
+to {-webkit-transform: rotateY(0deg); /*-webkit-perspective: 1000;*/ }
 }
 
 @-o-keyframes myfirst /* Opera */

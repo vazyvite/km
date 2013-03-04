@@ -48,12 +48,12 @@
 		 * @param $terms:String 			correspond à aux termes utilisés par la recherche
 		 * @return $recherche:Recherche 	objet Recherche rempli
 		 */
-		function GetSearchResultsForIdUser($idUser){
+		function GetSearchResultsForIdUser($idUser, $idPortail){
 			$article = new Article();
 			$listArt = array();
 			$recherche = new Recherche();
 
-			$listArt = $article->GetArticleByUser($idUser);
+			$listArt = $article->GetArticleByUser($idUser, $idPortail);
 			$recherche->setListResults($listArt);
 
 			return $recherche;

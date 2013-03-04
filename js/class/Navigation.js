@@ -48,8 +48,10 @@ Navigation.prototype = {
 					var json = $.parseJSON(msg);
 
 					if(show){
+
 						this.Data.SetJSON(this, json);
 						this.UI.Populate(this);
+
 					}else{
 						fnCallback(json);
 					}

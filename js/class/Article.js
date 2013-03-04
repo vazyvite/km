@@ -50,12 +50,12 @@ Article.prototype = {
 		});
 	},
 
-	GetArticleByUser: function(iduser){
+	GetArticleByUser: function(iduser, idPortail){
 		$.ajax({
 
 			url: "phpforms/article.listUser.php",
 			type: "POST",
-			data: {idUser:iduser},
+			data: {idUser:iduser, idPortail: idPortail},
 			datatype: "json",
 			context: this
 
@@ -1204,6 +1204,7 @@ Article.prototype = {
 		},
 
 		BuildHome: function(t, json){
+			$("#article").children().remove();
 			for(var i = 0; i < json.length; i++){
 				var article = json[i];
 				t.UI.TraceHomeTuileArticle(t, article);
@@ -1211,7 +1212,7 @@ Article.prototype = {
 		},
 
 		TraceHomeTuileArticle: function(t, article){
-			var insert = $("<div></div>").addClass("tuile").attr("value", article.idArticle);
+			var insert = $("<div></div>").addClass("tuile cat_" + article.idCategorie).attr("value", article.idArticle);
 
 			var title = $("<div></div>").addClass("tuile_title").text(article.titre);
 

@@ -4,6 +4,70 @@
 		"selected_items":
 		[
 			[
+				"padding",
+				"padding"
+			],
+			[
+				"back",
+				"background-size"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"bloc_",
+				"bloc_left"
+			],
+			[
+				"backgrou",
+				"background"
+			],
+			[
+				"html",
+				"html_content"
+			],
+			[
+				"aut",
+				"auth"
+			],
+			[
+				"IDCATE",
+				"IDCATEGORIE"
+			],
+			[
+				"res",
+				"results"
+			],
+			[
+				"arra",
+				"array	$… = array (…)"
+			],
+			[
+				"DB",
+				"DBQuery  (class)"
+			],
+			[
+				"button_",
+				"button_article"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"GetN",
+				"GetNavigation(show, fnCallback)	Navigation.js"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"w",
+				"white-space"
+			],
+			[
 				"Create",
 				"CreateMotCle"
 			],
@@ -32,10 +96,6 @@
 				"padding-right"
 			],
 			[
-				"margin",
-				"margin-right"
-			],
-			[
 				"popin",
 				"popin_data_del"
 			],
@@ -44,16 +104,8 @@
 				"outerWidth  (function)"
 			],
 			[
-				"font",
-				"font-size"
-			],
-			[
 				"c",
 				"contain"
-			],
-			[
-				"back",
-				"background-size"
 			],
 			[
 				"Admin",
@@ -62,10 +114,6 @@
 			[
 				"AdminBtn",
 				"AdminBtnEdit(t, page)	Article.js"
-			],
-			[
-				"padding",
-				"padding-left"
 			],
 			[
 				"border",
@@ -82,10 +130,6 @@
 			[
 				"chil",
 				"children  (function)"
-			],
-			[
-				"text",
-				"text-align"
 			],
 			[
 				"fon",
@@ -254,10 +298,6 @@
 			[
 				"a",
 				"attachEvents  (function)"
-			],
-			[
-				"w",
-				"width  (function)"
 			],
 			[
 				"wi",
@@ -474,38 +514,6 @@
 			[
 				"error",
 				"errorClass"
-			],
-			[
-				"rep",
-				"repeat-x"
-			],
-			[
-				"overla",
-				"overlayCSS"
-			],
-			[
-				"container",
-				"containerCSS"
-			],
-			[
-				"rea",
-				"ready	document ready (safe)"
-			],
-			[
-				"r",
-				"ready	document-ready"
-			],
-			[
-				"ready",
-				"ready	document-ready"
-			],
-			[
-				"read",
-				"ready	document ready (safe)"
-			],
-			[
-				"di",
-				"duplicate_line"
 			]
 		]
 	},
@@ -515,17 +523,8 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 17991,
+				"buffer_size": 24435,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/jquery.SearchHighlight.js",
-			"settings":
-			{
-				"buffer_size": 3981,
-				"line_ending": "Windows",
-				"name": "/**"
 			}
 		},
 		{
@@ -537,34 +536,10 @@
 			}
 		},
 		{
-			"file": "js/class/Portail.js",
-			"settings":
-			{
-				"buffer_size": 10055,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/class/Menu.js",
-			"settings":
-			{
-				"buffer_size": 11925,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "js/class/Article.js",
 			"settings":
 			{
-				"buffer_size": 25546,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/class/Navigation.js",
-			"settings":
-			{
-				"buffer_size": 9295,
+				"buffer_size": 35314,
 				"line_ending": "Windows"
 			}
 		},
@@ -572,15 +547,39 @@
 			"file": "js/class/User.js",
 			"settings":
 			{
-				"buffer_size": 17225,
+				"buffer_size": 19456,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/class/Lang.js",
+			"file": "js/class/Portail.js",
 			"settings":
 			{
-				"buffer_size": 4215,
+				"buffer_size": 10157,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/class/Menu.js",
+			"settings":
+			{
+				"buffer_size": 12043,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "phpclass/class.Article.php",
+			"settings":
+			{
+				"buffer_size": 8993,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "phpclass/class.Recherche.php",
+			"settings":
+			{
+				"buffer_size": 3037,
 				"line_ending": "Windows"
 			}
 		}
@@ -641,51 +640,59 @@
 	},
 	"file_history":
 	[
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/user.create.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.User.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.DBQuery.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Article.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/article.listUser.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/results.list.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Recherche.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Recherche.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/article.show.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Popin.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/domReady.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Lang.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Dialog.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/article.exportPDF.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.User.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Categorie.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/article.exportPDF.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/article.assoc.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpclass/pdfcrowd.php",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/article.assoc.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.MotCle.php",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/User.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Menu.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Navigation.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Portail.js",
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/jquery.SearchHighlight.js",
+		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/user.create.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/user.create.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/user.update.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Portail.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/user.delete.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/user.update.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Popin.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/user.list.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Lang.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/article.create.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Article.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.MotCle.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.DB.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/article.delete.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/article.delete.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/User.js",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/css/button-ui.css",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Navigation.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/categorie.create.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Categorie.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/class/Popin.js",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Article.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/portail.create.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Menu.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/categorie.delete.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/categorie.update.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/navigation.list.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Navigation.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/portail.delete.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/domReady.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/portail.update.php",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/portail.list.php",
 		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Default/Default (Windows).sublime-keymap",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Dialog.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/phpforms/portail.detailledList.php",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/css/redactor.css",
 		"/D/Users/JJACQUES/Desktop/test/redactor/redactor.css",
 		"/D/Users/JJACQUES/Desktop/test/index.html",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/index.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Portail.js",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpforms/results.list.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/phpclass/class.Recherche.php",
-		"/D/Users/jjacques/Desktop/UwAmp/www/KM/js/class/Recherche.js",
 		"/D/Users/jjacques/Desktop/UwAmp/www/KM/km.sql",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/KM/km.project.sublime-project",
 		"/D/Users/JJACQUES/Desktop/test.html",
@@ -760,15 +767,7 @@
 		"/D/projets/HydroQuebec/workspace2/Servers/Console GUI-config/tomcat-users.xml",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/hq_TabOnError.js",
 		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/css/docs.css",
-		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/jquery.dirtyforms.js",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Default/Preferences.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/ZenCoding/zen-coding.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/User/Preferences.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/SublimeLinter/SublimeLinter.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/SublimeCodeIntel/Base File.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/sublime-closure-linter/sublime-closure-linter.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Package Control/Package Control.sublime-settings",
-		"/C/Users/jjacques/Perso/Logiciels/SublimeText2/Data/Packages/Local History/LocalHistory.sublime-settings"
+		"/D/Users/JJACQUES/Desktop/UwAmp/www/DirtyForm/jquery.dirtyforms-master/js/jquery.dirtyforms.js"
 	],
 	"find":
 	{
@@ -776,7 +775,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
 			"D:\\Users\\jjacques\\Desktop\\UwAmp\\www\\KM"
@@ -787,6 +786,122 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"GetArticleByUser",
+			"BuildHome",
+			".text()",
+			"GetAllArticlesForTerms",
+			"BuildArticlesForJS",
+			"UI.Close",
+			"BuildHome",
+			"alert",
+			"Btn_Retour",
+			"Retour",
+			"btnRetour",
+			"Close(",
+			"Close",
+			"BuildPortail",
+			"BtnRetour",
+			"retour",
+			"DialogConnexion",
+			"ClearInterface",
+			"DialogConnexion",
+			"ConnectText",
+			"ClearInterface",
+			"fnC",
+			"ConnectText",
+			"ClearInterface",
+			"HideInterface",
+			"UI.Reset",
+			"disconnect",
+			"HideDialog",
+			"ConnectText",
+			"DialogConnexion",
+			"UserInfos",
+			"disconnect",
+			"ClearInterface",
+			"disconnect",
+			"Disp",
+			"dialog_error",
+			"Disp",
+			"Dis",
+			"DisplayError",
+			"display",
+			"connect",
+			"content:",
+			":content",
+			"\" :",
+			":",
+			":\"",
+			"\":\"",
+			"\": \"",
+			"\" : \"",
+			"log",
+			"strtotime",
+			"date",
+			"BtnPDF",
+			"modif",
+			"btn_modif",
+			"BtnPDF",
+			"btn_modif",
+			"BtnModifier",
+			"UI.Build",
+			"getCategorieById",
+			"getCategorie",
+			"GetAssociatedArticles",
+			"UI.Content",
+			"HighlightArticles",
+			"BuildHighLightTooltip",
+			"HighlightArticles",
+			"GetDataForHighLightTooltip",
+			"tooltip",
+			"ShowAssociatedArticles",
+			"HighlightArticles",
+			"ShowAssociatedArticles",
+			"HighlightArticles",
+			"ShowAssociatedArticles",
+			"GetAssociatedArticles",
+			"ShowAssociatedArticles",
+			"GetAssociatedArticles",
+			"ShowAssociatedArticles",
+			"GetAssociatedArticles",
+			"HighlightArticles",
+			"gabarit",
+			"PopinDataUserEdit",
+			"UserInfos",
+			"PopinDataUserEdit",
+			"Update",
+			"t.Update",
+			"AdminBtnEdit",
+			"LinePortail",
+			"AdminContent",
+			"PopinDataUserEdit",
+			"article_content",
+			"UI.Motcles",
+			"UI.MotCles",
+			"MotCles:",
+			"MotCle :",
+			"MotCle:",
+			"MotCles:",
+			"MotCles",
+			"HighlightArticles",
+			"gabarit",
+			"UpdateArticle",
+			"gabarit",
+			"Edit",
+			"Action.Edit",
+			"GetDataForHighLightTooltip",
+			"BuildHighLightTooltip",
+			"GetDataForHighLightTooltip",
+			"BuildHighLightTooltip",
+			"UI.Build",
+			"UI.Content",
+			"HighlightArticles",
+			"BuildHighLightTooltip",
+			"HighlightArticles",
+			"UI.Content",
+			"UI.Content(",
+			"Content(",
+			"Content",
 			"PopinDataUserCreate",
 			"PopinDataPortailCreate",
 			"BuildAdminUser",
@@ -798,123 +913,7 @@
 			"PopinDataPortailEdit",
 			"PopinDataUserEdit",
 			"getAllUsers",
-			"Btn_AdminUser",
-			"categorie_articles",
-			"categorie_article",
-			"link_article",
-			"categorie_article",
-			"StripAccents",
-			"echo",
-			"Create",
-			"btncreate",
-			"access",
-			"btnmodifier",
-			"btnedit",
-			"Action.Edit",
-			"UI.Build",
-			"AddArticle",
-			"btndel",
-			"UpdateArticle",
-			"btn_delete",
-			"BtnDelete",
-			"btn_delete",
-			"Edit",
-			"BtnModifier",
-			"ReturnDataFormTypeOfAdmin",
-			"AdminBtnDel",
-			"Confirm",
-			"Delete",
-			"BtnDelete",
-			"btn_",
-			"Btn_AddArticle",
-			"#article .admin_content table th",
-			"PopinDataPortailCreate",
-			"PopinDataCategorieCreate",
-			"PopinDataPortailCreate",
-			"PopinDataCate",
-			"PopinDataCategorieDel",
-			"PopinDataCategorieEdit",
-			"AdministrationCategorie",
-			"DeleteCategorie",
-			"UpdateCategorie",
-			"PortailList",
-			"GetAllPortail",
-			"PopinDataPortailCreate",
-			"PopinDataPortailEdit",
-			"PopinPosition",
-			"caller",
-			"||",
-			"PopinDataPortailCreate",
-			"AdminCategorie",
-			"BtnRetour",
-			"Populate",
-			"UpdateCategorie",
-			"ReturnDataFormTypeOfAdmin",
-			"AdminBtnEdit",
-			"modif_categorie",
-			"ReturnDataFormTypeOfAdmin",
-			"Portail",
-			"Popin",
-			"AdminBtnDel",
-			"instence",
-			"AdminBtnEdit",
-			"ReturnDataFormTypeOfAdmin",
-			"nombre",
-			"Lineadmin",
-			"admin_portail",
-			"Administration des Portails",
-			"admin_categorie",
-			"LinePortail",
-			"AdminBtnDel",
-			"AdminBtnEdit",
-			"AdminPortail",
-			"linePortail",
-			"GetNavigation",
-			"height(",
-			"article_content",
-			"menu_",
-			"onclose",
-			"btn",
-			"onClose",
-			"onClo",
-			"pop",
-			"AdminStat",
-			"GetAllPortail",
-			"background",
-			"float",
-			"font-family",
-			"settings",
-			"bouton_action",
-			"dialog.dialoguserconnexion .dialog_title",
-			".dialog.dialog_undefined .dialog_title,",
-			".dialog.dialog_undefined .dialog_title,.dialog.dialoguserconnexion .dialog_title",
-			".dialog.dialog_undefined .dialog_title, .dialog.dialoguserconnexion .dialog_title",
-			"connexion",
-			"user",
-			"portail_action_change",
-			"alert",
-			"build",
-			"echo",
-			"LoadArticle",
-			"settings.data",
-			"data",
-			"getPortailById",
-			"settings.user",
-			"settings.data",
-			"<!-- debut -->",
-			"<!--debut",
-			"<!-- debut",
-			"<!-- debut -->",
-			"etatSaisonnierId",
-			"<!-- debut",
-			"td>",
-			"<td>.*</td>",
-			"<td>",
-			"/hq-console-gui",
-			"Saisonnières",
-			"numSousBloc",
-			"Options",
-			"Saisonnières"
+			"Btn_AdminUser"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -934,7 +933,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -942,15 +941,15 @@
 					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 17991,
+						"buffer_size": 24435,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								17946,
-								17946
+								22876,
+								22876
 							]
 						],
 						"settings":
@@ -1046,42 +1045,13 @@
 							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2421.0,
+						"translation.y": 3569.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/D/Users/JJACQUES/Desktop/UwAmp/www/KM/js/jquery.SearchHighlight.js",
-					"settings":
-					{
-						"buffer_size": 3981,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3981,
-								3981
-							]
-						],
-						"settings":
-						{
-							"auto_name": "/**",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "index.php",
 					"settings":
 					{
@@ -1092,8 +1062,8 @@
 						"selection":
 						[
 							[
-								981,
-								981
+								3080,
+								3099
 							]
 						],
 						"settings":
@@ -1190,25 +1160,140 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 644.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/class/Article.js",
+					"settings":
+					{
+						"buffer_size": 35314,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								851,
+								867
+							]
+						],
+						"settings":
+						{
+							"annotations":
+							[
+								"TODO",
+								"README",
+								"FIXME"
+							],
+							"csslint_options":
+							{
+								"adjoining-classes": "warning",
+								"box-model": true,
+								"box-sizing": "warning",
+								"compatible-vendor-prefixes": "warning",
+								"display-property-grouping": true,
+								"duplicate-background-images": "warning",
+								"duplicate-properties": true,
+								"empty-rules": true,
+								"errors": true,
+								"fallback-colors": "warning",
+								"floats": "warning",
+								"font-faces": "warning",
+								"font-sizes": "warning",
+								"gradients": "warning",
+								"ids": "warning",
+								"import": "warning",
+								"important": "warning",
+								"known-properties": true,
+								"outline-none": "warning",
+								"overqualified-elements": "warning",
+								"qualified-headings": "warning",
+								"regex-selectors": "warning",
+								"rules-count": "warning",
+								"shorthand": "warning",
+								"star-property-hack": "warning",
+								"text-indent": "warning",
+								"underscore-property-hack": "warning",
+								"unique-headings": "warning",
+								"universal-selector": "warning",
+								"vendor-prefix": true,
+								"zero-units": "warning"
+							},
+							"gjslint_ignore":
+							[
+								110
+							],
+							"gjslint_options":
+							[
+							],
+							"javascript_linter": "jshint",
+							"jshint_options":
+							{
+								"browser": true,
+								"evil": true,
+								"regexdash": true,
+								"sub": true,
+								"trailing": true,
+								"wsh": true
+							},
+							"pep8": true,
+							"pep8_ignore":
+							[
+								"E501"
+							],
+							"perl_linter": "perlcritic",
+							"pyflakes_ignore":
+							[
+							],
+							"pyflakes_ignore_import_*": true,
+							"sublimelinter": true,
+							"sublimelinter_delay": 2,
+							"sublimelinter_disable":
+							[
+							],
+							"sublimelinter_executable_map":
+							{
+							},
+							"sublimelinter_fill_outlines": false,
+							"sublimelinter_gutter_marks": false,
+							"sublimelinter_mark_style": "outline",
+							"sublimelinter_notes": false,
+							"sublimelinter_objj_check_ascii": false,
+							"sublimelinter_popup_errors_on_save": false,
+							"sublimelinter_syntax_map":
+							{
+								"C++": "c",
+								"Python Django": "python",
+								"Ruby on Rails": "ruby"
+							},
+							"sublimelinter_wrap_find": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 526.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "js/class/Portail.js",
+					"file": "js/class/User.js",
 					"settings":
 					{
-						"buffer_size": 10055,
+						"buffer_size": 19456,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6492,
-								6506
+								1080,
+								1080
 							]
 						],
 						"settings":
@@ -1305,25 +1390,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3214.0,
+						"translation.y": 3234.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "js/class/Menu.js",
+					"file": "js/class/Portail.js",
 					"settings":
 					{
-						"buffer_size": 11925,
+						"buffer_size": 10157,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11896,
-								11902
+								1381,
+								1381
 							]
 						],
 						"settings":
@@ -1420,25 +1505,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 839.0,
+						"translation.y": 294.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "js/class/Article.js",
+					"file": "js/class/Menu.js",
 					"settings":
 					{
-						"buffer_size": 25546,
+						"buffer_size": 12043,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11101,
-								11101
+								6221,
+								6273
 							]
 						],
 						"settings":
@@ -1535,25 +1620,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5586.0,
+						"translation.y": 2710.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "js/class/Navigation.js",
+					"file": "phpclass/class.Article.php",
 					"settings":
 					{
-						"buffer_size": 9295,
+						"buffer_size": 8993,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2513,
-								2513
+								3301,
+								3318
 							]
 						],
 						"settings":
@@ -1646,29 +1731,29 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1764.0,
+						"translation.y": 1302.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "js/class/User.js",
+					"file": "phpclass/class.Recherche.php",
 					"settings":
 					{
-						"buffer_size": 17225,
+						"buffer_size": 3037,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13251,
-								13251
+								2437,
+								2437
 							]
 						],
 						"settings":
@@ -1761,126 +1846,11 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 6210.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "js/class/Lang.js",
-					"settings":
-					{
-						"buffer_size": 4215,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4144,
-								4166
-							]
-						],
-						"settings":
-						{
-							"annotations":
-							[
-								"TODO",
-								"README",
-								"FIXME"
-							],
-							"csslint_options":
-							{
-								"adjoining-classes": "warning",
-								"box-model": true,
-								"box-sizing": "warning",
-								"compatible-vendor-prefixes": "warning",
-								"display-property-grouping": true,
-								"duplicate-background-images": "warning",
-								"duplicate-properties": true,
-								"empty-rules": true,
-								"errors": true,
-								"fallback-colors": "warning",
-								"floats": "warning",
-								"font-faces": "warning",
-								"font-sizes": "warning",
-								"gradients": "warning",
-								"ids": "warning",
-								"import": "warning",
-								"important": "warning",
-								"known-properties": true,
-								"outline-none": "warning",
-								"overqualified-elements": "warning",
-								"qualified-headings": "warning",
-								"regex-selectors": "warning",
-								"rules-count": "warning",
-								"shorthand": "warning",
-								"star-property-hack": "warning",
-								"text-indent": "warning",
-								"underscore-property-hack": "warning",
-								"unique-headings": "warning",
-								"universal-selector": "warning",
-								"vendor-prefix": true,
-								"zero-units": "warning"
-							},
-							"gjslint_ignore":
-							[
-								110
-							],
-							"gjslint_options":
-							[
-							],
-							"javascript_linter": "jshint",
-							"jshint_options":
-							{
-								"browser": true,
-								"evil": true,
-								"regexdash": true,
-								"sub": true,
-								"trailing": true,
-								"wsh": true
-							},
-							"pep8": true,
-							"pep8_ignore":
-							[
-								"E501"
-							],
-							"perl_linter": "perlcritic",
-							"pyflakes_ignore":
-							[
-							],
-							"pyflakes_ignore_import_*": true,
-							"sublimelinter": true,
-							"sublimelinter_delay": 2,
-							"sublimelinter_disable":
-							[
-							],
-							"sublimelinter_executable_map":
-							{
-							},
-							"sublimelinter_fill_outlines": false,
-							"sublimelinter_gutter_marks": false,
-							"sublimelinter_mark_style": "outline",
-							"sublimelinter_notes": false,
-							"sublimelinter_objj_check_ascii": false,
-							"sublimelinter_popup_errors_on_save": false,
-							"sublimelinter_syntax_map":
-							{
-								"C++": "c",
-								"Python Django": "python",
-								"Ruby on Rails": "ruby"
-							},
-							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1680.0,
+						"translation.y": 588.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
