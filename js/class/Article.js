@@ -18,18 +18,12 @@ Article.prototype = {
 	 * Méthode d'initialisation de la class Recherche
 	 */
 	Init: function(){
-		this.OpenScreen();
+		
 	},
 
 	/**
-	 * Méthode OpenScreen
-	 * Affiche l'écran de démarrage de l'application
-	 */
-	OpenScreen: function(){	},
-
-	/**
 	 * Méthode LoadArticle
-	 * Charge un article
+	 * Charge un article à partir de son identifiant et lance la construction de l'article
 	 * @param id:Int 		Identifiant de l'article à charger
 	 */
 	LoadArticle: function(id){
@@ -50,6 +44,12 @@ Article.prototype = {
 		});
 	},
 
+	/**
+	 * Méthode GetArticleByUser
+	 * Récupère tous les articles d'un utilisateur pour un portail donné
+	 * @param iduser:Int 		Identifiant de l'utilisateur courant
+	 * @param idPortail:Int 	Identifiant du portail courant, dans le cas où il n'y a pas de portail courant, idPortail doit valloir null
+	 */
 	GetArticleByUser: function(iduser, idPortail){
 		$.ajax({
 
@@ -67,6 +67,12 @@ Article.prototype = {
 		});
 	},
 
+	/**
+	 * Méthode UpdateArticle
+	 * Met à jour un article à partir des données courante d'édition
+	 * @param iduser:Int 		Identifiant de l'utilisateur courant
+	 * @param idPortail:Int 	Identifiant du portail courant, dans le cas où il n'y a pas de portail courant, idPortail doit valloir null
+	 */
 	UpdateArticle: function(){
 		var data = this.s.data;
 		var idmc = Array();
@@ -157,9 +163,37 @@ Article.prototype = {
 			}).done(function(msg){
 
 				var json = $.parseJSON(msg);
-				// var json = $.parseJSON(msg)[0];
 				fnCallBack(json);
 			});
+		}
+	},
+
+	GetPortailForArticle: function(id_article, id_portail){
+
+		if(!id_portail || id_portail == null || id_portail === 0){
+			$.ajax({
+				url: "phpforms/article.getPortail.php",
+				type: "POST",
+				context: this,
+				data: { idArticle: id_article }
+
+			}).done(function(msg){
+
+				var idPortail = msg;
+
+				if(idPortail != portail.s.data.idPortail){
+					var json = {
+						value: msg,
+						text: $("#portail .menu_portail li[value='" + idPortail + "']").text()
+					};
+
+					portail.Action.Open(portail, json, function(){
+						articleContent.LoadArticle(id_article);
+					});
+				}
+			});
+		}else{
+			articleContent.LoadArticle(id_article);
 		}
 	},
 
@@ -541,11 +575,13 @@ Article.prototype = {
 
 				}
 			}
-			var tooltip = insert.find(".tooltip_link");
-			tooltip.on("click", function(){
-				var idArticle = $(this).attr("value");
-				articleContent.LoadArticle(idArticle);
-			});
+			if(insert != null){
+				var tooltip = insert.find(".tooltip_link");
+				tooltip.on("click", function(){
+					var idArticle = $(this).attr("value");
+					articleContent.LoadArticle(idArticle);
+				});
+			}
 
 			return insert;
 		}
@@ -752,7 +788,9 @@ Article.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ 
-					t.UI.Close(t); 
+					t.UI.Close(t, function(){
+						articleContent.GetArticleByUser(user.s.data.idUser, portail.s.data.idPortail);
+					}); 
 					menu.UI.BuildPortail(menu);
 				});
 			}
@@ -945,12 +983,20 @@ Article.prototype = {
 				fnCallBack = null;
 			}
 			t.Data.SetJSON(t, null);
-			$("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
-				$(this).css({"position": "absolute","right":0});
+			// $("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
+			if($(".article_content, .article_header").size() > 0){
+				$(".article_content, .article_header").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
+					$(this).css({"position": "absolute","right":0});
+					t.UI.Clear(t);
+					t.UI.ShowLogo(t);
+					if(fnCallBack) { fnCallBack(); }
+				});
+			}else{
 				t.UI.Clear(t);
 				t.UI.ShowLogo(t);
 				if(fnCallBack) { fnCallBack(); }
-			});
+			}
+			$("#informations").children().remove();
 		},
 
 		/**
@@ -1212,7 +1258,7 @@ Article.prototype = {
 		},
 
 		TraceHomeTuileArticle: function(t, article){
-			var insert = $("<div></div>").addClass("tuile cat_" + article.idCategorie).attr("value", article.idArticle);
+			var insert = $("<div></div>").addClass("tuile").attr("value", article.idArticle);
 
 			var title = $("<div></div>").addClass("tuile_title").text(article.titre);
 
@@ -1224,6 +1270,11 @@ Article.prototype = {
 
 			insert.append(title).append(description);
 			$("#article").append(insert);
+
+			insert.on("click", function(){
+				var idPortail = (portail && portail.s.data && portail.s.data.idPortail != null)? portail.s.data.idPortail : null ;
+				t.GetPortailForArticle($(this).attr("value"), idPortail);
+			});
 		}
 	}
 }

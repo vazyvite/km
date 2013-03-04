@@ -53,16 +53,17 @@
 
 
 		// ARTICLES
-		const DB_ARTICLE_ALL = 		"SELECT * FROM article";
-		const DB_ARTICLE_LIST = 	"SELECT * FROM article WHERE idCategorie = '{{IDCATEGORIE}}'";
-		const DB_ARTICLE_BYID = 	"SELECT * FROM article WHERE idArticle = '{{IDARTICLE}}'";
-		const DB_ARTICLE_BYTERMS = 	"SELECT A.idArticle, A.idType, A.idUser, A.dt_creation, A.idCategorie, A.titre, A.article, C.idCategorie, C.categorie FROM article A INNER JOIN categorie C ON A.idCategorie = C.idCategorie LEFT OUTER JOIN motcle M ON A.idArticle = M.idArticle  WHERE C.idPortail = {{IDPORTAIL}} AND ((A.titre LIKE '%{{TERMS}}%' OR A.article LIKE '%{{TERMS}}%' ) OR M.motcle LIKE '%{{TERMS}}%')";
-		const DB_ARTICLE_BYUAP = 	"SELECT * FROM article A, categorie C WHERE A.idCategorie = C.idCategorie AND A.idUser = '{{IDUSER}}' AND C.idPortail = '{{IDPORTAIL}}'";
-		const DB_ARTICLE_BYUSER = 	"SELECT * FROM article WHERE idUser = '{{IDUSER}}'";
-		const DB_ARTICLE_CREATE = 	"INSERT INTO article (idType, idUser, idCategorie, titre, article) VALUES ('{{IDTYPE}}', '{{IDUSER}}', '{{IDCATEGORIE}}', '{{TITRE}}', '{{ARTICLE}}')";
-		const DB_ARTICLE_UPDATE = 	"UPDATE article SET titre='{{TITLEARTICLE}}', article='{{CONTENTARTICLE}}' WHERE idArticle = '{{IDARTICLE}}'";
-		const DB_ARTICLE_DELETE = 	"DELETE FROM article WHERE idArticle = '{{IDARTICLE}}'";
-		const DB_ARTICLE_MATCH = 	"SELECT A.idArticle, A.titre FROM article A, motcle M WHERE A.idArticle = M.idArticle AND A.idCategorie = '{{IDCATEGORIE}}' AND M.motcle = '{{MOTCLE}}'";
+		const DB_ARTICLE_ALL = 			"SELECT * FROM article";
+		const DB_ARTICLE_LIST = 		"SELECT * FROM article WHERE idCategorie = '{{IDCATEGORIE}}'";
+		const DB_ARTICLE_BYID = 		"SELECT * FROM article WHERE idArticle = '{{IDARTICLE}}'";
+		const DB_ARTICLE_BYTERMS = 		"SELECT A.idArticle, A.idType, A.idUser, A.dt_creation, A.idCategorie, A.titre, A.article, C.idCategorie, C.categorie FROM article A INNER JOIN categorie C ON A.idCategorie = C.idCategorie LEFT OUTER JOIN motcle M ON A.idArticle = M.idArticle  WHERE C.idPortail = {{IDPORTAIL}} AND ((A.titre LIKE '%{{TERMS}}%' OR A.article LIKE '%{{TERMS}}%' ) OR M.motcle LIKE '%{{TERMS}}%')";
+		const DB_ARTICLE_BYUAP = 		"SELECT * FROM article A, categorie C WHERE A.idCategorie = C.idCategorie AND A.idUser = '{{IDUSER}}' AND C.idPortail = '{{IDPORTAIL}}'";
+		const DB_ARTICLE_BYUSER = 		"SELECT * FROM article WHERE idUser = '{{IDUSER}}'";
+		const DB_ARTICLE_CREATE = 		"INSERT INTO article (idType, idUser, idCategorie, titre, article) VALUES ('{{IDTYPE}}', '{{IDUSER}}', '{{IDCATEGORIE}}', '{{TITRE}}', '{{ARTICLE}}')";
+		const DB_ARTICLE_UPDATE = 		"UPDATE article SET titre='{{TITLEARTICLE}}', article='{{CONTENTARTICLE}}' WHERE idArticle = '{{IDARTICLE}}'";
+		const DB_ARTICLE_DELETE = 		"DELETE FROM article WHERE idArticle = '{{IDARTICLE}}'";
+		const DB_ARTICLE_MATCH = 		"SELECT A.idArticle, A.titre FROM article A, motcle M WHERE A.idArticle = M.idArticle AND A.idCategorie = '{{IDCATEGORIE}}' AND M.motcle = '{{MOTCLE}}'";
+		const DB_ARTICLE_GETPORTAIL = 	"SELECT P.idPortail FROM article A, categorie C, portail P WHERE A.idCategorie = C.idCategorie AND C.idPortail = P.idPortail AND A.idArticle = '{{IDARTICLE}}'";
 
 		function getAllArticle(){ return DBQuery::DB_ARTICLE_ALL; }
 		function getListArticle($id_categorie){ return str_replace(array("{{IDCATEGORIE}}"), array($id_categorie), DBQuery::DB_ARTICLE_LIST); }
@@ -74,6 +75,7 @@
 		function updateArticle($id_article, $titre, $content){ return str_replace(array("{{TITLEARTICLE}}", "{{CONTENTARTICLE}}", "{{IDARTICLE}}"), array($titre, $content, $id_article), DBQuery::DB_ARTICLE_UPDATE); }
 		function deleteArticle($id_article){ return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_ARTICLE_DELETE); }
 		function getMatchingArticles($id_categorie, $motcle){ return str_replace(array("{{IDCATEGORIE}}", "{{MOTCLE}}"), array($id_categorie, $motcle), DBQuery::DB_ARTICLE_MATCH); }
+		function getPortailForArticle($id_article){ return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_ARTICLE_GETPORTAIL); }
 
 
 

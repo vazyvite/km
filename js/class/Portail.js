@@ -151,7 +151,7 @@ Portail.prototype = {
 		 * @param t:Contexte
 		 * @param element:JSON 		Informations sur le nouveau portail
 		 */
-		Open: function(t, new_portail){
+		Open: function(t, new_portail, fnCallback){
 			var accord = (t.s.data.idPortail != null && new_portail.value != t.s.data.idPortail) ? confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + t.s.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + new_portail.text + " ?") : true;
 			var isNewInterface = (t.s.data.idPortail == null) ? true : false;
 
@@ -164,7 +164,12 @@ Portail.prototype = {
 						articleContent.GetArticleByUser(user.s.data.idUser, portail.s.data.idPortail);
 					});
 				}else{
-					articleContent.GetArticleByUser(user.s.data.idUser, new_portail.value);
+					if(!fnCallback && typeof fnCallback != "function"){
+						articleContent.GetArticleByUser(user.s.data.idUser, new_portail.value);
+					}else if(typeof fnCallback == "function"){
+						fnCallback();
+					}
+
 				}
 			}
 

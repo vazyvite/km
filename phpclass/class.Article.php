@@ -295,5 +295,21 @@
 			}
 			return $list;
 		}
+
+		function GetPortail($idArticle){
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+
+			$res = $mysqli->Query($dbq->getPortailForArticle($idArticle));
+
+			if($res != false){
+				$f = $res->fetch_assoc();
+				$article = $f['idPortail'];
+			}else{
+				$article = null;
+			}
+
+			return $article;
+		}
 	}
 ?>
