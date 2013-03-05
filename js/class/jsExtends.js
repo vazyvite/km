@@ -19,6 +19,6 @@ Array.prototype = {
 			array.push(data.motcles[i].motcle);
 		}
 
-		return array.concat(array, delimiter);
+		return array.join(delimiter);
 	}
 }
