@@ -142,14 +142,15 @@ User.prototype = {
 	 * @return Boolean 		Retourne true si l'utilisateur à les droits suffisants pour accéder à la fonction, false dans le cas contraire
 	 */
 	CheckUserAccess: function(lvl){
-		var usr = Data.user.data;
+		/*var usr = Data.user.data;
 		var role = parseInt(usr.role);
 
 		if(usr.role == ""){ 
 			return false;
 		}
 
-		return (role >= parseInt(lvl)) ? true : false;
+		return (role >= parseInt(lvl)) ? true : false;*/
+		CheckAccess("list");
 	},
 
 	/**
@@ -465,7 +466,7 @@ User.prototype = {
 						popin.Action.Hide(popin);
 					}
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: true, type: "user"
+				onCancel: null, lvlRequise: "admin", closeBtn: true, type: "user"
 			};
 		},
 
@@ -478,7 +479,7 @@ User.prototype = {
 					var id = p.find(".p_ID").val();
 					if(id != ""){ user.Delete(id); popin.Action.Hide(popin); }
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: false, type: "user"
+				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "user"
 			};
 		},
 
@@ -502,7 +503,7 @@ User.prototype = {
 						popin.Action.Hide(popin);
 					}
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: false, type: "user", caller: caller
+				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "user", caller: caller
 			};
 		}
 	},

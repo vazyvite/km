@@ -30,4 +30,4 @@ var Data = {
 	recherche: {
 		data: null
 	}
-}
+};

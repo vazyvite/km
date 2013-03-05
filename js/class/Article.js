@@ -203,13 +203,13 @@ Article.prototype = {
 		 * @param t:Contexte
 		 */
 		Edit: function(t, json){
-			var lvl = "10";
+			var lvl = "edit";
 			var article = $("#article");
 			var infos = $("#informations");
 			var access = $("#accessibility");
 			var arr_mc = Array();
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				
 				var gabarit = { 
 					description: "<aside title='" + Lang[user.GetLangue()].lbl.desc_article + "'>description</aside>",
@@ -347,14 +347,14 @@ Article.prototype = {
 		},
 
 		BuildCreate: function(t){
-			var lvl = "10";
+			var lvl = "create";
 			var article = $("#article");
 			var infos = $("#informations");
 			var access = $("#accessibility");
 			var access = $("#accessibility");
 			var arr_mc = Array();
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 
 				var json = {
 					idArticle: -1,
@@ -374,11 +374,11 @@ Article.prototype = {
 		},
 
 		Create: function(t){
-			var lvl = "10";
+			var lvl = "create";
 			var article = $("#article");
 			var motcle = Array();
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 
 				var content = article.find(".article_content").getCode();
 				var titre = article.find(".article_title_edit").val();
@@ -418,11 +418,11 @@ Article.prototype = {
 		 * @param isCancel:Boolean 		indique si l'action est un cancel ou une sauvegarde de la modification
 		 */
 		Save: function(t, isCancel){
-			var lvl = "10";
+			var lvl = "edit";
 			var article = $("#article");
 			var motcle = Array();
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				
 				var content = article.find(".article_content").getCode();
 				var titre = article.find(".article_title_edit").val();
@@ -464,9 +464,9 @@ Article.prototype = {
 		 * @param t:Contexte
 		 */
 		Delete: function(t){
-			var lvl = "11";
+			var lvl = "delete";
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				var str = {
 					title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + Data.article.data.idArticle + "' />",
 					content: "", cmd: ["valide", "cancel"],
@@ -490,10 +490,10 @@ Article.prototype = {
 		 * @param strTab:Array[JSON] 	données concernant la structure du tableau
 		 */
 		BuildAdmin: function(t, json, strTab, titre, type){
-			var lvl = "11";
+			var lvl = "admin";
 			var table = t.UI.TablePortail(t, strTab);
 
-			if(table != null && user.CheckUserAccess(lvl)){
+			if(table != null && CheckAccess(lvl)){
 				for(var i = 0; i < json.length; i++){
 					var line = t.UI.LinePortail(t, strTab, json[i], type);
 					if(line != null){ table.find("tbody").append(line); }
@@ -782,10 +782,10 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton de retour
 		 */
 		BtnRetour: function(t){
-			var lvl = "01";
+			var lvl = "show";
 			var btnClose = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ 
 					t.UI.Close(t, function(){
 						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
@@ -804,10 +804,10 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton de modification
 		 */
 		BtnModifier: function(t, json){
-			var lvl = "10";
+			var lvl = "edit";
 			var btnModif = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnModif = $("<button class='btn_modif'>" + Lang[user.GetLangue()].btn.modify + "</button>").attr("value", json.idArticle).on("click", function(){ 
 					t.Action.Edit(t, json);
 				});
@@ -826,7 +826,7 @@ Article.prototype = {
 			var lvl = "01";
 			var btnModif = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnModif = $("<button class='btn_pdf'>" + Lang[user.GetLangue()].btn.pdf + "</button>").attr("value", json.idArticle).on("click", function(){
 						window.open('./phpforms/article.exportPDF.php?idArticle=' + $(this).attr("value"), '_blank');
 				});
@@ -842,10 +842,10 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton de sauvegarde
 		 */
 		BtnSave: function(t, json){
-			var lvl = "10";
+			var lvl = "edit";
 			var btnSave = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnSave = $("<button class='btn_save'>" + Lang[user.GetLangue()].btn.save + "</button>").attr("value", json.idArticle).hide().on("click", function(){ 
 					t.Action.Save(t, false);
 				});
@@ -861,10 +861,10 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton de modification
 		 */
 		BtnCreate: function(t, json){
-			var lvl = "10";
+			var lvl = "create";
 			var btnModif = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnModif = $("<button class='btn_create'>" + Lang[user.GetLangue()].btn.create + "</button>").hide().on("click", function(){ 
 					t.Action.Create(t);
 				});
@@ -879,10 +879,10 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton d'annulation
 		 */
 		BtnCancel: function(t){
-			var lvl = "10";
+			var lvl = "show";
 			var btnCancel = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnCancel = $("<button class='btn_cancel'>" + Lang[user.GetLangue()].btn.cancel + "</button>").hide().on("click", function(){ 
 					t.Action.Save(t, true);
 				});
@@ -897,11 +897,11 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton d'annulation
 		 */
 		BtnCancelCreate: function(t){
-			var lvl = "10";
+			var lvl = "create";
 			var btnCancel = null;
 
-			if(user.CheckUserAccess(lvl)){
-				btnCancel = $("<button class='btn_cancelCreate'>" + Lang[user.GetLangue()].btn.cancel + "</button>").hide().on("click", function(){ 
+			if(CheckAccess(lvl)){
+				btnCancel = $("<button></button>").addClass("btn_cancelCreate").text(Lang[user.GetLangue()].btn.cancel).hide().on("click", function(){ 
 					t.UI.Close(t); 
 					menu.UI.BuildPortail(menu); 
 				});
@@ -916,10 +916,10 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au bouton de suppression
 		 */
 		BtnDelete: function(t){
-			var lvl = "10";
+			var lvl = "delete";
 			var btnDel = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btnDel = $("<button class='btn_delete delete'>" + Lang[user.GetLangue()].btn.delete + "</button>").hide().on("click", function(){ 
 					t.Action.Delete(t);
 				});
@@ -934,11 +934,11 @@ Article.prototype = {
 		* @return jQueryObject 	objet jQuery correspondant au bloc d'accessibilité
 		*/
 		Accessibility: function(t){
-			var lvl = "01";
+			var lvl = "show";
 			var insert = null;
 			
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				insert = $("<ul id='accessibility'><li class='btn_access_fontSize smallFont'></li><li class='btn_access_fontSize mediumFont'></li><li class='btn_access_fontSize largeFont'></li></ul>");
 
 				insert.find(".smallFont").on("click", function(){
@@ -1024,10 +1024,10 @@ Article.prototype = {
 		 */
 		TablePortail: function(t, str){
 			var table = null;
-			var lvl = "11";
+			var lvl = "admin";
 			var w, className;
 
-			if(str.length && user.CheckUserAccess(lvl)){
+			if(str.length && CheckAccess(lvl)){
 
 				table = $("<table><thead></thead><tbody></tbody></table>");
 				line = $("<tr></tr>");
@@ -1061,10 +1061,10 @@ Article.prototype = {
 		 */
 		LinePortail: function(t, str, json, type){
 			var line = null;
-			var lvl = "11";
+			var lvl = "admin";
 			var page = "portail"
 
-			if(str.length && user.CheckUserAccess(lvl)){
+			if(str.length && CheckAccess(lvl)){
 
 				line = ($("<tr value='" + json.id + "'></tr>"));
 
@@ -1104,9 +1104,9 @@ Article.prototype = {
 		 * @parma title:String 			Titre de la page
 		 */
 		AdminTitle: function(t, title){
-			var lvl = "11";
+			var lvl = "admin";
 			
-			if(user.CheckUserAccess(lvl) && title != ""){
+			if(CheckAccess(lvl) && title != ""){
 				var insert = $("<div></div>").addClass("admin_title").html(title);
 				$(t.s.bloc).append(insert);
 			}
@@ -1119,9 +1119,9 @@ Article.prototype = {
 		 * @parma section:jQueryObject 	Contenu de la page
 		 */
 		AdminContent: function(t, section){
-			var lvl = "11";
+			var lvl = "admin";
 
-			if(user.CheckUserAccess(lvl) && title != ""){
+			if(CheckAccess(lvl) && title != ""){
 				var insert = $("<div></div>").addClass("admin_content").html(section);
 				$(t.s.bloc).append(insert);
 			}
@@ -1134,9 +1134,9 @@ Article.prototype = {
 		 * @parma section:jQueryObject 	Contenu de la page
 		 */
 		AdminStat: function(t){
-			var lvl = "11";
+			var lvl = "admin";
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				var insert = $("<div></div>").addClass("admin_stat");
 				$(t.s.bloc).append(insert);
 			}
@@ -1148,10 +1148,10 @@ Article.prototype = {
 		 * @param t:Contexte
 		 */
 		AdminBtnEdit: function(t, page, popin_data, str, json){
-			var lvl = "11";
+			var lvl = "admin";
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				insert = $("<a></a>").addClass(page + " btn_edit");
 				insert.on("click", function(){
 					popin = new Popin(popin_data, str, json);
@@ -1168,10 +1168,10 @@ Article.prototype = {
 		 * @param t:Contexte
 		 */
 		AdminBtnDel: function(t, page, popin_data){
-			var lvl = "11";
+			var lvl = "admin";
 			var insert = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				insert = $("<a></a>").addClass(page + " btn_del");
 				insert.on("click", function(){
 					popin = new Popin(popin_data, null, null);

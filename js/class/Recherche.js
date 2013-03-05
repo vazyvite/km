@@ -30,10 +30,10 @@ Recherche.prototype = {
 	 * Lance la recherche des articles
 	 */
 	GetResults: function(terms){
-		var lvl = "01";
+		var lvl = "list";
 		var idPortail = Data.portail.data.idPortail;
 
-		if(idPortail != null && user.CheckUserAccess(lvl)){
+		if(idPortail != null && CheckAccess(lvl)){
 
 			$.ajax({
 
@@ -122,9 +122,9 @@ Recherche.prototype = {
 		 * Construction de l'input de recherche
 		 */
 		SearchInput: function(t){
-			var lvl = "01";
+			var lvl = "show";
 			
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 
 				var insert = $("<div class='" + t.s.input + "'><input type='search' value='' /></div>")
 				$(t.s.bloc).append(insert);
@@ -142,11 +142,11 @@ Recherche.prototype = {
 		 * @param terms:String		élément recherché
 		 */
 		Populate: function(t, terms){
-			var lvl = "01";
+			var lvl = "list";
 
 			$(".searchResults ul").remove();
 
-			if(terms != "" && user.CheckUserAccess(lvl)){
+			if(terms != "" && CheckAccess(lvl)){
 				var insert = $("<div class='searchResults'><ul></ul></div>")
 				$(t.s.bloc).append(insert);
 

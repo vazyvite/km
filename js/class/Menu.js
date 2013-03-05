@@ -214,11 +214,11 @@ Menu.prototype = {
 		 * @param t:Contexte
 		 */
 		Btn_Home: function(t){
-			var lvl = "01";
+			var lvl = "show";
 			var btn = null;
 			var idPortail = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton retour' title='" + Lang[user.GetLangue()].btn.out_portail + "'></li>").on("click", function(){
 					portail.Action.Reset(portail);
 
@@ -246,10 +246,10 @@ Menu.prototype = {
 		 * @param t:Contexte
 		 */
 		Btn_AdminCategorie: function(t){
-			var lvl = "10";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton admin_categorie' title='" + Lang[user.GetLangue()].btn.admin_categorie + "'></li>").on("click", function(){
 					navigation.Action.Administration(navigation);
 				});
@@ -263,10 +263,10 @@ Menu.prototype = {
 		 * @param t:Contexte
 		 */
 		Btn_AddCategorie: function(t){
-			var lvl = "10";
+			var lvl = "create";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton add_categorie' title='" + Lang[user.GetLangue()].btn.add_categorie + "'></li>").on("click", function(){
 					navigation.Action.Create(navigation, $(this));
 				});
@@ -280,10 +280,10 @@ Menu.prototype = {
 		 * @param t:Contexte
 		 */
 		Btn_DelCategorie: function(t){
-			var lvl = "10";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton del_categorie' title='" + Lang[user.GetLangue()].btn.del_categorie + "'></li>").on("click", function(){
 					// Action
 				});
@@ -297,10 +297,10 @@ Menu.prototype = {
 		 * @param t:Contexte
 		 */
 		Btn_EditCategorie: function(t){
-			var lvl = "10";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton edit_categorie' title='" + Lang[user.GetLangue()].btn.edit_categorie + "'></li>").on("click", function(){
 					// Action
 				});
@@ -314,10 +314,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_AddArticle: function(t){
-			var lvl = "10";
+			var lvl = "edit";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton add_article' title='" + Lang[user.GetLangue()].btn.add_article + "'></li>").on("click", function(){ 
 					articleContent.Action.BuildCreate(articleContent);
 				});
@@ -331,10 +331,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_AdminPortail: function(t){
-			var lvl = "10";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton admin_portail' title='" + Lang[user.GetLangue()].btn.admin_portail + "'></li>").on("click", function(){ 
 					portail.Action.Administration(portail);
 				});
@@ -348,10 +348,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_AddPortail: function(t){
-			var lvl = "10";
+			var lvl = "create";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton add_portail' title='" + Lang[user.GetLangue()].btn.add_portail + "'></li>").on("click", function(){ 
 					portail.Action.Create(portail, $(this));
 				});
@@ -365,10 +365,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_DelPortail: function(t){
-			var lvl = "10";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton del_portail' title='" + Lang[user.GetLangue()].btn.del_portail + "'></li>").on("click", function(){ 
 					// t.Action.Save(t, false);
 				});
@@ -382,10 +382,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_EditPortail: function(t){
-			var lvl = "10";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton edit_portail' title='" + Lang[user.GetLangue()].btn.edit_portail + "'></li>").on("click", function(){ 
 					// t.Action.Save(t, false);
 				});
@@ -399,10 +399,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_AdminUser: function(t){
-			var lvl = "11";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton admin_user' title='" + Lang[user.GetLangue()].btn.admin_user + "'></li>").on("click", function(){ 
 					user.Action.Administration(user);
 				});
@@ -416,10 +416,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_AddUser: function(t){
-			var lvl = "11";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton add_user' title='" + Lang[user.GetLangue()].btn.add_user + "'></li>").on("click", function(){ 
 					user.Action.Create(user, $(this));
 				});
@@ -433,10 +433,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_DelUser: function(t){
-			var lvl = "11";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton del_user' title='" + Lang[user.GetLangue()].btn.del_user + "'></li>").on("click", function(){ 
 					// Action
 				});
@@ -450,10 +450,10 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		Btn_EditUser: function(t){
-			var lvl = "11";
+			var lvl = "admin";
 			var btn = null;
 
-			if(user.CheckUserAccess(lvl)){
+			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton edit_user' title='" + Lang[user.GetLangue()].btn.edit_user + "'></li>").on("click", function(){ 
 					// t.Action.Save(t, false);
 				});

@@ -29,9 +29,9 @@ Navigation.prototype = {
 	 */
 	GetNavigation: function(show, fnCallback){
 		var idPortail = Data.portail.data.idPortail;
-		var lvl = "01";
+		var lvl = "list";
 
-		if(user.CheckUserAccess(lvl)){
+		if(CheckAccess(lvl)){
 
 			if(idPortail != null){
 
@@ -222,7 +222,7 @@ Navigation.prototype = {
 					}
 					if(data.id != "" && data.portail != "" && data.categorie != "" && data.description != ""){ t.Update(data); popin.Action.Hide(popin); }
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: true, type: "categorie"
+				onCancel: null, lvlRequise: "admin", closeBtn: true, type: "categorie"
 			};
 		},
 
@@ -235,7 +235,7 @@ Navigation.prototype = {
 					var id = p.find(".p_ID").val();
 					if(id != ""){ t.Delete(id); popin.Action.Hide(popin); }
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: false, type: "categorie"
+				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "categorie"
 			};
 		},
 
@@ -252,7 +252,7 @@ Navigation.prototype = {
 
 					if(data.categorie != "" && data.idPortail != "" && data.description != ""){ navigation.Create(data); popin.Action.Hide(popin); }
 				},
-				onCancel: null, lvlRequise: "11", closeBtn: false, type: "categorie", caller: caller
+				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "categorie", caller: caller
 			};
 		},
 	},
@@ -280,10 +280,10 @@ Navigation.prototype = {
 		 */
 		Populate: function(t){
 			var categorie, article, insertCategorie, insertArticle;
-			var lvl = "01";
+			var lvl = "list";
 			var content = $(t.s.bloc);
 
-			if(Data.navigation.data != null && user.CheckUserAccess(lvl)){
+			if(Data.navigation.data != null && CheckAccess(lvl)){
 
 				var ul = $("<ul class='navigation_content'></ul>");
 				content.children().remove();
