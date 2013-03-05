@@ -20,6 +20,7 @@
 		<script type="text/javascript" src="./js/grid.js"></script> -->
 		
 		<script type="text/javascript" src="./js/class/Lang.js"></script>
+		<script type="text/javascript" src="./js/class/Data.js"></script>
 		<script type="text/javascript" src="./js/class/Popin.js"></script>
 		<script type="text/javascript" src="./js/class/Menu.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
@@ -70,7 +71,7 @@
 					<div id="title"></div>
 					<div id="informations"></div>
 					<div id="article"></div>
-					<div id="logos">KM<span>v0.9</span></div>
+					<div id="logos"></div>
 				</div>
 
 			</div>

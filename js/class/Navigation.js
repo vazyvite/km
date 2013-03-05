@@ -28,7 +28,7 @@ Navigation.prototype = {
 	 * Créer le contenu de la navigation
 	 */
 	GetNavigation: function(show, fnCallback){
-		var idPortail = portail.s.data.idPortail;
+		var idPortail = Data.portail.data.idPortail;
 		var lvl = "01";
 
 		if(user.CheckUserAccess(lvl)){
@@ -204,7 +204,7 @@ Navigation.prototype = {
 		 * @param json:JSON 		données concernant la navigation
 		 */
 		SetJSON: function(t, json){
-			t.s.data = json;
+			Data.navigation.data = json;
 		},
 
 		PopinDataCategorieEdit: function(t, json, str){
@@ -283,14 +283,14 @@ Navigation.prototype = {
 			var lvl = "01";
 			var content = $(t.s.bloc);
 
-			if(t.s.data != null && user.CheckUserAccess(lvl)){
+			if(Data.navigation.data != null && user.CheckUserAccess(lvl)){
 
 				var ul = $("<ul class='navigation_content'></ul>");
 				content.children().remove();
 				content.append(ul);
 
-				for(var i = 0; i < t.s.data.length; i++){
-					categorie = t.s.data[i];
+				for(var i = 0; i < Data.navigation.data.length; i++){
+					categorie = Data.navigation.data[i];
 
 					if(categorie.articles.length){
 						insertCategorie = $("<li class='categorie_title off'><span>" + categorie.categorie + "</span><ul class='categorie_articles'></ul></li>");

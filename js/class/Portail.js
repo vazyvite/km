@@ -25,7 +25,8 @@ Portail.prototype = {
 	 */
 	Init: function(){
 		this.GetAllPortail(true, function(){
-			articleContent.GetArticleByUser(user.s.data.idUser, null);
+			// articleContent.GetArticleByUser(user.s.data.idUser, null); // JJA
+			articleContent.GetArticleByUser(Data.user.data.idUser, null);
 		});
 	},
 
@@ -152,8 +153,10 @@ Portail.prototype = {
 		 * @param element:JSON 		Informations sur le nouveau portail
 		 */
 		Open: function(t, new_portail, fnCallback){
-			var accord = (t.s.data.idPortail != null && new_portail.value != t.s.data.idPortail) ? confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + t.s.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + new_portail.text + " ?") : true;
-			var isNewInterface = (t.s.data.idPortail == null) ? true : false;
+			// var accord = (t.s.data.idPortail != null && new_portail.value != t.s.data.idPortail) ? confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + t.s.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + new_portail.text + " ?") : true; // JJA
+			var accord = (Data.portail.data.idPortail != null && new_portail.value != Data.portail.data.idPortail) ? confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + Data.portail.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + new_portail.text + " ?") : true;
+			// var isNewInterface = (t.s.data.idPortail == null) ? true : false;
+			var isNewInterface = (Data.portail.data.idPortail == null) ? true : false;
 
 			t.Data.SetJSON(t, { idPortail: new_portail.value, portail: new_portail.text });
 
@@ -161,11 +164,11 @@ Portail.prototype = {
 				t.UI.PortailInfos(t);
 				if(articleContent && !isNewInterface){
 					articleContent.UI.Close(articleContent, function(){
-						articleContent.GetArticleByUser(user.s.data.idUser, portail.s.data.idPortail);
+						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
 					});
 				}else{
 					if(!fnCallback && typeof fnCallback != "function"){
-						articleContent.GetArticleByUser(user.s.data.idUser, new_portail.value);
+						articleContent.GetArticleByUser(Data.user.data.idUser, new_portail.value);
 					}else if(typeof fnCallback == "function"){
 						fnCallback();
 					}
@@ -223,7 +226,7 @@ Portail.prototype = {
 		 * @param json:JSON 			données JSON du portail sélectionné
 		 */
 		SetJSON: function(t, json){
-			t.s.data = { idPortail: json.idPortail, portail: json.portail };
+			Data.portail.data = json;
 		},
 
 		/**
@@ -232,8 +235,8 @@ Portail.prototype = {
 		 * @param t:Contexte
 		 */
 		SetHTML: function(t){
-			$("#portaildata_idPortail").val(t.s.data.idPortail);
-			$("#portaildata_portail").val(t.s.data.portail);
+			$("#portaildata_idPortail").val(Data.portail.data.idPortail);
+			$("#portaildata_portail").val(Data.portail.data.portail);
 		},
 
 		PopinDataPortailEdit: function(t, json, str){
@@ -334,9 +337,9 @@ Portail.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 
-				if(t.s.data.portail != null){
+				if(Data.portail.data.portail != null){
 
-					bloc_info.text(t.s.data.portail).attr("value", t.s.data.idPortail).parent().addClass("portail_selected");
+					bloc_info.text(Data.portail.data.portail).attr("value", Data.portail.data.idPortail).parent().addClass("portail_selected");
 					t.Data.SetHTML(t);
 					t.UI.ShowInterface(t);
 

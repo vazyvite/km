@@ -151,13 +151,13 @@ Article.prototype = {
 		}
 		mc = mc.join(";");
 
-		if(articleContent && articleContent.s.data && articleContent.s.data.idCategorie && mc.length){
+		if(Data.article && Data.article.data && Data.article.data.idCategorie && mc.length){
 			$.ajax({
 
 				url: "phpforms/article.assoc.php",
 				type: "POST",
 				context: this,
-				data: { idCategorie: this.s.data.idCategorie, motcles: mc }
+				data: { idCategorie: Data.article.data.idCategorie, motcles: mc }
 
 			}).done(function(msg){
 
@@ -180,7 +180,7 @@ Article.prototype = {
 
 				var idPortail = msg;
 
-				if(idPortail != portail.s.data.idPortail){
+				if(idPortail != Data.portail.data.idPortail){
 					var json = {
 						value: msg,
 						text: $("#portail .menu_portail li[value='" + idPortail + "']").text()
@@ -299,8 +299,8 @@ Article.prototype = {
 						data_mc = Array();
 					}
 					
-				}else if(t.s.data != null && t.s.data.motcles && t.s.data.motcles.length){
-					data_mc = t.s.data.motcles;
+				}else if(Data.article.data != null && Data.article.data.motcles && Data.article.data.motcles.length){
+					data_mc = Data.article.data.motcles;
 
 				}else{
 					data_mc = Array();
@@ -313,8 +313,8 @@ Article.prototype = {
 
 				if(json.idArticle == -1){
 					var select = $("<select></select>").addClass('article_categorie_edit');
-					for(var i = 0; i < navigation.s.data.length; i++){
-						var cat = navigation.s.data[i];
+					for(var i = 0; i < Data.navigation.data.length; i++){
+						var cat = Data.navigation.data[i];
 
 						select.append($("<option value='" + cat.id + "' title='" + cat.description + "'>" + cat.categorie + "</option>"));
 					}
@@ -359,9 +359,9 @@ Article.prototype = {
 				var json = {
 					idArticle: -1,
 					idType: 1,
-					idUser: user.s.data.idUser,
+					idUser: Data.user.data.idUser,
 					type: "Article",
-					user: user.s.data.fstName + " " + user.s.data.lstName,
+					user: Data.user.data.fstName + " " + Data.user.data.lstName,
 					dateCreation: Lang[user.GetLangue()].lbl.now,
 					titre: "",
 					article: "",
@@ -393,9 +393,9 @@ Article.prototype = {
 					var data = {
 						idArticle: -1,
 						idType: 1,
-						idUser: user.s.data.idUser,
+						idUser: Data.user.data.idUser,
 						type: "Article",
-						user: user.s.data.fstName + " " + user.s.data.lstName,
+						user: Data.user.data.fstName + " " + Data.user.data.lstName,
 						dateCreation: Lang[user.GetLangue()].lbl.now,
 						titre: titre,
 						article: content,
@@ -432,18 +432,18 @@ Article.prototype = {
 
 					if(!isCancel){
 						for(var i = 0; i < mc.length; i++){
-							motcle.push({idArticle: t.s.data.idArticle, idMotCle: mc[i].id, motcle: mc[i].name});
+							motcle.push({idArticle: Data.article.data.idArticle, idMotCle: mc[i].id, motcle: mc[i].name});
 						}
 
 						t.Data.Update(t, titre, content, motcle);
-						t.UpdateArticle(t.s.data);
+						t.UpdateArticle(Data.article.data);
 
 					}else{
-						article.find(".article_content").html(t.s.data.article);
-						article.find(".article_title").text(t.s.data.titre);
+						article.find(".article_content").html(Data.article.data.article);
+						article.find(".article_title").text(Data.article.data.titre);
 
-						for(var i = 0; i < t.s.data.motcles.length; i++){
-							var motcle = t.s.data.motcles[i];
+						for(var i = 0; i < Data.article.data.motcles.length; i++){
+							var motcle = Data.article.data.motcles[i];
 							var insert = $("<a></a>").addClass("motcle").attr("value", motcle.idMotCle).text(motcle.motcle);
 							article.find('.article_listMotCles').append(insert);
 
@@ -452,7 +452,7 @@ Article.prototype = {
 							});
 						}
 
-						t.LoadArticle(t.s.data.idArticle);
+						t.LoadArticle(Data.article.data.idArticle);
 					}
 				}
 			}
@@ -468,7 +468,7 @@ Article.prototype = {
 
 			if(user.CheckUserAccess(lvl)){
 				var str = {
-					title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + t.s.data.idArticle + "' />",
+					title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + Data.article.data.idArticle + "' />",
 					content: "", cmd: ["valide", "cancel"],
 					onValidate: function(){
 						var p = $(".popin");
@@ -519,7 +519,7 @@ Article.prototype = {
 		 * @param json:JSON 		données de l'article
 		 */
 		SetJSON: function(t, json){
-			t.s.data = json;
+			Data.article.data = json;
 		},
 
 		/**
@@ -531,9 +531,9 @@ Article.prototype = {
 		 * @param motcle:String 		mots clés de l'article
 		 */
 		Update: function(t, titre, content, motcle){
-			t.s.data.titre = titre;
-			t.s.data.article = content;
-			t.s.data.motcles = motcle;
+			Data.article.data.titre = titre;
+			Data.article.data.article = content;
+			Data.article.data.motcles = motcle;
 		},
 
 		/**
@@ -719,8 +719,8 @@ Article.prototype = {
 			var content = $(json.article);
 			var container = $("<div></div>").addClass("article_content").append(content);
 			if(json.idArticle != -1){
-				if(t.s.data.motcles.length){
-					t.GetAssociatedArticles(t.s.data.motcles, function(json_assoc){
+				if(Data.article.data.motcles.length){
+					t.GetAssociatedArticles(Data.article.data.motcles, function(json_assoc){
 						t.UI.ShowAssociatedArticles(t, content, json_assoc);
 						t.UI.HighlightArticles(t, content);
 
@@ -788,7 +788,7 @@ Article.prototype = {
 			if(user.CheckUserAccess(lvl)){
 				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ 
 					t.UI.Close(t, function(){
-						articleContent.GetArticleByUser(user.s.data.idUser, portail.s.data.idPortail);
+						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
 					}); 
 					menu.UI.BuildPortail(menu);
 				});
@@ -1189,15 +1189,15 @@ Article.prototype = {
 		 * @param cible:jQueryObject 		objet jquery correspondant à l'élément dans lequel on doit rechercher les termes
 		 */
 		HighlightArticles: function(t, cible){
-			var idCategorie = t.s.data.idCategorie;
+			var idCategorie = Data.article.data.idCategorie;
 			var terms = Array();
 			var termsStr = Array();
 			var className = "highlight";
 
-			for(var i = 0; i < navigation.s.data.length; i++){
-				if(navigation.s.data[i].id == idCategorie){
-					terms = navigation.s.data[i].articles;
-					categorie = navigation.s.data[i].categorie;
+			for(var i = 0; i < Data.navigation.data.length; i++){
+				if(Data.navigation.data[i].id == idCategorie){
+					terms = Data.navigation.data[i].articles;
+					categorie = Data.navigation.data[i].categorie;
 					break;
 				}
 			}
@@ -1237,7 +1237,7 @@ Article.prototype = {
 			var insert = $("<nav></nav>");
 
 			for(var i = 0; i < json.length; i++){
-				if(json[i].id != t.s.data.idArticle){
+				if(json[i].id != Data.article.data.idArticle){
 					var virgule = (insert.text() == "") ? "" : ", ";
 					insert.append(virgule + json[i].titre);
 				}
@@ -1271,7 +1271,7 @@ Article.prototype = {
 			$("#article").append(insert);
 
 			insert.on("click", function(){
-				var idPortail = (portail && portail.s.data && portail.s.data.idPortail != null)? portail.s.data.idPortail : null ;
+				var idPortail = (Data.portail && Data.portail.data && Data.portail.data.idPortail != null)? Data.portail.data.idPortail : null ;
 				t.GetPortailForArticle($(this).attr("value"), idPortail);
 			});
 		}

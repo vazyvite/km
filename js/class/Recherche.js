@@ -31,7 +31,7 @@ Recherche.prototype = {
 	 */
 	GetResults: function(terms){
 		var lvl = "01";
-		var idPortail = portail.s.data.idPortail;
+		var idPortail = Data.portail.data.idPortail;
 
 		if(idPortail != null && user.CheckUserAccess(lvl)){
 
@@ -96,7 +96,7 @@ Recherche.prototype = {
 		 * @param json:JSON 		données de recherche
 		 */
 		SetJSON: function(t, json){
-			t.s.data = json;
+			Data.recherche.data = json;
 		}
 	},
 
@@ -150,10 +150,10 @@ Recherche.prototype = {
 				var insert = $("<div class='searchResults'><ul></ul></div>")
 				$(t.s.bloc).append(insert);
 
-				if(t.s.data.length > 0){
+				if(Data.recherche.data.length > 0){
 
-					for(var i = 0; i < t.s.data.length; i++){
-						var article = t.s.data[i];
+					for(var i = 0; i < Data.recherche.data.length; i++){
+						var article = Data.recherche.data[i];
 						var insert = $("<li value='" + article.idArticle + "' class='result_article link_article'>" + article.titre + "</li>");
 						$(".searchResults ul").append(insert);
 					}

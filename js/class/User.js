@@ -142,7 +142,7 @@ User.prototype = {
 	 * @return Boolean 		Retourne true si l'utilisateur à les droits suffisants pour accéder à la fonction, false dans le cas contraire
 	 */
 	CheckUserAccess: function(lvl){
-		var usr = this.s.data;
+		var usr = Data.user.data;
 		var role = parseInt(usr.role);
 
 		if(usr.role == ""){ 
@@ -186,7 +186,7 @@ User.prototype = {
 
 		}).done(function(msg){
 			if(data.idUser == this.s.data.idUser){
-				this.s.data = data;
+				Data.user.data = data;
 				this.UI.UserInfos(this);
 			}
 			if(reload){
@@ -197,7 +197,7 @@ User.prototype = {
 	},
 
 	Delete: function(id){
-		if(id == user.s.data.idUser){
+		if(id == Data.user.data.idUser){
 			alert(Lang[user.GetLangue()].msg.err_delete_own_account);
 			return false;
 		}
@@ -357,7 +357,7 @@ User.prototype = {
 		 * @param json:JSON 			ensemble des données utilisateur à stocker
 		 */
 		SetJSON: function(t, json){
-			t.s.data = { idUser: json.idUser, lstName: json.lstName, fstName: json.fstName, email: json.email, role: json.role, login: json.login, pass: json.pass };
+			Data.user.data = { idUser: json.idUser, lstName: json.lstName, fstName: json.fstName, email: json.email, role: json.role, login: json.login, pass: json.pass };
 		},
 
 		/**
@@ -366,12 +366,12 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		SetHtml: function(t){
-			$(t.s.jqs.idUser).val(t.s.data.idUser);
-			$(t.s.jqs.lstName).val(t.s.data.lstName);
-			$(t.s.jqs.fstName).val(t.s.data.fstName);
-			$(t.s.jqs.email).val(t.s.data.email);
-			$(t.s.jqs.role).val(t.s.data.role);
-			$(t.s.jqs.login).val(t.s.data.login);
+			$(t.s.jqs.idUser).val(Data.user.data.idUser);
+			$(t.s.jqs.lstName).val(Data.user.data.lstName);
+			$(t.s.jqs.fstName).val(Data.user.data.fstName);
+			$(t.s.jqs.email).val(Data.user.data.email);
+			$(t.s.jqs.role).val(Data.user.data.role);
+			$(t.s.jqs.login).val(Data.user.data.login);
 		},
 
 		/** TODO
@@ -380,7 +380,7 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		SetCookie: function(t){
-			var data = t.s.data;
+			var data = Data.user.data;
 			var cookie = t.s.cookie;
 			var date = new Date();
 				date.setTime(date.getTime() + (cookie.duree * 86400000));
@@ -412,7 +412,7 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		RemoveData: function(t){
-			t.s.data = { idUser: 0, lstName: "", fstName: "", email: "", role: "", login: "" };
+			Data.user.data = { idUser: 0, lstName: "", fstName: "", email: "", role: "", login: "" };
 			t.Data.SetHtml(t);
 		},
 
@@ -573,7 +573,7 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		UserInfos: function(t){
-			var data = t.s.data;
+			var data = Data.user.data;
 			if(t.s.dialogue.connexion != null){
 				t.UI.HideDialogConnexion(t);
 			}
@@ -597,7 +597,7 @@ User.prototype = {
 				{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
 				{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
 
-				popin = new Popin(t.Data.PopinDataUserEdit(t, user.s.data, strTabUser, false), strTabUser, user.s.data);
+				popin = new Popin(t.Data.PopinDataUserEdit(t, Data.user.data, strTabUser, false), strTabUser, Data.user.data);
 			});
 
 			$(t.s.bloc + " .action_user_deconnexion").on("click", function(){ 

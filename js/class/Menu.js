@@ -41,7 +41,7 @@ Menu.prototype = {
 		 */
 		Build: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 
 				var adminPortail = t.UI.Btn_AdminPortail(t);
@@ -87,7 +87,7 @@ Menu.prototype = {
 		 */
 		BuildEmpty: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var adminPortail = t.UI.Btn_AdminPortail(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
@@ -107,7 +107,7 @@ Menu.prototype = {
 		 */
 		BuildCategorie: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				// var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
@@ -129,7 +129,7 @@ Menu.prototype = {
 		 */
 		BuildPortail: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
@@ -155,7 +155,7 @@ Menu.prototype = {
 		 */
 		BuildAdminPortail: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
@@ -175,7 +175,7 @@ Menu.prototype = {
 		 */
 		BuildAdminCategorie: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
@@ -195,7 +195,7 @@ Menu.prototype = {
 		 */
 		BuildAdminUser: function(t){
 			t.UI.Clear(t);
-			if(user.s.data.role != null){
+			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var addUser = t.UI.Btn_AddUser(t);
 				// var adminUser = t.UI.Btn_AdminUser(t);
@@ -224,13 +224,13 @@ Menu.prototype = {
 
 					if(articleContent){
 						articleContent.UI.Close(articleContent, function(){
-							if(portail && portail.s.data && portail.s.data.idPortail != null){
+							if(Data.portail && Data.portail.data && Data.portail.data.idPortail != null){
 								idPortail = portail.s.data.idPortail;
 							}else{
 								idPortail = null;
 							}
 
-							articleContent.GetArticleByUser(user.s.data.idUser, idPortail);
+							articleContent.GetArticleByUser(Data.user.data.idUser, idPortail);
 						});
 					}
 
