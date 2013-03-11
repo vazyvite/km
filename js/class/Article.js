@@ -1,9 +1,5 @@
 function Article(){
 	this.s = {
-		bloc: "#article",
-		blocCmd: "#informations",
-		blocTil: "#title",
-		data: null,
 		fontSize: 1,
 		minFontSize: .7,
 		maxFontSize: 1.3
@@ -31,18 +27,31 @@ Article.prototype = {
 
 			url: "phpforms/article.show.php",
 			type: "POST",
-			data: {idArticle:id},
+			data: { idArticle:id },
 			datatype: "json",
 			context: this
 
 		}).done(function(msg){
 
-			var json = $.parseJSON(msg);
-			this.Data.SetJSON(this, json);
-			this.UI.Build(this, json);
+			if(msg != ""){
 
+				var json = $.parseJSON(msg);
+
+				if($.isArray(json)){
+
+					this.Data.SetJSON(this, json);
+					this.UI.Build(this, json);
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_no_article_title, Lang[user.GetLangue()].msg.error_no_article_msg, "error");
+			}
 		});
 	},
+
 
 	/**
 	 * Méthode GetArticleByUser
@@ -61,17 +70,29 @@ Article.prototype = {
 
 		}).done(function(msg){
 
-			var json = $.parseJSON(msg);
-			this.UI.BuildHome(this, json);
+			if(msg != ""){
 
+				var json = $.parseJSON(msg);
+
+				if($.isArray(json)){
+
+					this.UI.BuildHome(this, json);
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_no_article_title, Lang[user.GetLangue()].msg.error_no_article_msg, "error");
+			}
 		});
 	},
+
 
 	/**
 	 * Méthode UpdateArticle
 	 * Met à jour un article à partir des données courante d'édition
-	 * @param iduser:Int 		Identifiant de l'utilisateur courant
-	 * @param idPortail:Int 	Identifiant du portail courant, dans le cas où il n'y a pas de portail courant, idPortail doit valloir null
+	 * @param data:JSON 		Données de l'article
 	 */
 	UpdateArticle: function(data){
 		var idmc = Array();
@@ -88,19 +109,38 @@ Article.prototype = {
 
 			url: "phpforms/article.update.php",
 			type: "POST",
-			data: {idArticle:data.idArticle, titre:data.titre, content:data.article, idmotcles:idmc, motcles:mc },
+			data: { idArticle:data.idArticle, titre:data.titre, content:data.article, idmotcles:idmc, motcles:mc },
 			datatype: "json",
 			context: this
 
 		}).done(function(msg){
 
-			var json = $.parseJSON(msg);
+			if(msg != ""){
 
-			this.LoadArticle(this.s.data.idArticle);
-			navigation.GetNavigation(true, null);
+				var json = $.parseJSON(msg);
+
+				if($.isArray(json)){
+
+					this.LoadArticle(Data.article.data.idArticle);
+					navigation.GetNavigation(true, $.noop());
+					ui.Notify(Lang[user.GetLangue()].msg.success_update_article_title, Lang[user.GetLangue()].msg.success_update_article_msg, "success");
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_update_article_title, Lang[user.GetLangue()].msg.error_update_article_msg, "error");
+			}
 		});
 	},
 
+
+	/**
+	 * Méthode Delete
+	 * Supprime un article en base
+	 * @param data:JSON 		Données de l'article
+	 */
 	Delete: function(data){
 
 		$.ajax({
@@ -113,14 +153,35 @@ Article.prototype = {
 
 		}).done(function(msg){
 
-			var json = $.parseJSON(msg);
+			if(msg == ""){
 
-			navigation.GetNavigation(true, null);
-			this.UI.Clear(this);
+				var json = $.parseJSON(msg);
+
+				if($.isArray(json)){
+
+					navigation.GetNavigation(true, null);
+					ui.article.Clear(ui);
+
+					ui.Notify(Lang[user.GetLangue()].msg.success_delete_article_title, Lang[user.GetLangue()].msg.success_delete_article_msg, "success");
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_delete_article_title, Lang[user.GetLangue()].msg.error_delete_article_msg, "error");
+			}
 		});
 	},
 
-	Create: function(data, fnCallBack){
+
+	/**
+	 * Méthode Create
+	 * Créé un article en base
+	 * @param data:JSON 			Données de l'article
+	 * @param fnCallback:Function	fonction de callback [optionnelle]
+	 */
+	Create: function(data, fnCallback){
 		var mc = Array();
 		for(var i = 0; i < data.motcles.length; i++){
 			mc.push(data.motcles[i].motcle);
@@ -137,13 +198,33 @@ Article.prototype = {
 
 		}).done(function(msg){
 			
-			if(msg != "" && !isNaN(parseInt(msg))){
-				fnCallBack(msg);
+			if(msg != ""){
+
+				if(!isNaN(parseInt(msg))){
+
+					if($.isFunction(fnCallback)){ 
+						fnCallback(msg);
+					}
+					ui.Notify(Lang[user.GetLangue()].msg.success_create_article_title, Lang[user.GetLangue()].msg.success_create_article_msg, "success");
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_create_article_title, Lang[user.GetLangue()].msg.error_create_article_msg, "error");
 			}
 		});
 	},
 
-	GetAssociatedArticles: function(motcles, fnCallBack){
+
+	/**
+	 * Méthode GetAssociatedArticles
+	 * Récupère les articles associés d'un article
+	 * @param motcles:JSON 			Données de l'article
+	 * @param fnCallback:Function	fonction de callback [optionnelle]
+	 */
+	GetAssociatedArticles: function(motcles, fnCallback){
 
 		var mc = Array();
 		for(var i = 0; i < motcles.length; i++){
@@ -161,16 +242,40 @@ Article.prototype = {
 
 			}).done(function(msg){
 
-				var json = $.parseJSON(msg);
-				fnCallBack(json);
+				if(msg != ""){
+
+					var json = $.parseJSON(msg);
+
+					if(!$.isArray(json)){
+
+						if($.isFunction(fnCallback)){
+							fnCallback(json);
+						}
+
+					}else{
+						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					}
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_no_article_title, Lang[user.GetLangue()].msg.error_no_article_msg, "error");
+				}
 			});
 		}
 	},
 
+
+	/**
+	 * Méthode GetPortailForArticle
+	 * Récupère le portail dans lequel se trouve l'article
+	 * @param id_article:Int 	identifiant de l'article
+	 * @param id_portail:Int 	identifiant du portail
+	 */
 	GetPortailForArticle: function(id_article, id_portail){
 
 		if(!id_portail || id_portail == null || id_portail === 0){
+
 			$.ajax({
+
 				url: "phpforms/article.getPortail.php",
 				type: "POST",
 				context: this,
@@ -180,43 +285,56 @@ Article.prototype = {
 
 				var idPortail = msg;
 
-				if(idPortail != Data.portail.data.idPortail){
-					var json = {
-						value: msg,
-						text: $("#portail .menu_portail li[value='" + idPortail + "']").text()
-					};
+				if(idPortail != ""){
 
-					portail.Action.Open(portail, json, function(){
-						articleContent.LoadArticle(id_article);
-					});
+					if(!isNaN(parseInt(idPortail))){
+
+						if(idPortail != Data.portail.data.idPortail){
+							var json = {
+								value: msg,
+								text: $("#portail .menu_portail li[value='" + idPortail + "']").text()
+							};
+
+							portail.Action.Open(portail, json, function(){
+								articleContent.LoadArticle(id_article);
+							});
+						}
+
+					}else{
+						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					}
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_no_portail_title, Lang[user.GetLangue()].msg.error_no_portail_msg, "error");
 				}
 			});
+
 		}else{
 			articleContent.LoadArticle(id_article);
 		}
 	},
+
 
 	Action: {
 		/**
 		 * Méthode Action.Edit
 		 * Lance le workflow d'édition de l'article
 		 * @param t:Contexte
+		 * @param json:JSON 	données éditées
 		 */
 		Edit: function(t, json){
 			var lvl = "edit";
 			var article = $("#article");
 			var infos = $("#informations");
-			var access = $("#accessibility");
 			var arr_mc = Array();
+			var data_mc;
 
 			if(CheckAccess(lvl)){
 				
 				var gabarit = { 
 					description: "<aside title='" + Lang[user.GetLangue()].lbl.desc_article + "'>description</aside>",
 					syntaxe: "<section title='" + Lang[user.GetLangue()].lbl.syntaxe_code + "'><code>syntaxe</code></section>",
-					article: "<article title='" + Lang[user.GetLangue()].lbl.corps_article + "'>corps de l'article</article>",
-					//navigation: "<nav title='" + Lang[user.GetLangue()].lbl.near_articles + "'>liens vers d'autres articles proches</nav>"
-					navigation: ""
+					article: "<article title='" + Lang[user.GetLangue()].lbl.corps_article + "'>corps de l'article</article>"
 				};
 
 				article.find('.article_content nav').remove();
@@ -229,11 +347,11 @@ Article.prototype = {
 							title: Lang[user.GetLangue()].btn.gabarit, 
 							callback: function(obj, event, key) {
 								if(article.find('.article_content').getCode() != ""){
-									if(confirm("En continuant vous allez effacer le contenu de l'article, souhaitez-vous continuer ?")){
-										article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article + gabarit.navigation);
+									if(confirm(Lang[user.GetLangue()].msg.confirm_perte_infos)){
+										article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article);
 									}
 								}else{
-									article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article + gabarit.navigation);
+									article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article);
 								}
 							} 
 						},
@@ -244,7 +362,7 @@ Article.prototype = {
 								if(!c.find('section code').size()){
 									c.insertHtml( (c.getSelected() == "") ? gabarit.syntaxe : gabarit.syntaxe.replace($(gabarit.syntaxe).text(), c.getSelected()));
 								}else{
-									// alert("impossible d'ajouter un deuxième bloc de syntaxe");
+									ui.Notify(Lang[user.GetLangue()].msg.warning_add_bloc_syntax_title, Lang[user.GetLangue()].msg.warning_add_bloc_syntax_msg, "warning");
 								}
 							} 
 						},
@@ -255,7 +373,7 @@ Article.prototype = {
 								if(!c.find("aside").size()){
 									c.insertHtml( (c.getSelected() == "") ? gabarit.description : gabarit.description.replace($(gabarit.description).text(), c.getSelected()));
 								}else{
-									// alert("impossible d'ajouter un deuxième bloc de description");
+									ui.Notify(Lang[user.GetLangue()].msg.warning_add_bloc_description_title, Lang[user.GetLangue()].msg.warning_add_bloc_description_msg, "warning");
 								}
 							} 
 						},
@@ -266,38 +384,26 @@ Article.prototype = {
 								if(!c.find('article').size()){
 									c.insertHtml( (c.getSelected() == "") ? gabarit.article : gabarit.article.replace($(gabarit.article).text(), c.getSelected()));
 								}else{
-									// alert("impossible d'ajouter un deuxième bloc d'article");
+									ui.Notify(Lang[user.GetLangue()].msg.warning_add_bloc_article_title, Lang[user.GetLangue()].msg.warning_add_bloc_article_msg, "warning");
 								}
 							} 
-						},
-						/*button_navigation: {
-							title: Lang[user.GetLangue()].btn.nav, 
-							callback: function(obj, event, key) {
-								var c = article.find('.article_content');
-								if(!c.find('nav').size()){
-									c.insertHtml( (c.getSelected() == "") ? gabarit.navigation : gabarit.navigation.replace($(gabarit.navigation).text(), c.getSelected()));
-								}else{
-									// alert("impossible d'ajouter un deuxième bloc d'information")
-								}
-							} 
-						}*/
+						}
            			 }
-				})
-
-				if(json.idArticle == -1){
-					article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article + gabarit.navigation);
-				}
-
-				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
+				});
 				
-				var data_mc;
+				// if creation
 				if(json && json.idArticle == -1){
-					
-					if(json.motcles && json.motcles.length){
-						data_mc = json.motcles;
-					}else{
-						data_mc = Array();
+					data_mc = (json.motcles && json.motcles.length) ? json.motcles : Array();
+
+					article.find('.article_content').setCode(gabarit.description + gabarit.syntaxe + gabarit.article);
+
+					var select = $("<select></select>").addClass('article_categorie_edit');
+					for(var i = 0; i < Data.navigation.data.length; i++){
+						var cat = Data.navigation.data[i];
+
+						select.append($("<option value='" + cat.id + "' title='" + cat.description + "'>" + cat.categorie + "</option>"));
 					}
+					article.find(".article_title_edit").after(select);
 					
 				}else if(Data.article.data != null && Data.article.data.motcles && Data.article.data.motcles.length){
 					data_mc = Data.article.data.motcles;
@@ -311,16 +417,8 @@ Article.prototype = {
 					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
 				}
 
-				if(json.idArticle == -1){
-					var select = $("<select></select>").addClass('article_categorie_edit');
-					for(var i = 0; i < Data.navigation.data.length; i++){
-						var cat = Data.navigation.data[i];
 
-						select.append($("<option value='" + cat.id + "' title='" + cat.description + "'>" + cat.categorie + "</option>"));
-					}
-					article.find(".article_title_edit").after(select);
-				}
-
+				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
 				article.find("input.article_listMotCles_edit").tokenInput(
 					"phpforms/motcle.autocomplete.php", 
@@ -333,8 +431,8 @@ Article.prototype = {
 
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
-				infos.find('button.btn_modif, button.btn_pdf').hide();
-				access.hide();
+				infos.find("button.btn_modif, button.btn_pdf").hide();
+				$("#accessibility").hide();
 
 				if(json.idArticle != -1){
 					infos.find('button.btn_create, button.btn_cancelCreate').hide();
@@ -346,13 +444,15 @@ Article.prototype = {
 			}
 		},
 
+
+		/**
+		 * Méthode Action.BuildCreate
+		 * Lance le workflow de création de l'interface de création d'article
+		 * @param t:Context
+		 */
 		BuildCreate: function(t){
 			var lvl = "create";
 			var article = $("#article");
-			var infos = $("#informations");
-			var access = $("#accessibility");
-			var access = $("#accessibility");
-			var arr_mc = Array();
 
 			if(CheckAccess(lvl)){
 
@@ -373,6 +473,12 @@ Article.prototype = {
 			}
 		},
 
+
+		/**
+		 * Méthode Action.Create
+		 * Lance le workflow de création d'article à partir des données issues du formulaire de création 
+		 * @param t:Context
+		 */
 		Create: function(t){
 			var lvl = "create";
 			var article = $("#article");
@@ -380,14 +486,16 @@ Article.prototype = {
 
 			if(CheckAccess(lvl)){
 
-				var content = article.find(".article_content").getCode();
-				var titre = article.find(".article_title_edit").val();
-				var mc = article.find("input.article_listMotCles_edit").tokenInput("get");
-				var categorie = article.find(".article_categorie_edit").val();
+				var data = {
+					content: article.find(".article_content").getCode(),
+					titre: article.find(".article_title_edit").val(),
+					mc: article.find("input.article_listMotCles_edit").tokenInput("get"),
+					categorie: article.find(".article_categorie_edit").val()
+				};
 
-				if(content != "" && titre != "" && mc.length && categorie != ""){
+				if(verifyData(data)){
 					for(var i = 0; i < mc.length; i++){
-						motcle.push({idArticle: -1, idMotCle: -1, motcle: mc[i].name});
+						motcle.push({idArticle: -1, idMotCle: -1, motcle: data.mc[i].name});
 					}
 
 					var data = {
@@ -397,19 +505,20 @@ Article.prototype = {
 						type: "Article",
 						user: Data.user.data.fstName + " " + Data.user.data.lstName,
 						dateCreation: Lang[user.GetLangue()].lbl.now,
-						titre: titre,
-						article: content,
+						titre: data.titre,
+						article: data.content,
 						motcles: motcle,
-						idCategorie: categorie
+						idCategorie: data.categorie
 					};
 
 					t.Create(data, function(idArticle){
 						t.LoadArticle(idArticle);
-						navigation.GetNavigation(true, null);
+						navigation.GetNavigation(true, $.noop());
 					});
 				}
 			}
 		},
+
 
 		/**
 		 * Méthode Action.Save
@@ -424,11 +533,13 @@ Article.prototype = {
 
 			if(CheckAccess(lvl)){
 				
-				var content = article.find(".article_content").getCode();
-				var titre = article.find(".article_title_edit").val();
-				var mc = article.find("input.article_listMotCles_edit").tokenInput("get");
+				var data = {
+					content: article.find(".article_content").getCode(),
+					titre: article.find(".article_title_edit").val(),
+					mc: article.find("input.article_listMotCles_edit").tokenInput("get")
+				};
 
-				if(content != "" && titre != "" && mc.length){
+				if(verifyData(data)){
 
 					if(!isCancel){
 						for(var i = 0; i < mc.length; i++){
@@ -458,6 +569,7 @@ Article.prototype = {
 			}
 		},
 
+
 		/** 
 		 * Méthode Action.Delete
 		 * Lance le workflow de suppression d'article
@@ -471,16 +583,18 @@ Article.prototype = {
 					title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + Data.article.data.idArticle + "' />",
 					content: "", cmd: ["valide", "cancel"],
 					onValidate: function(){
-						var p = $(".popin");
-						var id = p.find(".p_ID").val();
-						if(id != ""){ t.Delete(id); popin.Action.Hide(popin); }
+						var id = $(".popin").find(".p_ID").val();
+						if(id != ""){ 
+							t.Delete(id);
+							popin.Action.Hide(popin);
+						}
 					},
 					onCancel: null, lvlRequise: lvl, closeBtn: false, type: "article"
 				};
-
 				popin = new Popin(str, null, null);
 			}
 		},
+
 
 		/**
 		 * Méthode Action.BuildAdmin
@@ -488,8 +602,10 @@ Article.prototype = {
 		 * @param t:Contexte
 		 * @param json:JSON 			données concernant les portails
 		 * @param strTab:Array[JSON] 	données concernant la structure du tableau
+		 * @param titre:String 			titre de la popin
+		 * @param type:String 			type de popin : domaine auquel elle s'applique (user | portail | categorie)
 		 */
-		BuildAdmin: function(t, json, strTab, titre, type){
+		/*BuildAdmin: function(t, json, strTab, titre, type){
 			var lvl = "admin";
 			var table = t.UI.TablePortail(t, strTab);
 
@@ -502,7 +618,7 @@ Article.prototype = {
 				t.UI.AdminTitle(t, titre);
 				t.UI.AdminContent(t, table);
 			}
-		},
+		}*/
 	},
 
 
@@ -522,6 +638,7 @@ Article.prototype = {
 			Data.article.data = json;
 		},
 
+
 		/**
 		 * Méthode Data.Update
 		 * Modifie les données JSON dans le cadre d'un Update
@@ -536,24 +653,43 @@ Article.prototype = {
 			Data.article.data.motcles = motcle;
 		},
 
+
 		/**
 		 * Méthode Data.ReturnDataFormTypeOfAdmin
 		 * Retourne les données nécessaires à la construction d'une ligne d'administration en fonction du type d'administration
 		 * @param t:Contexte
-		 * @parma json:JSON 	Données d'administration
-		 * @parma type:String 	Type d'administration
+		 * @param json:JSON 	Données d'administration
+		 * @param type:String 	Type d'administration
+		 * @param str:Array 	Structure des données
 		 */
-		ReturnDataFormTypeOfAdmin: function(t, json, type, str){
+		/*ReturnDataFormTypeOfAdmin: function(t, json, type, str){
 			switch(type){
 				case "portail": 
-					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) }; break;
-				case "categorie":
-					return { edit: navigation.Data.PopinDataCategorieEdit(navigation, json, str), del: navigation.Data.PopinDataCategorieDel(navigation, json) }; break;
-				case "user":
-					return { edit: user.Data.PopinDataUserEdit(navigation, json, str, true), del: user.Data.PopinDataUserDel(navigation, json) }; break;
-			}
-		},
+					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) };
+					break;
 
+				case "categorie":
+					return { edit: navigation.Data.PopinDataCategorieEdit(navigation, json, str), del: navigation.Data.PopinDataCategorieDel(navigation, json) };
+					break;
+
+				case "user":
+					return { edit: user.Data.PopinDataUserEdit(navigation, json, str, true), del: user.Data.PopinDataUserDel(navigation, json) };
+					break;
+
+				default: break;
+			}
+		},*/
+
+
+		/**
+		 * Méthode GetDataForHighLightTooltip
+		 * Renvoi les données nécessaires aux tooltips de surlignement
+		 * @param t:Context 
+		 * @param json:JSON 			données de l'article
+		 * @param cible:jQueryObject 	objet jquery contenant un élément devant se référer à un article de la même catégorie que l'article courant
+		 * @param idCategorie:Int 		identifiant de la catégorie
+		 * @param categorie:String 		Nom de la catégorie
+		 */
 		GetDataForHighLightTooltip: function(t, json, cible, idCategorie, categorie){
 			var insert = null;
 
@@ -561,8 +697,7 @@ Article.prototype = {
 				if(cible.text() == json[i].titre){
 					insert = $("<div></div>");
 					var title = $("<h4></h4>").text(categorie.toLowerCase() + "." + json[i].titre.toLowerCase());
-					var art = json[i].article;
-					var art_html = $("<div></div>").append(art).text();
+					var art_html = $("<div></div>").append(json[i].article).text();
 					var jq_art = $("<div></div>").append(art_html);
 
 					var syntaxe = $(jq_art).find("section code");
@@ -571,14 +706,13 @@ Article.prototype = {
 					var link = $("<span></span>").addClass("tooltip_link").attr("value", json[i].idArticle).text(Lang[user.GetLangue()].lbl.voir_article);
 
 					insert.append(title).append(syntaxe).append(description).append(link);
-
 				}
 			}
+
 			if(insert != null){
 				var tooltip = insert.find(".tooltip_link");
 				tooltip.on("click", function(){
-					var idArticle = $(this).attr("value");
-					articleContent.LoadArticle(idArticle);
+					articleContent.LoadArticle($(this).attr("value"));
 				});
 			}
 
@@ -587,11 +721,6 @@ Article.prototype = {
 	},
 	
 
-
-	/**
-	 * Bloc UI
-	 * Gestion des éléments se rapportant à l'UI
-	 */
 	UI: {
 		/**
 		 * Méthode UI.Build
@@ -600,20 +729,24 @@ Article.prototype = {
 		 * @param json:JSON 	les données de l'article
 		 */
 		Build: function(t, json){
-			t.UI.Clear(t);
+			ui.article.Clear(ui);
+			// t.UI.Clear(t);
 			t.UI.Header(t, json);
 			t.UI.Content(t, json);
 			t.UI.Commands(t, json);
-			t.UI.HideLogo(t);
+			// t.UI.HideLogo(t);
+			ui.HideLogo(ui);
 			menu.UI.BuildCategorie(menu);
 			
-			$(".article_content").height($(t.s.bloc).innerHeight() - $(".article_header").outerHeight(true) - 30);
+			$(".article_content").height($("#article").innerHeight() - $(".article_header").outerHeight(true) - 30);
 		},
+
 
 		/**
 		 * Méthode UI.Header
 		 * Construction de l'entête de l'article
 		 * @param t:Contexte
+		 * @param json:JSON 	données de l'article
 		 */
 		Header: function(t, json){
 			var insert = $("<div></div>").addClass("article_header");
@@ -626,8 +759,9 @@ Article.prototype = {
 
 			infos.append(type).append(author).append(date);
 			insert.append(titre).append(infos).append(mc);
-			$(t.s.bloc).append(insert);
+			$("#article").append(insert);
 		},
+
 
 		/**
 		 * Méthode UI.Title
@@ -640,6 +774,7 @@ Article.prototype = {
 			return $("<div></div>").addClass("article_title").text(json.titre);
 		},
 
+
 		/**
 		 * Méthode UI.Infos
 		 * Construction des informations de l'article
@@ -650,6 +785,7 @@ Article.prototype = {
 		Infos: function(t, json){
 			return $("<div></div>").addClass("article_infos");
 		},
+
 
 		/**
 		 * Méthode UI.Author
@@ -662,6 +798,7 @@ Article.prototype = {
 			return $("<span></span>").addClass("article_author").text(" " + Lang[user.GetLangue()].lbl.createdby + " " + json.user);
 		},
 
+
 		/**
 		 * Méthode UI.Type
 		 * Construction du type de l'article
@@ -673,6 +810,7 @@ Article.prototype = {
 			return $("<span></span>").addClass("article_type").text(json.type);
 		},
 
+
 		/**
 		 * Méthode UI.CreateDate
 		 * Construction de la date de création de l'article
@@ -683,6 +821,7 @@ Article.prototype = {
 		CreateDate: function(t, json){
 			return $("<span></span>").addClass("article_date").text("  " + Lang[user.GetLangue()].lbl.date_intro + " " + json.dateCreation);
 		},
+
 
 		/**
 		 * Méthode UI.MotCles
@@ -709,6 +848,7 @@ Article.prototype = {
 			return mc;
 		},
 
+
 		/**
 		 * Méthode UI.Content
 		 * Construction du contenu de l'article
@@ -718,22 +858,29 @@ Article.prototype = {
 		Content: function(t, json){
 			var content = $(json.article);
 			var container = $("<div></div>").addClass("article_content").append(content);
+
 			if(json.idArticle != -1){
+
 				if(Data.article.data.motcles.length){
+
 					t.GetAssociatedArticles(Data.article.data.motcles, function(json_assoc){
 						t.UI.ShowAssociatedArticles(t, content, json_assoc);
 						t.UI.HighlightArticles(t, content);
 
-						$(t.s.bloc).find(".highlight").on("mouseover", function(){
+						$("#article .highlight").on("mouseover", function(){
+
 							var child = $(this).find(".hl_tooltip");
+
 							if($(this).offset().left + child.outerWidth(true) >= $(window).width() - 37){
 								child.css("left", $(window).width() - (child.outerWidth(true) + $(this).offset().left + 37) + "px");
+
 							}else{
 								child.css("left", "5px");
 							}
 
 							if($(this).offset().top + child.find(".hl_tooltip").outerHeight(true) >= $(window).height()){
 								child.css("top", $(window).height() - (child.outerHeight(true) + $(this).offset().top + 37) + "px");
+
 							}else{
 								child.css("top", $(this).height() + "px");
 							}
@@ -741,9 +888,9 @@ Article.prototype = {
 					});
 				}
 			}
-			
-			$(t.s.bloc).append(container);
+			$("#article").append(container);
 		},
+
 
 		/**
 		 * Méthode UI.Command
@@ -757,12 +904,13 @@ Article.prototype = {
 			var save = t.UI.BtnSave(t, json);
 			var cancel = t.UI.BtnCancel(t);
 			var access = t.UI.Accessibility(t);
-			var commands = $(t.s.blocCmd);
 			var del = t.UI.BtnDelete(t);
 			var create = t.UI.BtnCreate(t, json);
 			var cclCreate = t.UI.BtnCancelCreate(t);
 			var pdf = t.UI.BtnPDF(t, json);
 			
+			var commands = $("#informations");
+
 			if(retour != null){ commands.append(retour); }
 			if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
@@ -772,8 +920,8 @@ Article.prototype = {
 			if(del != null){ commands.append(del); }
 			if(pdf != null){ commands.append(pdf); }
 			if(access != null){ commands.append(access); }
-			
 		},
+
 
 		/**
 		 * Méthode UI.BtnRetour
@@ -786,15 +934,20 @@ Article.prototype = {
 			var btnClose = null;
 
 			if(CheckAccess(lvl)){
-				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){ 
-					t.UI.Close(t, function(){
+				btnClose = $("<button class='return_btn'>" + Lang[user.GetLangue()].btn.back + "</button>").on("click", function(){
+					ui.article.Close(ui, function(){
 						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
+						menu.UI.BuildPortail(menu);
 					}); 
-					menu.UI.BuildPortail(menu);
+					/*t.UI.Close(t, function(){
+						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
+					});*/ 
+					// menu.UI.BuildPortail(menu);
 				});
 			}
 			return btnClose;
 		},
+
 
 		/**
 		 * Méthode UI.BtnModifier
@@ -815,6 +968,7 @@ Article.prototype = {
 			return btnModif;
 		},
 
+
 		/**
 		 * Méthode UI.BtnPDF
 		 * Création du bouton de modification de l'article
@@ -833,6 +987,7 @@ Article.prototype = {
 			}
 			return btnModif;
 		},
+
 
 		/**
 		 * Méthode UI.BtnSave
@@ -853,6 +1008,7 @@ Article.prototype = {
 			return btnSave;
 		},
 
+
 		/**
 		 * Méthode UI.BtnCreate
 		 * Création du bouton de création de l'article
@@ -872,6 +1028,7 @@ Article.prototype = {
 			return btnModif;
 		},
 
+
 		/**
 		 * Méthode UI.BtnCancel
 		 * Création du bouton d'annulation des modifs de l'article
@@ -890,9 +1047,10 @@ Article.prototype = {
 			return btnCancel;
 		},
 
+
 		/**
-		 * Méthode UI.BtnCancel
-		 * Création du bouton d'annulation des modifs de l'article
+		 * Méthode UI.BtnCancelCreate
+		 * Création du bouton d'annulation de la création de l'article
 		 * @param t:Contexte
 		 * @return jQueryObject 	objet jQuery correspondant au bouton d'annulation
 		 */
@@ -902,12 +1060,14 @@ Article.prototype = {
 
 			if(CheckAccess(lvl)){
 				btnCancel = $("<button></button>").addClass("btn_cancelCreate").text(Lang[user.GetLangue()].btn.cancel).hide().on("click", function(){ 
-					t.UI.Close(t); 
+					// t.UI.Close(t); 
+					ui.article.Close(ui);
 					menu.UI.BuildPortail(menu); 
 				});
 			}
 			return btnCancel;
 		},
+
 
 		/**
 		 * Méthode UI.BtnDelete
@@ -926,6 +1086,7 @@ Article.prototype = {
 			}
 			return btnDel;
 		},
+
 
 		/*
 		* Méthode UI.Accessibility
@@ -961,23 +1122,24 @@ Article.prototype = {
 			return insert;
 		},
 
+
 		/**
 		 * Méthode UI.Clear
 		 * Vide l'article
 		 * @param t:Contexte
 		 */
-		Clear: function(t){
+		/*Clear: function(t){
 			$(t.s.bloc).children().remove();
 			$(t.s.blocCmd).children().remove();
 			$(t.s.blocTil).children().remove();
-		},
+		},*/
 
 		/**
 		 * Méthode UI.Close
 		 * Suppression des infos de l'article dans l'IHM
 		 * @param t:Contexte
 		 */
-		Close: function(t, fnCallBack){
+		/*Close: function(t, fnCallBack){
 			if(fnCallBack == undefined){
 				fnCallBack = null;
 			}
@@ -996,25 +1158,26 @@ Article.prototype = {
 				if(fnCallBack) { fnCallBack(); }
 			}
 			$("#informations").children().remove();
-		},
+		},*/
 
 		/**
 		 * Méthode UI.ShowLogo
 		 * Affiche le logo
 		 * @param t:Contexte
 		 */
-		ShowLogo: function(t){
+		/*ShowLogo: function(t){
 			$("#logos").css("opacity", 0).show().animate({"opacity": 1}, 1000);
-		},
+		},*/
 
 		/**
 		 * Méthode UI.HideLogo
 		 * Cache le logo
 		 * @param t:Contexte
 		 */
-		HideLogo: function(t){
+		/*HideLogo: function(t){
 			$("#logos").animate({"opacity": 0}, 100, function(){ $(this).hide().css("opacity", 1); });
-		},
+		},*/
+
 
 		/**
 		 * Méthode UI.TablePortail
@@ -1022,7 +1185,7 @@ Article.prototype = {
 		 * @param t:Contexte
 		 * @param str:Array[String] 	Structure de la table d'administration des portails
 		 */
-		TablePortail: function(t, str){
+		/*TablePortail: function(t, str){
 			var table = null;
 			var lvl = "admin";
 			var w, className;
@@ -1050,7 +1213,7 @@ Article.prototype = {
 			}
 
 			return table;
-		},
+		},*/
 
 		/**
 		 * Méthode UI.LinePortail
@@ -1059,7 +1222,7 @@ Article.prototype = {
 		 * @param str:Array[String] 	Structure de la table d'administration des portails
 		 * @param json:JSON 	 		Données du portail à afficher
 		 */
-		LinePortail: function(t, str, json, type){
+		/*LinePortail: function(t, str, json, type){
 			var line = null;
 			var lvl = "admin";
 			var page = "portail"
@@ -1095,7 +1258,7 @@ Article.prototype = {
 			}
 
 			return line;
-		},
+		},*/
 
 		/**
 		 * Méthode AdminTitle
@@ -1103,14 +1266,14 @@ Article.prototype = {
 		 * @param t:Contexte
 		 * @parma title:String 			Titre de la page
 		 */
-		AdminTitle: function(t, title){
+		/*AdminTitle: function(t, title){
 			var lvl = "admin";
 			
 			if(CheckAccess(lvl) && title != ""){
 				var insert = $("<div></div>").addClass("admin_title").html(title);
 				$(t.s.bloc).append(insert);
 			}
-		},
+		},*/
 
 		/**
 		 * Méthode AdminContent
@@ -1118,14 +1281,14 @@ Article.prototype = {
 		 * @param t:Contexte
 		 * @parma section:jQueryObject 	Contenu de la page
 		 */
-		AdminContent: function(t, section){
+		/*AdminContent: function(t, section){
 			var lvl = "admin";
 
 			if(CheckAccess(lvl) && title != ""){
 				var insert = $("<div></div>").addClass("admin_content").html(section);
 				$(t.s.bloc).append(insert);
 			}
-		},
+		},*/
 
 		/** obsolète
 		 * Méthode AdminStat
@@ -1133,21 +1296,21 @@ Article.prototype = {
 		 * @param t:Contexte
 		 * @parma section:jQueryObject 	Contenu de la page
 		 */
-		AdminStat: function(t){
+		/*AdminStat: function(t){
 			var lvl = "admin";
 
 			if(CheckAccess(lvl)){
 				var insert = $("<div></div>").addClass("admin_stat");
 				$(t.s.bloc).append(insert);
 			}
-		},
+		},*/
 
 		/**
 		 * Méthode AdminBtnEdit
 		 * Construction des boutons de modification des pages d'administration
 		 * @param t:Contexte
 		 */
-		AdminBtnEdit: function(t, page, popin_data, str, json){
+		/*AdminBtnEdit: function(t, page, popin_data, str, json){
 			var lvl = "admin";
 			var insert = null;
 
@@ -1160,14 +1323,14 @@ Article.prototype = {
 			}
 
 			return insert;
-		},
+		},*/
 
 		/**
 		 * Méthode AdminBtnDel
 		 * Construction des boutons de suppression des pages d'administration
 		 * @param t:Contexte
 		 */
-		AdminBtnDel: function(t, page, popin_data){
+		/*AdminBtnDel: function(t, page, popin_data){
 			var lvl = "admin";
 			var insert = null;
 
@@ -1180,7 +1343,7 @@ Article.prototype = {
 			}
 
 			return insert;
-		},
+		},*/
 
 		/**
 		 * Méthode HighlightArticles
@@ -1217,7 +1380,10 @@ Article.prototype = {
 		 * Attache une tooltip à chaque élément highlighté
 		 * @param t:Contexte
 		 * @param cible:jQueryObject 		objet jquery sur lequel s'exécute la fonction d'HighLight
+		 * @param className:String 			className des éléments surlignés
 		 * @param json:JSON 				données concernant les articles
+		 * @param idCategorie:Int 			identifiant de la catégorie courante
+		 * @param categorie:String 			nom de la catégorie courante
 		 */
 		BuildHighLightTooltip: function(t, cible, className, json, idCategorie, categorie){
 			var cN = cible.find("." + className);
@@ -1233,6 +1399,14 @@ Article.prototype = {
 			}
 		},
 
+
+		/**
+		 * Méthode ShowAssociatedArticles
+		 * Affiche les articles associés à l'article courant
+		 * @param t:Context
+		 * @param cible:jQueryObject 	objet jquery cible de la méthode
+		 * @param json:JSON 			données de l'article associé
+		 */
 		ShowAssociatedArticles: function(t, cible, json){
 			var insert = $("<nav></nav>");
 
@@ -1248,6 +1422,13 @@ Article.prototype = {
 			cible.last().after(insert);
 		},
 
+
+		/**
+		 * Méthode BuildHome
+		 * Construit la page d'accueil
+		 * @param t:Context
+		 * @param json:JSON 	données nécessaires à la construction de la page d'accueil
+		 */
 		BuildHome: function(t, json){
 			$("#article").children().remove();
 			for(var i = 0; i < json.length; i++){
@@ -1256,13 +1437,19 @@ Article.prototype = {
 			}
 		},
 
+
+		/**
+		 * Méthode TraceHomeTuileArticle
+		 * Création des tuiles représentant les articles sur la page d'accueil
+		 * @param t:Context
+		 * @param article:JSON  	données de l'article
+		 */
 		TraceHomeTuileArticle: function(t, article){
 			var insert = $("<div></div>").addClass("tuile").attr("value", article.idArticle);
 
 			var title = $("<div></div>").addClass("tuile_title").text(article.titre);
 
-			var art = article.article;
-			var art_html = $("<div></div>").append(art).text();
+			var art_html = $("<div></div>").append(article.article).text();
 			var jq_art = $("<div></div>").append(art_html);
 
 			var description = $("<div></div>").addClass("tuile_content").html(jq_art.find("aside"));

@@ -53,13 +53,18 @@ UI.prototype = {
 
 		if(ref.is(":visible")){
 			ref.css({ "left": 0 }).animate({ "left": -ref.outerWidth(true) }, 300, "swing", function(){
+				t.CallBacks.cb_HideReferenceBloc(t);
+
 				if($.isFunction(fnCallBack)){
 					fnCallBack();
-				}else{
-					t.CallBacks.cb_HideReferenceBloc(t);
 				}
 			});
 			content.animate({ "width": $(window).width() }, 300, "swing");
+
+		}else{
+			if($.isFunction(fnCallBack)){
+				fnCallBack();
+			}
 		}
 	},
 
@@ -120,6 +125,53 @@ UI.prototype = {
 		});
 	},
 
+	/**
+	 * Méthode DrawVersionInLogos
+	 * Indique la version de l'application à côté du logo
+	 * @param t:Context
+	 */
+	DrawVersionInLogos: function(t){
+		$("#logos").html(Lang["app"].appName + "<span>v" + Lang["app"].appVersion + "</span>");
+	},
+
+	ClearInterface: function(t, fnCallback){
+
+		if(portail){
+			portail.Action.Reset(portail);
+		}
+		
+		//this.article.Close(this);
+		if(articleContent){
+			articleContent.UI.Close(articleContent);
+		}
+
+		if(menu){
+			menu.UI.Clear(menu);
+		}
+
+		t.HideReferenceBloc(fnCallback);
+	},
+
+	/**
+	 * Méthode ShowLogo
+	 * Affiche le logo
+	 * @param t:Contexte
+	 */
+	ShowLogo: function(t){
+		$("#logos").css("opacity", 0).show().animate({"opacity": 1}, 1000);
+	},
+
+	/**
+	 * Méthode HideLogo
+	 * Cache le logo
+	 * @param t:Contexte
+	 */
+	HideLogo: function(t){
+		$("#logos").animate({"opacity": 0}, 100, function(){
+			$(this).hide().css("opacity", 1); 
+		});
+	},
+
 
 	portail: {
 		/**
@@ -139,7 +191,7 @@ UI.prototype = {
 			portail.UI.PortailList(portail);
 
 			// on cache l'interface de référence inutile dans ce cas
-			this.HideReferenceBloc();
+			t.HideReferenceBloc();
 		},
 
 		/**
@@ -155,16 +207,98 @@ UI.prototype = {
 	article: {
 		/**
 		 * Méthode article.Clear
-		 * Suppression de tous les éléments relatifs à un article
+		 * Suppression de tous les éléments relatifs à l'UI d'un article
 		 * @param t:Context
 		 */
 		Clear: function(t){
 			$("#article, #informations, #title").children().remove();
+		},
+
+
+		/**
+		 * Méthode article.Close
+		 * Referme les éléments constitutifs d'un article
+		 * @param t:Context
+		 */
+		Close: function(t, fnCallback){
+			var art_elts = $(".article_content, .article_header");
+
+			articleContent.Data.SetJSON(t, null);
+			// $("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
+
+			if(art_elts.size()){
+				art_elts.css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
+					$(this).css({"position": "absolute","right":0});
+					// t.UI.Clear(t);
+					t.article.Clear(t);
+					t.ShowLogo(t);
+
+					if($.isFunction(fnCallback)) { fnCallback(); }
+				});
+
+			}else{
+				t.article.Clear(t);
+				t.ShowLogo(t);
+
+				if($.isFunction(fnCallback)) { fnCallback(); }
+			}
 		}
 	},
 
 	navigation: {
+		/**
+		 * Méthode navigation.Clear
+		 * Suppression de tous les éléments relatifs à l'UI de navigation
+		 * @param t:Context
+		 */
+		Clear: function(t){
+			$("#navigation").children().remove();
+		},
 
+		/**
+		 * Méthode navigation.Refresh
+		 * Mise à jour du bloc de navigation
+		 * @param t:Context
+		 * @param show:Boolean 			indique s'il faut afficher la liste des catégories après le traitement
+		 * @param fnCallback:Function 	fonction de callback [optionnelle]
+		 */
+		Refresh: function(t, show, fnCallback){
+			fnCallback = ($.isFunction(fnCallback)) ? fnCallback : $.noop;
+			navigation.GetNavigation(show, fnCallback);
+		}
+	},
+
+	recherche: {
+		/**
+		 * Méthode recherche.ClearInput
+		 * Vidage de l'input de recherche
+		 * @param t:Context
+		 * @param terms:String 		chaine de caractères recherchée à insérer dans l'input de recherche 
+		 **/
+		ClearInput: function(t, terms){
+			$.watermark.hide(".searchInput");
+			$(".searchInput input").val(terms);
+		},
+
+		/**
+		 * Méthode recherche.Clear
+		 * Vidage du bloc de recherche
+		 * @param t:Context 
+		 **/
+		Clear: function(t){
+			$("#recherche").children().remove();
+		}
+	},
+
+	menu: {
+		/**
+		 * Méthode menu.Clear
+		 * Vidage du bloc de menu
+		 * @param t:Context 
+		 **/
+		Clear: function(t){
+			$("#menu ul").children().remove();
+		}
 	},
 	
 	CallBacks: {

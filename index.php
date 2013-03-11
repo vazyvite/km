@@ -24,6 +24,7 @@
 		<script type="text/javascript" src="./js/class/Data.js"></script>
 		<script type="text/javascript" src="./js/class/Popin.js"></script>
 		<script type="text/javascript" src="./js/class/Menu.js"></script>
+		<script type="text/javascript" src="./js/class/UI.js"></script>
 		<script type="text/javascript" src="./js/class/User.js"></script>
 		<script type="text/javascript" src="./js/class/Portail.js"></script>
 		<script type="text/javascript" src="./js/class/Article.js"></script>
@@ -31,7 +32,7 @@
 		<script type="text/javascript" src="./js/class/Recherche.js"></script>
 		<script type="text/javascript" src="./js/class/jsExtends.js"></script>
 		<script type="text/javascript" src="./js/class/Rights.js"></script>
-		<script type="text/javascript" src="./js/class/UI.js"></script>
+		<script type="text/javascript" src="./js/class/Admin.js"></script>
 		<script type="text/javascript" src="./js/domReady.js"></script>
 		
 	</head>

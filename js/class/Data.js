@@ -31,3 +31,17 @@ var Data = {
 		data: null
 	}
 };
+
+
+function verifyData(json){
+	var error = false;
+
+	for(var key in json){  
+		if(json[key] === null || json[key] === undefined || json[key] == ""){
+			error = true;
+			break;
+		}
+	}
+
+	return !error;
+}

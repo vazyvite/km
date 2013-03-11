@@ -1,11 +1,4 @@
 function Recherche(options){
-	this.s = {
-		bloc: "#recherche",
-		data: null,
-		minCharToStartSearch: 0,
-		input: "searchInput"
-	};
-
 	this.Init();
 }
 
@@ -19,17 +12,12 @@ Recherche.prototype = {
 		this.UI.Build(this);
 	},
 
-	/**
-	 * Méthode AttachEvents
-	 * Méthode d'attachement des évènements associé aux éléments de la class Recherche
-	 */
-	// AttachEvents: function(){},
 
 	/**
 	 * Méthode GetRecherche
 	 * Lance la recherche des articles
 	 */
-	GetResults: function(terms){
+	GetResults: function(terms, show, fnCallback){
 		var lvl = "list";
 		var idPortail = Data.portail.data.idPortail;
 
@@ -45,31 +33,41 @@ Recherche.prototype = {
 
 			}).done(function(msg){
 
-				var json = $.parseJSON(msg);
-				this.Data.SetJSON(this,json);
-				this.UI.Populate(this,terms);
+				if(msg != ""){
+					var json = $.parseJSON(msg);
 
+					if($.isArray(json)){
+
+						if(show){
+							this.Data.SetJSON(this, json);
+							this.UI.Populate(this, terms);
+						}
+
+						($.isFunction(fnCallback)) ? fnCallback(json) : $.noop();
+
+					}else{
+						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					}
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_no_result_title, Lang[user.GetLangue()].msg.error_no_result_msg, "error");
+				}
 			});
 		}
 	},
 
+
 	/**
 	 * Méthode SetRecherche
-	 * Force la recherche à partir d'un terms
+	 * Effectue une recherche à partir d'un terme
 	 * @param terms:String 		terme à rechercher
 	 */
 	SetRecherche: function(terms){
-		$.watermark.hide("." + this.s.input);
-		$("." + this.s.input + " input").val(terms);
-		this.GetResults(terms);
+		ui.recherche.ClearInput(ui, terms);
+		this.GetResults(terms, true, $.noop());
 	},
 
 
-
-	/**
-	 * Bloc Action
-	 * Gère les éléments d'actions
-	 */
 	Action: {
 		/**
 		 * Méthode Action.Reset
@@ -78,16 +76,11 @@ Recherche.prototype = {
 		 */
 		Reset: function(t, json){
 			t.Data.SetJSON(t, null);
-			t.UI.Reset(t);
+			ui.recherche.Clear(ui);
 		}
 	},
 
 
-
-	/**
-	 * Bloc Data
-	 * Gère les éléments de données
-	 */
 	Data: {
 		/**
 		 * Méthode Data.SetJSON
@@ -101,11 +94,6 @@ Recherche.prototype = {
 	},
 
 
-
-	/**
-	 * Bloc UI
-	 * Gère les éléments d'UI
-	 */
 	UI:{
 		/**
 		 * Méthode UI.Build
@@ -113,27 +101,30 @@ Recherche.prototype = {
 		 * @param t:Contexte
 		 */
 		Build: function(t){
-			t.UI.Reset(t);
+			ui.recherche.Clear(ui);
 			t.UI.SearchInput(t);
 		},
+
 
 		/**
 		 * Méthode UI.SearchInput
 		 * Construction de l'input de recherche
+		 * @param t:Context
 		 */
 		SearchInput: function(t){
 			var lvl = "show";
 			
 			if(CheckAccess(lvl)){
 
-				var insert = $("<div class='" + t.s.input + "'><input type='search' value='' /></div>")
-				$(t.s.bloc).append(insert);
+				var insert = $("<div class='searchInput'><input type='search' value='' /></div>")
+				$("#recherche").append(insert);
 
-				$("." + t.s.input + " input").watermark(Lang[user.GetLangue()].lbl.search).bind("keyup change", function(){
-					t.GetResults($(this).val());
+				$(".searchInput input").watermark(Lang[user.GetLangue()].lbl.search).bind("keyup change", function(){
+					t.GetResults($(this).val(), true, $.noop());
 				});
 			}
 		},
+
 
 		/**
 		 * Méthode UI.Populate
@@ -147,15 +138,14 @@ Recherche.prototype = {
 			$(".searchResults ul").remove();
 
 			if(terms != "" && CheckAccess(lvl)){
-				var insert = $("<div class='searchResults'><ul></ul></div>")
-				$(t.s.bloc).append(insert);
 
-				if(Data.recherche.data.length > 0){
+				$("#recherche").append($("<div class='searchResults'><ul></ul></div>"));
+
+				if(Data.recherche.data.length){
 
 					for(var i = 0; i < Data.recherche.data.length; i++){
 						var article = Data.recherche.data[i];
-						var insert = $("<li value='" + article.idArticle + "' class='result_article link_article'>" + article.titre + "</li>");
-						$(".searchResults ul").append(insert);
+						$(".searchResults ul").append($("<li value='" + article.idArticle + "' class='result_article link_article'>" + article.titre + "</li>"));
 					}
 
 					$(".link_article").off("click").on("click", function(){ 
@@ -164,21 +154,11 @@ Recherche.prototype = {
 					});
 
 				}else{
-					var insert = $("<li class='result_null'>" + Lang[user.GetLangue()].lbl.no_result + "</li>");
-					$(".searchResults ul").append(insert);
+					$(".searchResults ul").append($("<li class='result_null'>" + Lang[user.GetLangue()].lbl.no_result + "</li>"));
 				}
 
 			}
-		},
-
-		/**
-		 * Méthode UI.Reset
-		 * Remise à zero de l'interface de recherche
-		 * @param t:Contexte
-		 */
-		Reset: function(t){
-			$(t.s.bloc).children().remove();
-		},
+		}
 	}
 }
 

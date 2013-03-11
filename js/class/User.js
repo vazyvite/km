@@ -1,35 +1,10 @@
 function User(){
 	this.s = {
-		bloc: "#user",
-		content: "#user .bloc_content",
-		cache: "#user .cache",
-		btn_connexion: ".action_user_connexion",
-		data: {
-			idUser: 0,
-			lstName: "",
-			fstName: "",
-			email: "",
-			role: "",
-			login: ""
-		},
 		lang: "FR", // FR, EN
-		jqs: {
-			idUser: "#userdata_idUser",
-			lstName: "#userdata_lstName",
-			fstName: "#userdata_fstName",
-			email: "#userdata_email",
-			role: "#userdata_role",
-			login: "#userdata_login"
-		},
-		cookie: {
+		cookie: { 
 			duree: 10,					// Int - Durée de vie du cookie en jours
 		},
-		dialogue: {
-			connexion: null,
-			connexionClass: "dialogUserConnexion"
-		},
-		idRole: Array("00", "01", "10", "11"),
-		titleRole: null //Array("Aucun", "Lecteur", "Constributeur", "Administrateur"),
+		idRole: Array("00", "01", "10", "11")
 	}
 
 	this.s.titleRole = Lang[this.s.lang].lst.usr_role;
@@ -44,15 +19,11 @@ User.prototype = {
 	 * Méthode d'initialisation de la class User
 	 */
 	Init: function(){
-		//this.AttachEvents();
-
 		var user = this.Data.GetCookie(this);
 
-		$("#logos").html(Lang["app"].appName + "<span>v" + Lang["app"].appVersion + "</span>");
+		ui.DrawVersionInLogos(ui);
 
-		if(user.lang != null){
-			this.s.lang = user.lang;
-		}
+		this.SetLangue(user.lang);
 
 		if(user.id != null && user.pass != null){
 			this.ConnectById(user.id, user.pass);
@@ -61,22 +32,39 @@ User.prototype = {
 		}
 	},
 
+
 	/** 
-	 * Méthode AttachEvents
-	 * Méthode d'attachement des évènements associé aux éléments de la class User
+	 * Méthode SetLangue
+	 * Associe la langue à l'utilisateur
+	 * @param langue:String 	Code langue
 	 */
-	/*AttachEvents: function(){	var t = this; },*/
+	SetLangue: function(langue){
+		this.s.lang = (langue != null) ? langue : "FR";
+	},
+
+
+	/**
+	 * Méthode GetLangue
+	 * Retourne la langue courante de l'utilisateur
+	 * @return String		Le code de la langue de l'utilisateur
+	 */
+	GetLangue: function(){
+		return this.s.lang;
+	},
+
 
 	/**
 	 * Méthode Connect
 	 * Méthode permettant de lancer une action de connexion
+	 * @param login:String 		identifiant de l'utilisateur
+	 * @param password:String 	mot de passe de l'utilisateur
 	 */
 	Connect: function(login, password){
 		$.ajax({
 
 			url: "./phpforms/user.connect.php",
 			type: "POST",
-			data: {login: login, pass: password},
+			data: { login: login, pass: password },
 			datatype: "json",
 			context: this
 
@@ -84,19 +72,28 @@ User.prototype = {
 
 			if(msg != ""){
 				var json = $.parseJSON(msg);
-				this.Action.Connect(this, json);
-				$("#article .connectBloc").remove();
-			}else{		// erreur de connexion
+
+				if($.isPlainObject(json) && !$.isEmptyObject(json)){
+
+					this.Action.Connect(this, json);
+					$("#article .connectBloc").remove();
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
 				this.UI.DisplayError(Lang[this.GetLangue()].err.bad_id);
 			}
 		});
 	},
 
+
 	/**
 	 * Méthode ConnectById
 	 * Méthode permettant de se connecter à partir de l'id d'un utilisateur ayant une session ouverte
-	 * @param id:Int 			correspond à l'identifiant de l'utilisateur à connecter
-	 * @param pass:String 		correspond au mot de passe de l'utilisateur à connecter
+	 * @param id:Int 				correspond à l'identifiant de l'utilisateur à connecter
+	 * @param password:String 		correspond au mot de passe de l'utilisateur à connecter
 	 */
 	ConnectById: function(id, password){
 		$.ajax({
@@ -108,61 +105,57 @@ User.prototype = {
 			context: this
 
 		}).done(function(msg){
+			var error = false;
 
 			if(msg != ""){
 				var json = $.parseJSON(msg);
-				this.Action.Connect(this, json);
-			}else{		// erreur de connexion
-				this.UI.ConnectText(this, true);
+
+				if($.isPlainObject(json) && !$.isEmptyObject(json)){
+
+					this.Action.Connect(this, json);
+				}else{
+					error = true;
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				error = true;
+				this.UI.DisplayError(Lang[this.GetLangue()].err.bad_id);
 			}
 
+			if(error){
+				this.UI.ConnectText(this, true);
+			}
 		});
 	},
+
 
 	/** 
 	 * Méthode Disconnect
 	 * Méthode permettant de lancer une action de déconnexion
 	 */
 	Disconnect: function(){
-		this.Action.Disconnect(this);
-
 		$.ajax({
+
 			url: "phpforms/user.disconnect.php",
 			type: "POST",
 			context: this
+
 		}).done(function(){
+
+			this.Action.Disconnect(this);
 			this.UI.ConnectText(this, false);
+
 		});
 	},
 
-	/**
-	 * Méthode CheckUserAccess
-	 * Construction du bloc d'accessibilité
-	 * @param lvl:String		Indique le niveau requis pour accéder à la fonctionnalité (00, 01, 10, 11)
-	 * @return Boolean 		Retourne true si l'utilisateur à les droits suffisants pour accéder à la fonction, false dans le cas contraire
+
+	/** 
+	 * Méthode GetAllUsers
+	 * Méthode permettant de récupérer tous les utilisateurs
+	 * @param fnCallback:Function 		fonction de callback
 	 */
-	CheckUserAccess: function(lvl){
-		/*var usr = Data.user.data;
-		var role = parseInt(usr.role);
-
-		if(usr.role == ""){ 
-			return false;
-		}
-
-		return (role >= parseInt(lvl)) ? true : false;*/
-		CheckAccess("list");
-	},
-
-	/**
-	 * Méthode GetLangue
-	 * Retourne la langue de l'utilisateur
-	 * @return String		Le code de la langue de l'utilisateur
-	 */
-	GetLangue: function(){
-		return this.s.lang;
-	},
-
-	GetAllUsers: function(fnCallBack){
+	GetAllUsers: function(fnCallback){
 		$.ajax({
 
 			url: "phpforms/user.list.php",
@@ -171,13 +164,35 @@ User.prototype = {
 
 		}).done(function(msg){
 
-			var json = $.parseJSON(msg);
-			fnCallBack(json);
+			if(msg != ""){
+				var json = $.parseJSON(msg);
 
+				if($.isArray(json)){
+
+					if($.isFunction(fnCallback)){
+						fnCallback(json);
+					}else{
+						$.noop();
+					}
+
+				}else{
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				}
+
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_no_user_title, Lang[user.GetLangue()].msg.error_no_user_msg, "error");
+			}
 		});
 	},
 
-	Update: function(data, reload){
+
+	/** 
+	 * Méthode Update
+	 * Méthode modifier en base un utilisateur
+	 * @param data:JSON 		données concerntant l'utilisateur modifié
+	 * @param reload:Boolean 	indique si on doit recharger l'écran d'administration après l'opération
+	 */
+	Update: function(data, isAdmin){
 		$.ajax({
 
 			url: "phpforms/user.update.php",
@@ -186,18 +201,33 @@ User.prototype = {
 			data: { idUser: data.idUser, fstName: data.fstName, lstName: data.lstName, email: data.email, role: data.role, login: data.login, pass: data.pass }
 
 		}).done(function(msg){
-			if(data.idUser == this.s.data.idUser){
-				Data.user.data = data;
-				this.UI.UserInfos(this);
-			}
-			if(reload){
-				this.Action.Administration(this);
-			}
 
+			if(msg == ""){
+				
+				if(data.idUser == Data.user.data.idUser){
+					Data.user.data = data;
+					this.UI.UserInfos(this);
+				}
+
+				if(isAdmin){
+					this.Action.Administration(this);
+				}
+				ui.Notify(Lang[user.GetLangue()].msg.success_update_user_title, Lang[user.GetLangue()].msg.success_update_user_msg, "success");
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_update_user_title, Lang[user.GetLangue()].msg.error_update_user_msg, "error");
+			}
 		});
 	},
 
-	Delete: function(id){
+
+	/** 
+	 * Méthode Delete
+	 * Méthode supprimer en base un utilisateur
+	 * @param id:Int 			identifiant de l'utilisateur
+	 * @param isAdmin:Boolean 	indique si la page d'administration doit être rechargée après le traitement
+	 */
+	Delete: function(id, isAdmin){
+
 		if(id == Data.user.data.idUser){
 			alert(Lang[user.GetLangue()].msg.err_delete_own_account);
 			return false;
@@ -211,11 +241,27 @@ User.prototype = {
 			data: { idUser: id }
 
 		}).done(function(msg){
-			this.Action.Administration(this);
+
+			if(msg != ""){
+				
+				if(isAdmin){
+					this.Action.Administration(this);
+				}
+				ui.Notify(Lang[user.GetLangue()].msg.success_delete_user_title, Lang[user.GetLangue()].msg.success_delete_user_msg, "success");
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_delete_user_title, Lang[user.GetLangue()].msg.error_delete_user_msg, "error");
+			}
 		});
 	},
 
-	Create: function(data){
+
+	/** 
+	 * Méthode Create
+	 * Méthode créer en base un utilisateur
+	 * @param data:JSON 			Données de l'utilisateur
+	 * @param isAdmin:Boolean 		indique si la page d'administration doit être rechargée après le traitement
+	 */
+	Create: function(data, isAdmin){
 
 		$.ajax({
 
@@ -225,17 +271,20 @@ User.prototype = {
 			data: { fstName: data.fstName, lstName: data.lstName, email: data.email, role: data.role, login: data.login, pass: data.pass }
 
 		}).done(function(msg){
-			this.Action.Administration(this);
+
+			if(msg == ""){
+				
+				if(isAdmin){
+					this.Action.Administration(this);
+				}
+				ui.Notify(Lang[user.GetLangue()].msg.success_create_user_title, Lang[user.GetLangue()].msg.success_create_user_msg, "success");
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_create_user_title, Lang[user.GetLangue()].msg.error_create_user_msg, "error");
+			}
 		});
 	},
 
 
-
-
-	/**
-	 * Bloc d'Actions Action
-	 * Bloc d'actions liées aux évènements
-	 */
 	Action: {
 		/**
 		 * Méthdode Action.Connect
@@ -246,11 +295,14 @@ User.prototype = {
 		Connect: function(t, json){
 			t.Data.Connect(t, json);
 			t.UI.UserInfos(t);
+
+			portail = new Portail();
 			portail.Init();
 
 			menu = new Menu();
 			menu.Init();
 		},
+
 
 		/**
 		 * Méthdode Action.Disconnect
@@ -260,14 +312,11 @@ User.prototype = {
 		Disconnect: function(t){
 			t.Data.Disconnect(t);
 			t.UI.UserInfos(t);
-			t.UI.ClearInterface(t);
-
-			setTimeout(function(){
+			ui.ClearInterface(ui, function(){
 				t.UI.DialogConnexion(t);
-			}, 1000);
-
-			menu.UI.Clear(menu);
+			});
 		},
+
 
 		/**
 		 * Méthdode Action.SwitchLanguage
@@ -275,17 +324,25 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		SwitchLanguage: function(t){
+
 			switch(t.s.lang){
 				case "EN":
-					t.s.lang = "FR"; break;
+					t.s.lang = "FR";
+					break;
+
 				case "FR":
 				default: 
-					t.s.lang = "EN"; break;
+					t.s.lang = "EN";
+					break;
 			}
 
 			t.Data.SetCookie(t);
-			setTimeout(function(){ window.location.reload(); }, 500);
+
+			setTimeout(function(){ 
+				window.location.reload(); 
+			}, 500);
 		},
+
 
 		/**
 		 * Méthode Action.AdministrationCategorie
@@ -294,23 +351,13 @@ User.prototype = {
 		 */
 		Administration: function(t){
 			articleContent.UI.Clear(articleContent);
-			var list = Array();
 
 			var users = user.GetAllUsers(function(json){
-				var strTabUser = [
-				{ title: Lang[user.GetLangue()].lbl.form_id, key: "idUser", width: 5, lim: null, editable: false }, 
-				{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
-				{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
-				{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
-				{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: true, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
-				{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
-				{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }, 
-				{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null, editable: false }];
-			
-				articleContent.Action.BuildAdmin(articleContent, json, strTabUser, Lang[user.GetLangue()].lbl.admin_user, "user");
+				admin.Action.BuildAdmin(admin, json, t.Data.GetDataStructureUser(t, "admin"), Lang[user.GetLangue()].lbl.admin_user, "user");
 				menu.UI.BuildAdminUser(menu);
 			});
 		},
+
 
 		/**
 		 * Méthode Action.Create
@@ -319,25 +366,12 @@ User.prototype = {
 		 * @param caller:jQueryObject 		objet jquery appelant
 		 */
 		Create: function(t, caller){
-			var strTab = [
-			{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
-			{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
-			{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
-			{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: true, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
-			{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: true }, 
-			{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
-			
+			var strTab = t.Data.GetDataStructureUser(t, "create");
 			popin = new Popin(t.Data.PopinDataUserCreate(t, caller, strTab), strTab, null);
 		},
 	},
 
 
-
-
-	/**
-	 * Bloc d'Actions Data
-	 * Bloc d'actions liées à la manipulation des données
-	 */
 	Data: {
 		/**
 		 * Méthdode Data.Connect
@@ -351,6 +385,7 @@ User.prototype = {
 			t.Data.SetCookie(t);
 		},
 
+
 		/**
 		 * Méthdode Data.SetJSONDatas
 		 * Associe les userdatas aux éléments JSON de stockage
@@ -358,8 +393,17 @@ User.prototype = {
 		 * @param json:JSON 			ensemble des données utilisateur à stocker
 		 */
 		SetJSON: function(t, json){
-			Data.user.data = { idUser: json.idUser, lstName: json.lstName, fstName: json.fstName, email: json.email, role: json.role, login: json.login, pass: json.pass };
+			Data.user.data = {
+				idUser: json.idUser,
+				lstName: json.lstName,
+				fstName: json.fstName,
+				email: json.email,
+				role: json.role,
+				login: json.login,
+				pass: json.pass
+			};
 		},
+
 
 		/**
 		 * Méthdode Data.SetHtmlDatas
@@ -367,15 +411,16 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		SetHtml: function(t){
-			$(t.s.jqs.idUser).val(Data.user.data.idUser);
-			$(t.s.jqs.lstName).val(Data.user.data.lstName);
-			$(t.s.jqs.fstName).val(Data.user.data.fstName);
-			$(t.s.jqs.email).val(Data.user.data.email);
-			$(t.s.jqs.role).val(Data.user.data.role);
-			$(t.s.jqs.login).val(Data.user.data.login);
+			$("#userdata_idUser").val(Data.user.data.idUser);
+			$("#userdata_lstName").val(Data.user.data.lstName);
+			$("#userdata_fstName").val(Data.user.data.fstName);
+			$("#userdata_email").val(Data.user.data.email);
+			$("#userdata_role").val(Data.user.data.role);
+			$("#userdata_login").val(Data.user.data.login);
 		},
 
-		/** TODO
+
+		/**
 		 * Méthode Data.SetCookie
 		 * Sauvegarde des données utilisateur en cookie
 		 * @param t:Contexte
@@ -391,11 +436,12 @@ User.prototype = {
 				$.cookie("passUser", data.pass, { expires: cookie.duree, path: "/" });
 				$.cookie("UserLang", t.s.lang, { expires: cookie.duree, path: "/" });
 
-				// TODO : Afficher une notification lorsque le cookie a été créé
+				ui.Notify(Lang[user.GetLangue()].msg.success_create_cookie_title, Lang[user.GetLangue()].msg.success_create_cookie_msg, "success");
 			}else{
-				// TODO : Afficher une notification d'erreur lorsque le cookie n'a pas été créé
+				ui.Notify(Lang[user.GetLangue()].msg.error_create_cookie_title, Lang[user.GetLangue()].msg.error_create_cookie_msg, "error");
 			}
 		},
+
 
 		/**
 		 * Méthode Data.Disconnect
@@ -407,6 +453,7 @@ User.prototype = {
 			t.Data.RemoveCookie(t);
 		},
 
+
 		/**
 		 * Méthode Data.RemoveData
 		 * Sauvegarde des données utilisateur HTML
@@ -416,6 +463,7 @@ User.prototype = {
 			Data.user.data = { idUser: 0, lstName: "", fstName: "", email: "", role: "", login: "" };
 			t.Data.SetHtml(t);
 		},
+
 
 		/**
 		 * Méthode Data.RemoveCookie
@@ -427,13 +475,14 @@ User.prototype = {
 			$.removeCookie("idCurrentUser", { path: '/' });
 			$.removeCookie("passUser", { path: '/' });
 			$.removeCookie("UserLang", { path: '/' });
+			ui.Notify(Lang[user.GetLangue()].msg.success_remove_cookie_title, Lang[user.GetLangue()].msg.success_remove_cookie_msg, "success");
 		},
+
 
 		/** 
 		 * Méthode Data.GetCookie
 		 * Méthode permettant de récupérer l'utilisateur courant à partir d'un cookie pour reconnexion automatique
 		 * @param t:Contexte
-		 * @return id:Int 				Correspond à l'identifiant de l'utilisateur courant
 		 */
 		GetCookie: function(t){
 			var id, pass;
@@ -442,10 +491,18 @@ User.prototype = {
 			var namePASS = cookie.key_pass + "=";
 			var ca = document.cookie.split(';');
 
-			return {id: $.cookie("idCurrentUser"), pass: $.cookie("passUser"), lang: $.cookie("UserLang") };
+			return { id: $.cookie("idCurrentUser"), pass: $.cookie("passUser"), lang: $.cookie("UserLang") };
 		},
 
-		PopinDataUserEdit: function(t, json, str, reload){
+
+		/** 
+		 * Méthode PopinDataUserEdit
+		 * Retourne les données nécessaires à la création de la popin d'édition des utilisateurs
+		 * @param t:Context
+		 * @param json:JSON 		données de l'utilisateur
+		 * @param str:Array 		structure des données
+		 */
+		PopinDataUserEdit: function(t, json, str){
 			return {
 				title: Lang[user.GetLangue()].lbl.modif + " " + json.fstName + " " + json.lstName,
 				content: "",
@@ -461,8 +518,10 @@ User.prototype = {
 					 	login: p.find(".p_" + str[5].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),
 					 	pass: p.find(".p_" + str[6].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val()
 					}
-					if(data.idUser != "" && data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
-						user.Update(data, reload);
+
+					if(verifyData(data)){
+					// if(data.idUser != "" && data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
+						user.Update(data, ($(".admin_title").size()) ? true : false);
 						popin.Action.Hide(popin);
 					}
 				},
@@ -470,19 +529,36 @@ User.prototype = {
 			};
 		},
 
+
+		/** 
+		 * Méthode PopinDataUserDel
+		 * Retourne les données nécessaires à la création de la popin de suppression des utilisateurs
+		 * @param t:Context
+		 * @param json:JSON 		données de l'utilisateur
+		 */
 		PopinDataUserDel: function(t, json){
 			return {
 				title: Lang[user.GetLangue()].msg.confirm_delete_object + "<input class='p_ID' type='hidden' value='" + json.idUser + "' />",
 				content: "", cmd: ["valide", "cancel"],
 				onValidate: function(){
-					var p = $(".popin");
-					var id = p.find(".p_ID").val();
-					if(id != ""){ user.Delete(id); popin.Action.Hide(popin); }
+					var id = $(".popin").find(".p_ID").val();
+					if(id != ""){ 
+						user.Delete(id, ($(".admin_title").size()) ? true : false); 
+						popin.Action.Hide(popin); 
+					}
 				},
 				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "user"
 			};
 		},
 
+
+		/** 
+		 * Méthode PopinDataUserCreate
+		 * Retourne les données nécessaires à la création de la popin de création des utilisateurs
+		 * @param t:Context
+		 * @param caller:jQueryObject 	objet jquery à l'origine de l'appel de la méthode
+		 * @param str:Array 			structure des données
+		 */
 		PopinDataUserCreate: function(t, caller, str){
 			return {
 				title: Lang[user.GetLangue()].lbl.object_create,
@@ -498,36 +574,84 @@ User.prototype = {
 						login: p.find(".p_" + str[4].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(),  
 						pass: p.find(".p_" + str[5].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val() }
 
-					if(data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
-						user.Create(data);
+					if(verifyData(data)){
+					// if(data.fstName != "" && data.lstName != "" && data.email != "" && data.role != "" && data.login != "" && data.pass != ""){ 
+						user.Create(data, ($(".admin_title").size()) ? true : false);
 						popin.Action.Hide(popin);
 					}
 				},
 				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "user", caller: caller
 			};
+		},
+
+
+		/**
+		 * Méthode Data.GetDataStructureUser
+		 * Gère les données nécessaires à la création de la popin de création des catégories
+		 * @param t:Contexte
+		 * @param type:String 		indique le contexte des données (admin | create)
+		 */
+		GetDataStructureUser: function(t, type){
+			var str;
+
+			switch(type){
+				case "admin":
+					str = [
+					{ title: Lang[user.GetLangue()].lbl.form_id, key: "idUser", width: 5, lim: null, editable: false }, 
+					{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
+					{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
+					{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
+					{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: true, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
+					{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
+					{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }, 
+					{ title: Lang[user.GetLangue()].lbl.form_action, key: null, width: null, lim: null, editable: false }];
+					break;
+
+				case "create":
+					str = [
+					{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
+					{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
+					{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
+					{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: true, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
+					{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: true }, 
+					{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
+					break;
+
+				case "account":
+					str = [
+					{ title: Lang[user.GetLangue()].lbl.form_id, key: "idUser", width: 5, lim: null, editable: false }, 
+					{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
+					{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
+					{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
+					{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: false, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
+					{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
+					{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
+					break;
+
+				default: break;
+			}
+
+			return str;
 		}
 	},
 
 
-				
-	/**
-	 * Bloc d'Actions UI
-	 * Bloc d'actions liées à la construction d'interfaces
-	 */
 	UI: {
 		/**
 		 * Méthode UI.ConnectText
 		 * Permet d'afficher les commandes de connexion dans le bloc de connexion
 		 * @param t:Contexte
+		 * @param showConnectForm:Boolean 	Indique s'il faut afficher la boite de dialogue de connexion
 		 */
 		ConnectText: function(t, showConnectForm){
 			var html = "<div class='action_user_connexion'>" + Lang["app"].appName + " <sup>v" + Lang["app"].appVersion + "</sup></div>";
-			$(t.s.content).html(html);
+			$("#user .bloc_content").html(html);
 
 			if(showConnectForm){
 				t.UI.DialogConnexion(t);
 			}
 		},
+
 
 		/**
 		 * Méthode DisplayError
@@ -535,8 +659,9 @@ User.prototype = {
 		 * @param error:String		Contenu de l'erreur à afficher
 		 */
 		DisplayError: function(error){
-			$(".connectBloc").find(".dialog_error").html(error).show(300);
+			$(".connectBloc .dialog_error").html(error).show(300);
 		},
+
 
 		/**
 		 * Méthode UI.DialogConnexion
@@ -564,20 +689,14 @@ User.prototype = {
 			parent.css("opacity", 0).animate({"opacity": 1}, 300);
 		},
 
-		HideDialogConnexion: function(t){
-			// t.s.dialogue.connexion.Hide($("." + t.s.dialogue.connexionClass));
-		},
 
 		/**
-		 * Méthode UI.DialogConnexion
+		 * Méthode UI.UserInfos
 		 * Permet d'afficher les informations d'utilisateur connecté
 		 * @param t:Contexte
 		 */
 		UserInfos: function(t){
 			var data = Data.user.data;
-			if(t.s.dialogue.connexion != null){
-				t.UI.HideDialogConnexion(t);
-			}
 
 			var html = "<div class='user_infos'>" + data.fstName + " " + data.lstName + "</div>";
 				html += "<div class='user_role'>" + Lang[t.GetLangue()].lst.usr_role[t.s.idRole.indexOf(data.role)] + "</div>"
@@ -586,44 +705,20 @@ User.prototype = {
 					 + "<li><a class='action_user_lang'>" + Lang[t.GetLangue()].btn.switch_lang + "</a></li>"
 					 + "<li><a class='action_user_deconnexion'>" + Lang[t.GetLangue()].btn.disconnect + "</a></li>"
 					 + "</ul></div>";
-			$(t.s.content).html(html);
+			$("#user .bloc_content").html(html);
 			
-			$(t.s.bloc + " .action_user_compte").on("click", function(){ 
-				var strTabUser = [
-				{ title: Lang[user.GetLangue()].lbl.form_id, key: "idUser", width: 5, lim: null, editable: false }, 
-				{ title: Lang[user.GetLangue()].lbl.form_fstName, key: "fstName", width: 10, lim: 25, editable: true },
-				{ title: Lang[user.GetLangue()].lbl.form_lstName, key: "lstName", width: 10, lim: 25, editable: true },
-				{ title: Lang[user.GetLangue()].lbl.form_email, key: "email", width: null, lim: 100, editable: true }, 
-				{ title: Lang[user.GetLangue()].lbl.form_role, key: "role", width: 5, lim: 3, editable: false, list: [ {id: "00", name: "Aucun"}, {id: "01", name: "Lecteur"}, {id: "10", name: "Contributeur"}, {id: "11", name: "Administrateur"}] }, 
-				{ title: Lang[user.GetLangue()].lbl.form_login, key: "login", width: 10, lim: 25, editable: false }, 
-				{ title: Lang[user.GetLangue()].lbl.form_pass, key: "pass", width: 10, lim: 150, editable: true }];
-
-				popin = new Popin(t.Data.PopinDataUserEdit(t, Data.user.data, strTabUser, false), strTabUser, Data.user.data);
+			$("#user .action_user_compte").on("click", function(){ 
+				var strTab = t.Data.GetDataStructureUser(t, "account");
+				popin = new Popin(t.Data.PopinDataUserEdit(t, Data.user.data, strTab), strTab, Data.user.data);
 			});
 
-			$(t.s.bloc + " .action_user_deconnexion").on("click", function(){ 
+			$("#user .action_user_deconnexion").on("click", function(){ 
 				t.Disconnect(); 
 			});
 
-			$(t.s.bloc + " .action_user_lang").on("click", function(){ 
+			$("#user .action_user_lang").on("click", function(){ 
 				t.Action.SwitchLanguage(t);
 			});
-		},
-
-		/**
-		 * Méthode UI.ClearInterface
-		 * Nettoyage de l'ensemble de l'interface
-		 * @param t:Contexte
-		 */
-		ClearInterface: function(t){
-
-			if(portail){
-				portail.Action.Reset(portail);
-			}
-			
-			if(articleContent){
-				articleContent.UI.Close(articleContent);
-			}
 		}
 	}
 }

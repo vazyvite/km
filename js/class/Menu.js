@@ -13,34 +13,18 @@ Menu.prototype = {
 	 */
 	Init: function(){
 		this.UI.BuildEmpty(this);
-		// this.AttachEvents();
 	},
 
-	/**
-	 * Méthode AttachEvents
-	 * Attache des évènements class Menu
-	 */
-	// AttachEvents: function(){ },
 
-	Action: {},
-	Data: {},
-
-
-
-
-	/**
-	 * Bloc UI
-	 * Gestion de l'interface
-	 */
 	UI: {
-
 		/** obsolète
 		 * Méthode UI.Build
 		 * Constuction du menu
 		 * @param t:Context
 		 */
 		Build: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 
@@ -80,19 +64,21 @@ Menu.prototype = {
 			}
 		},
 
+
 		/**
 		 * Méthode UI.BuildEmpty
-		 * Constuction du menu lorsque l'écran est vide
+		 * Constuction du menu sur l'écran de sélection de portail
 		 * @param t:Context
 		 */
 		BuildEmpty: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var adminPortail = t.UI.Btn_AdminPortail(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 
-				var m = $(t.s.bloc).find("ul");
+				var m = $("#menu ul");
 
 				if(adminPortail != null) { m.append(adminPortail); }
 				if(addPortail != null) { m.append(addPortail); }
@@ -100,53 +86,50 @@ Menu.prototype = {
 			}
 		},
 
+
 		/**
 		 * Méthode UI.BuildCategorie
 		 * Constuction du menu lorsque l'on est en visionnage d'article
 		 * @param t:Context
 		 */
 		BuildCategorie: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
-				// var addArticle = t.UI.Btn_AddArticle(t);
-				var adminUser = t.UI.Btn_AdminUser(t);
-				// var editCategorie = t.UI.Btn_EditCategorie(t);
 
-				var m = $(t.s.bloc).find("ul");
+				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
-				// if(editCategorie != null) { m.append(editCategorie); }
-				// if(addArticle != null) { m.append(addArticle); }
-				if(adminUser != null) { m.append(adminUser); }
 			}
 		},
 
+
 		/**
 		 * Méthode UI.BuildPortail
-		 * Constuction du menu lorsque l'on est en écran de portail (sans article)
+		 * Constuction du menu lorsque l'on est en écran portail
 		 * @param t:Context
 		 */
 		BuildPortail: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 				var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
-				// var editPortail = t.UI.Btn_EditPortail(t);
 
-				var m = $(t.s.bloc).find("ul");
+				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
-				// if(editPortail != null) { m.append(editPortail); }
+				if(addArticle != null) { m.append(addArticle); }
 				if(adminCategorie != null) { m.append(adminCategorie); }
 				if(addCategorie != null) { m.append(addCategorie); }
-				if(addArticle != null) { m.append(addArticle); }
 				if(adminUser != null) { m.append(adminUser); }
 			}
 		},
+
 
 		/**
 		 * Méthode UI.BuildAdminPortail
@@ -154,19 +137,19 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		BuildAdminPortail: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
-				var adminUser = t.UI.Btn_AdminUser(t);
 
-				var m = $(t.s.bloc).find("ul");
+				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
 				if(addPortail != null) { m.append(addPortail); }
-				if(adminUser != null) { m.append(adminUser); }
 			}
 		},
+
 
 		/**
 		 * Méthode UI.BuildAdminCategorie
@@ -174,19 +157,19 @@ Menu.prototype = {
 		 * @param t:Context
 		 */
 		BuildAdminCategorie: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
-				var adminUser = t.UI.Btn_AdminUser(t);
 
-				var m = $(t.s.bloc).find("ul");
+				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
 				if(addCategorie != null) { m.append(addCategorie); }
-				if(adminUser != null) { m.append(adminUser); }
 			}
 		},
+
 
 		/**
 		 * Méthode BuildAdminUser
@@ -194,19 +177,19 @@ Menu.prototype = {
 		 * @param t:Contexte
 		 */
 		BuildAdminUser: function(t){
-			t.UI.Clear(t);
+			ui.menu.Clear(ui);
+
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var addUser = t.UI.Btn_AddUser(t);
-				// var adminUser = t.UI.Btn_AdminUser(t);
 
-				var m = $(t.s.bloc).find("ul");
+				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
-				// if(adminUser != null) { m.append(adminUser); }
 				if(addUser != null) { m.append(addUser); }
 			}
 		},
+
 
 		/**
 		 * Méthode UI.Btn_Home
@@ -216,20 +199,16 @@ Menu.prototype = {
 		Btn_Home: function(t){
 			var lvl = "show";
 			var btn = null;
-			var idPortail = null;
 
 			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton retour' title='" + Lang[user.GetLangue()].btn.out_portail + "'></li>").on("click", function(){
-					portail.Action.Reset(portail);
+					if(Data.portail.data.idPortail){
+						portail.Action.Reset(portail);
+					}
 
 					if(articleContent){
 						articleContent.UI.Close(articleContent, function(){
-							if(Data.portail && Data.portail.data && Data.portail.data.idPortail != null){
-								idPortail = portail.s.data.idPortail;
-							}else{
-								idPortail = null;
-							}
-
+							var idPortail = (Data.portail && Data.portail.data && Data.portail.data.idPortail != null) ? Data.portail.data.idPortail : null;
 							articleContent.GetArticleByUser(Data.user.data.idUser, idPortail);
 						});
 					}
@@ -239,6 +218,7 @@ Menu.prototype = {
 			}
 			return btn;
 		},
+
 
 		/**
 		 * Méthode UI.Btn_AdminCategorie
@@ -257,6 +237,7 @@ Menu.prototype = {
 			return btn;
 		},
 
+
 		/**
 		 * Méthode UI.Btn_AddCategorie
 		 * Création du bouton d'ajout de Catégorie
@@ -274,39 +255,6 @@ Menu.prototype = {
 			return btn;
 		},
 
-		/**
-		 * Méthode UI.Btn_DelCategorie
-		 * Création du bouton de suppression de Catégorie
-		 * @param t:Contexte
-		 */
-		Btn_DelCategorie: function(t){
-			var lvl = "admin";
-			var btn = null;
-
-			if(CheckAccess(lvl)){
-				btn = $("<li class='bouton del_categorie' title='" + Lang[user.GetLangue()].btn.del_categorie + "'></li>").on("click", function(){
-					// Action
-				});
-			}
-			return btn;
-		},
-
-		/**
-		 * Méthode UI.Btn_EditCategorie
-		 * Création du bouton de modification de Catégorie
-		 * @param t:Contexte
-		 */
-		Btn_EditCategorie: function(t){
-			var lvl = "admin";
-			var btn = null;
-
-			if(CheckAccess(lvl)){
-				btn = $("<li class='bouton edit_categorie' title='" + Lang[user.GetLangue()].btn.edit_categorie + "'></li>").on("click", function(){
-					// Action
-				});
-			}
-			return btn;
-		},
 
 		/**
 		 * Méthode UI.Btn_AjoutArticle
@@ -325,6 +273,7 @@ Menu.prototype = {
 			return btn;
 		},
 
+
 		/**
 		 * Méthode UI.Btn_GestionPortail
 		 * Constuction du bouton de gestion de Portail
@@ -341,6 +290,7 @@ Menu.prototype = {
 			}
 			return btn;
 		},
+
 
 		/**
 		 * Méthode UI.Btn_AjoutArticle
@@ -359,39 +309,6 @@ Menu.prototype = {
 			return btn;
 		},
 
-		/**
-		 * Méthode UI.Btn_AjoutArticle
-		 * Constuction du bouton d'ajout de Portail
-		 * @param t:Context
-		 */
-		Btn_DelPortail: function(t){
-			var lvl = "admin";
-			var btn = null;
-
-			if(CheckAccess(lvl)){
-				btn = $("<li class='bouton del_portail' title='" + Lang[user.GetLangue()].btn.del_portail + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
-				});
-			}
-			return btn;
-		},
-
-		/**
-		 * Méthode UI.Btn_AjoutArticle
-		 * Constuction du bouton d'ajout de Portail
-		 * @param t:Context
-		 */
-		Btn_EditPortail: function(t){
-			var lvl = "admin";
-			var btn = null;
-
-			if(CheckAccess(lvl)){
-				btn = $("<li class='bouton edit_portail' title='" + Lang[user.GetLangue()].btn.edit_portail + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
-				});
-			}
-			return btn;
-		},
 
 		/**
 		 * Méthode UI.Btn_GestionUser
@@ -410,6 +327,7 @@ Menu.prototype = {
 			return btn;
 		},
 
+
 		/**
 		 * Méthode UI.Btn_GestionUser
 		 * Constuction du bouton de gestion des Utilisateurs
@@ -425,49 +343,6 @@ Menu.prototype = {
 				});
 			}
 			return btn;
-		},
-
-		/**
-		 * Méthode UI.Btn_GestionUser
-		 * Constuction du bouton de gestion des Utilisateurs
-		 * @param t:Context
-		 */
-		Btn_DelUser: function(t){
-			var lvl = "admin";
-			var btn = null;
-
-			if(CheckAccess(lvl)){
-				btn = $("<li class='bouton del_user' title='" + Lang[user.GetLangue()].btn.del_user + "'></li>").on("click", function(){ 
-					// Action
-				});
-			}
-			return btn;
-		},
-
-		/**
-		 * Méthode UI.Btn_GestionUser
-		 * Constuction du bouton de gestion des Utilisateurs
-		 * @param t:Context
-		 */
-		Btn_EditUser: function(t){
-			var lvl = "admin";
-			var btn = null;
-
-			if(CheckAccess(lvl)){
-				btn = $("<li class='bouton edit_user' title='" + Lang[user.GetLangue()].btn.edit_user + "'></li>").on("click", function(){ 
-					// t.Action.Save(t, false);
-				});
-			}
-			return btn;
-		},
-
-		/**
-		 * Méthode UI.Clear
-		 * Nettoyage du menu
-		 * @param t:Context
-		 */
-		Clear: function(t){
-			$(t.s.bloc).find("ul").children().remove();
 		}
 	}
 }

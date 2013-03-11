@@ -135,7 +135,7 @@ Portail.prototype = {
 	 * @param p:Int 			nom du portail à créer
 	 * @param refresh:Boolean 	indique si l'interface d'administration doit être raffraichie ou non
 	 */
-	Create: function(data){
+	Create: function(data, refreshAdmin){
 		var ajaxOptions = {
 			url: "phpforms/portail.create.php",
 			type: "POST", 
@@ -194,11 +194,10 @@ Portail.prototype = {
 				accord = confirm(Lang[user.GetLangue()].msg.confirm_leave_portail1 + " " + Data.portail.data.portail + ", " + Lang[user.GetLangue()].msg.confirm_leave_portail2 + " " + new_portail.text + " ?");
 			}
 
-			t.Data.SetJSON(t, { idPortail: new_portail.value, portail: new_portail.text });
-
 			if(accord && new_portail.value != 0){
 
-				// t.UI.PortailInfos(t);
+				t.Data.SetJSON(t, { idPortail: new_portail.value, portail: new_portail.text });
+				t.UI.PortailInfos(t);
 
 				// A REVOIR
 				// si on est en train de visionner un article, on ferme l'article et qu'il n'y a aucun portail de sélectionné
@@ -210,7 +209,7 @@ Portail.prototype = {
 
 				}else{
 
-					if(!$.isFunction(fnCallBack)){
+					if(!$.isFunction(fnCallback)){
 						articleContent.GetArticleByUser(Data.user.data.idUser, new_portail.value);
 					}else{
 						fnCallback();
@@ -231,8 +230,8 @@ Portail.prototype = {
 		Administration: function(t){
 			ui.article.Clear(ui);
 			
-			var data = t.GetAllPortail(false, function(json){
-				articleContent.Action.BuildAdmin(articleContent, json, t.Data.GetDataStructurePortail(t, "admin"), Lang[user.GetLangue()].lbl.admin_portail, "portail");
+			t.GetAllPortail(false, function(json){
+				admin.BuildAdmin(admin, json, t.Data.GetDataStructurePortail(t, "admin"), Lang[user.GetLangue()].lbl.admin_portail, "portail");
 				menu.UI.BuildAdminPortail(menu);
 			});
 		},
@@ -291,7 +290,7 @@ Portail.prototype = {
 				onValidate: function(){
 					var p = $(".popin");
 					var data = { id: p.find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val(), portail: p.find(".p_" + str[1].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val() };
-					if(data.id != "" && data.portail != ""){ portail.Update(data, true); popin.Action.Hide(popin); }
+					if(data.id != "" && data.portail != ""){ portail.Update(data, ($(".admin_title").size()) ? true : false); popin.Action.Hide(popin); }
 				},
 				onCancel: null, lvlRequise: "admin", closeBtn: true, type: "portail"
 			};
@@ -311,7 +310,7 @@ Portail.prototype = {
 				content: "", cmd: ["valide", "cancel"],
 				onValidate: function(){
 					var id = $(".popin").find(".p_ID").val();
-					if(id != ""){ portail.Delete(id); popin.Action.Hide(popin); }
+					if(id != ""){ portail.Delete(id, ($(".admin_title").size()) ? true : false); popin.Action.Hide(popin); }
 				},
 				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "portail"
 			};
@@ -331,7 +330,10 @@ Portail.prototype = {
 				content: "", cmd: ["valide", "cancel"],
 				onValidate: function(){
 					var data = { portail: $(".popin").find(".p_" + str[0].key.toUpperCase().replace(/\s+/g, ' ') + " .form_input :input").val() };
-					if(data.portail != ""){ portail.Create(data); popin.Action.Hide(popin); }
+					if(data.portail != ""){ 
+						portail.Create(data, ($(".admin_title").size()) ? true : false);
+						popin.Action.Hide(popin); 
+					}
 				},
 				onCancel: null, lvlRequise: "admin", closeBtn: false, type: "portail", caller: caller
 			};
@@ -345,7 +347,7 @@ Portail.prototype = {
 		 * @param json:JSON 	données contenant la liste des portails
 		 */
 		SetListPortail: function(t, json){
-			Data.portail.data.listPortail = json;
+			Data.portail.list = json;
 		},
 
 
@@ -356,7 +358,7 @@ Portail.prototype = {
 		 * @return json:JSON 	données contenant la liste des portails
 		 */
 		GetListPortail: function(t){
-			return Data.portail.data.listPortail;
+			return Data.portail.list;
 		},
 
 
@@ -448,62 +450,12 @@ Portail.prototype = {
 			}else{
 				bloc_info.text("").removeAttr("value").parent().removeClass("portail_selected");
 			}
-		},
-
-		/**
-		 * Méthode UI.ShowInterface
-		 * Affiche l'ensemble de l'interface à la sélection d'un portail
-		 * @param t:Contexte
-		 */
-		/*ShowInterface: function(t){
-			var lvl = "show";
-			var ref = $("#reference");
-			var content = $("#content");
-
-			if(CheckAccess(lvl)){
-
-				navigation = new Navigation();
-				recherche = new Recherche();
-
-				if(!ref.is(":visible")){
-					ref.show().css({ "left": -ref.outerWidth(true) }).animate({ "left": 0 }, 300, "swing");
-					content.animate({ "width": $(window).width() - ref.outerWidth(true) }, 300, "swing");
-				}
-			}
-		},*/
-
-		/**
-		 * Méthode UI.HideInterface
-		 * Cache l'ensemble de l'interface à la désélection d'un portail
-		 * @param t:Contexte
-		 */
-		/*HideInterface: function(t){
-			var ref = $("#reference");
-			var content = $("#content");
-
-			if(ref.is(":visible")){
-				ref.css({ "left": 0 }).animate({ "left": -ref.outerWidth(true) }, 300, "swing", function(){ ref.hide(); recherche.Action.Reset(recherche); navigation.Action.Reset(navigation); });
-				content.animate({ "width": $(window).width() }, 300, "swing");
-			}
-		},*/
-
-		/**
-		 * Méthode UI.Reset
-		 * Reset l'affichage
-		 * @param t:Contexte
-		 */
-		/*Reset: function(t){
-			$(t.s.content).find(".menu_portail").children().remove();
-			t.UI.PortailInfos(t);
-			t.UI.PortailList(t);
-			t.UI.HideInterface(t);
-			ui.HideReferenceBloc();
-		}*/
+		}
 	}
 }
 
 var portail;
 
-$(document).ready(function(){
+/*$(document).ready(function(){
 	portail = new Portail();
-});
+});*/
