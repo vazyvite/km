@@ -140,14 +140,9 @@ UI.prototype = {
 			portail.Action.Reset(portail);
 		}
 		
-		//this.article.Close(this);
-		if(articleContent){
-			articleContent.UI.Close(articleContent);
-		}
+		t.article.Close(t);
 
-		if(menu){
-			menu.UI.Clear(menu);
-		}
+		t.menu.Clear(t);
 
 		t.HideReferenceBloc(fnCallback);
 	},

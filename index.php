@@ -19,6 +19,8 @@
 		<script type="text/javascript" src="./js/jquery.tokeninput.js"></script>
 		<script type="text/javascript" src="./js/jquery.SearchHighlight.js"></script>
 		<script type="text/javascript" src="./js/jquery.pnotify.js"></script>
+		<script type="text/javascript" src="./js/jquery.masonry.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.infinitescroll.min.js"></script>
 		
 		<script type="text/javascript" src="./js/class/Lang.js"></script>
 		<script type="text/javascript" src="./js/class/Data.js"></script>

@@ -350,10 +350,10 @@ User.prototype = {
 		 * @param t:Contexte
 		 */
 		Administration: function(t){
-			articleContent.UI.Clear(articleContent);
+			ui.article.Clear(ui);
 
 			var users = user.GetAllUsers(function(json){
-				admin.Action.BuildAdmin(admin, json, t.Data.GetDataStructureUser(t, "admin"), Lang[user.GetLangue()].lbl.admin_user, "user");
+				admin.BuildAdmin(json, t.Data.GetDataStructureUser(t, "admin"), Lang[user.GetLangue()].lbl.admin_user, "user");
 				menu.UI.BuildAdminUser(menu);
 			});
 		},

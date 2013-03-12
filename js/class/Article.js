@@ -37,7 +37,7 @@ Article.prototype = {
 
 				var json = $.parseJSON(msg);
 
-				if($.isArray(json)){
+				if($.isPlainObject(json) && !$.isEmptyObject(json)){
 
 					this.Data.SetJSON(this, json);
 					this.UI.Build(this, json);
@@ -79,7 +79,7 @@ Article.prototype = {
 					this.UI.BuildHome(this, json);
 
 				}else{
-					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					ui.Notify("1" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
 
 			}else{
@@ -115,19 +115,13 @@ Article.prototype = {
 
 		}).done(function(msg){
 
-			if(msg != ""){
+			if(msg == ""){
 
-				var json = $.parseJSON(msg);
+				this.LoadArticle(Data.article.data.idArticle);
+				navigation.GetNavigation(true, $.noop());
+				ui.Notify(Lang[user.GetLangue()].msg.success_update_article_title, Lang[user.GetLangue()].msg.success_update_article_msg, "success");
 
-				if($.isArray(json)){
-
-					this.LoadArticle(Data.article.data.idArticle);
-					navigation.GetNavigation(true, $.noop());
-					ui.Notify(Lang[user.GetLangue()].msg.success_update_article_title, Lang[user.GetLangue()].msg.success_update_article_msg, "success");
-
-				}else{
-					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
-				}
+				ui.Notify("2" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 
 			}else{
 				ui.Notify(Lang[user.GetLangue()].msg.error_update_article_title, Lang[user.GetLangue()].msg.error_update_article_msg, "error");
@@ -165,7 +159,7 @@ Article.prototype = {
 					ui.Notify(Lang[user.GetLangue()].msg.success_delete_article_title, Lang[user.GetLangue()].msg.success_delete_article_msg, "success");
 
 				}else{
-					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					ui.Notify("3" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
 
 			}else{
@@ -208,7 +202,7 @@ Article.prototype = {
 					ui.Notify(Lang[user.GetLangue()].msg.success_create_article_title, Lang[user.GetLangue()].msg.success_create_article_msg, "success");
 
 				}else{
-					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					ui.Notify("4" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
 
 			}else{
@@ -246,14 +240,14 @@ Article.prototype = {
 
 					var json = $.parseJSON(msg);
 
-					if(!$.isArray(json)){
+					if($.isArray(json)){
 
 						if($.isFunction(fnCallback)){
 							fnCallback(json);
 						}
 
 					}else{
-						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+						ui.Notify("5" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 					}
 
 				}else{
@@ -301,7 +295,7 @@ Article.prototype = {
 						}
 
 					}else{
-						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+						ui.Notify("6" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 					}
 
 				}else{
@@ -391,6 +385,8 @@ Article.prototype = {
            			 }
 				});
 				
+				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
+
 				// if creation
 				if(json && json.idArticle == -1){
 					data_mc = (json.motcles && json.motcles.length) ? json.motcles : Array();
@@ -417,8 +413,6 @@ Article.prototype = {
 					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
 				}
 
-
-				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
 				article.find("input.article_listMotCles_edit").tokenInput(
 					"phpforms/motcle.autocomplete.php", 
@@ -494,7 +488,7 @@ Article.prototype = {
 				};
 
 				if(verifyData(data)){
-					for(var i = 0; i < mc.length; i++){
+					for(var i = 0; i < data.mc.length; i++){
 						motcle.push({idArticle: -1, idMotCle: -1, motcle: data.mc[i].name});
 					}
 
@@ -542,11 +536,11 @@ Article.prototype = {
 				if(verifyData(data)){
 
 					if(!isCancel){
-						for(var i = 0; i < mc.length; i++){
-							motcle.push({idArticle: Data.article.data.idArticle, idMotCle: mc[i].id, motcle: mc[i].name});
+						for(var i = 0; i < data.mc.length; i++){
+							motcle.push({idArticle: Data.article.data.idArticle, idMotCle: data.mc[i].id, motcle: data.mc[i].name});
 						}
 
-						t.Data.Update(t, titre, content, motcle);
+						t.Data.Update(t, data.titre, data.content, motcle);
 						t.UpdateArticle(Data.article.data);
 
 					}else{
@@ -1431,10 +1425,36 @@ Article.prototype = {
 		 */
 		BuildHome: function(t, json){
 			$("#article").children().remove();
+
+			var homeTuileContainer = $("<div></div>").addClass("HomeTuileContainer");
+
 			for(var i = 0; i < json.length; i++){
 				var article = json[i];
-				t.UI.TraceHomeTuileArticle(t, article);
+				homeTuileContainer.append(t.UI.TraceHomeTuileArticle(t, article));
 			}
+
+			homeTuileContainer.append(homeTuileContainer.clone().children());
+			homeTuileContainer.append(homeTuileContainer.clone().children());
+			homeTuileContainer.append(homeTuileContainer.clone().children());
+			homeTuileContainer.append(homeTuileContainer.clone().children());
+			$("#article").append(homeTuileContainer);
+
+			homeTuileContainer.masonry({
+				itemSelector: '.tuile',
+				isAnimated: true,
+				animationOptions: {
+					queue: true,
+					duration: 400
+				}
+			});
+
+			homeTuileContainer.bind("scroll", function(){
+				var h = $(this).innerHeight();
+				$(this).find(".tuile").each(function(){
+					var dif = h - ($(this).position().top + $(this).outerHeight());
+					(dif < 0) ? $(this).css("opacity", 1- Math.abs((0.02) * dif)) : $(this).css("opacity", 1);
+				});
+			});
 		},
 
 
@@ -1455,12 +1475,14 @@ Article.prototype = {
 			var description = $("<div></div>").addClass("tuile_content").html(jq_art.find("aside"));
 
 			insert.append(title).append(description);
-			$("#article").append(insert);
+			//$("#article").append(insert);
 
 			insert.on("click", function(){
 				var idPortail = (Data.portail && Data.portail.data && Data.portail.data.idPortail != null)? Data.portail.data.idPortail : null ;
 				t.GetPortailForArticle($(this).attr("value"), idPortail);
 			});
+
+			return insert;
 		}
 	}
 }

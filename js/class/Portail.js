@@ -203,7 +203,7 @@ Portail.prototype = {
 				// si on est en train de visionner un article, on ferme l'article et qu'il n'y a aucun portail de sélectionné
 				if(articleContent && !isNewInterface){
 
-					articleContent.UI.Close(articleContent, function(){
+					ui.article.Close(ui, function(){
 						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
 					});
 
@@ -231,7 +231,7 @@ Portail.prototype = {
 			ui.article.Clear(ui);
 			
 			t.GetAllPortail(false, function(json){
-				admin.BuildAdmin(admin, json, t.Data.GetDataStructurePortail(t, "admin"), Lang[user.GetLangue()].lbl.admin_portail, "portail");
+				admin.BuildAdmin(json, t.Data.GetDataStructurePortail(t, "admin"), Lang[user.GetLangue()].lbl.admin_portail, "portail");
 				menu.UI.BuildAdminPortail(menu);
 			});
 		},

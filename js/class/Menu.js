@@ -207,7 +207,7 @@ Menu.prototype = {
 					}
 
 					if(articleContent){
-						articleContent.UI.Close(articleContent, function(){
+						ui.article.Close(ui, function(){
 							var idPortail = (Data.portail && Data.portail.data && Data.portail.data.idPortail != null) ? Data.portail.data.idPortail : null;
 							articleContent.GetArticleByUser(Data.user.data.idUser, idPortail);
 						});

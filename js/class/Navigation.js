@@ -186,7 +186,7 @@ Navigation.prototype = {
 				});
 
 				t.GetNavigation(false, function(json){
-					Admin.BuildAdmin(admin, json, t.Data.GetDataStructureCategorie(t, "admin", json, list), Lang[user.GetLangue()].lbl.admin_categorie, "categorie");
+					admin.BuildAdmin(json, t.Data.GetDataStructureCategorie(t, "admin", json, list), Lang[user.GetLangue()].lbl.admin_categorie, "categorie");
 					menu.UI.BuildAdminCategorie(menu);
 				});
 			});
