@@ -104,5 +104,28 @@
 		function updateMotCles($id_motcle, $motcle){ 		return str_replace(array("{{MOTCLE}}", "{{IDMOTCLE}}"), array($motcle, $id_motcle), DBQuery::DB_MOTCLE_UPDATE); }
 		function createMotCles($id_article, $motcle){ 		return str_replace(array("{{IDARTICLE}}", "{{MOTCLE}}"), array($id_article, $motcle), DBQuery::DB_MOTCLE_CREATE); }
 		function deleteAllMotClesForArticle($id_article){ 	return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_MOTCLE_DELETEALLARTICLE); }
+
+
+		
+		// FAVORIS
+		const DB_FAVORIS_FORUSER = 		"SELECT * FROM favoris WHERE idUser = '{{IDUSER}}' AND isForced = 1";
+		const DB_FAVORIS_FORARTICLE = 	"SELECT * FROM favoris WHERE idArticle = '{{IDARTICLE}}' AND isForced = 1";
+		const DB_FAVORIS_BYID = 		"SELECT * FROM favoris WHERE idFavoris = '{{IDFAVORIS}}'";
+		const DB_FAVORIS_INCREMENT = 	"UPDATE favoris SET nbViews = nbViews + 1 WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
+		const DB_FAVORIS_CREATE = 		"INSERT INTO favoris (idUser, idArticle, nbViews, isForced) VALUES ('{{IDUSER}}', '{{IDARTICLE}}', '1', '{{ISFORCED}}')";
+		const DB_FAVORIS_DELETE = 		"DELETE FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
+		const DB_FAVORIS_FORCE = 		"UPDATE favoris SET isForced = '{{ISFORCED}}' WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
+		const DB_FAVORIS_MOSTVIEWED = 	"(SELECT * FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}' LIMIT 20) ORDER BY nbViews DESC";
+		const DB_FAVORIS_SELECT = 		"SELECT * FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
+
+		function getFavorisForUser($id_user){							return str_replace(array("{{IDUSER}}"), array($id_user), DBQuery::DB_FAVORIS_FORUSER); }
+		function getFavorisForArticle($id_article){						return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_FAVORIS_FORARTICLE); }
+		function getFavorisById($id_favoris){							return str_replace(array("{{IDFAVORIS}}"), array($id_favoris), DBQuery::DB_FAVORIS_BYID); }
+		function incrementFavorisView($id_user, $id_article){			return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}"), array($id_user, $id_article), DBQuery::DB_FAVORIS_INCREMENT); }
+		function createFavoris($id_user, $id_article, $forced = false){	return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}", "{{ISFORCED}}"), array($id_user, $id_article, $forced), DBQuery::DB_FAVORIS_CREATE); }
+		function deleteFavoris($idUser, $id_article){					return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}"), array($id_user, $id_article), DBQuery::DB_FAVORIS_DELETE); }
+		function forceFavoris($id_user, $id_article, $forced){			return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}", "{{ISFORCED}}"), array($id_user, $id_article, $forced), DBQuery::DB_FAVORIS_FORCE); }
+		function getMostViewed($id_user, $id_article){					return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}"), array($id_user, $id_article), DBQuery::DB_FAVORIS_MOSTVIEWED); }
+		function getFavoris($id_user, $id_article){						return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}"), array($id_user, $id_article), DBQuery::DB_FAVORIS_SELECT); }
 	}
 ?>

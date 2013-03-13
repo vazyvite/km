@@ -85,5 +85,31 @@
 
 			echo json_encode($json);
 		}
+
+		/**
+		 * Méthodes BuildResultsForJS
+		 * Permet de construire les résultats d'une recherche
+		 * @package DB, DBQuery, Portail, ResultList, Article
+		 * @param $recherche:Recherche 			Objet Recherche contenant l'ensemble des articles à afficher
+		 * @return $:JSON 						Ensemble des résultats de la recherche au format JSON
+		 */
+		function BuildResultsFromListForJS($list_results){
+			$json = array();
+			$added = array();
+			
+			if(count($list_results) > 0){
+				foreach ($list_results as $article) {
+					if(array_search($article->getIdArticle(), $added) === false){
+						$a = array('idArticle' => $article->getIdArticle(), 'idCategorie' => $article->getIdCategorie(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+						array_push($added, $article->getIdArticle());
+						array_push($json, $a);
+					}
+				}
+			}else{
+				$json = array();
+			}
+
+			echo json_encode($json);
+		}
 	}
 ?>

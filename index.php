@@ -35,6 +35,7 @@
 		<script type="text/javascript" src="./js/class/jsExtends.js"></script>
 		<script type="text/javascript" src="./js/class/Rights.js"></script>
 		<script type="text/javascript" src="./js/class/Admin.js"></script>
+		<script type="text/javascript" src="./js/class/Favoris.js"></script>
 		<script type="text/javascript" src="./js/domReady.js"></script>
 		
 	</head>

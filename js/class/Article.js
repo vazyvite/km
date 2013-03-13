@@ -1455,6 +1455,14 @@ Article.prototype = {
 					(dif < 0) ? $(this).css("opacity", 1- Math.abs((0.02) * dif)) : $(this).css("opacity", 1);
 				});
 			});
+
+			// zone de test
+			var id_user = Data.user.data.idUser;
+			var id_article = 15;
+
+			favoris.AddViewForArticle(id_user, id_article);
+			// favoris.GetFavorisForArticle(id_article);
+			// favoris.GetFavorisForUser(id_user);
 		},
 
 

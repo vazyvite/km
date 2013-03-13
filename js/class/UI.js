@@ -31,6 +31,9 @@ UI.prototype = {
 			if(!ref.is(":visible")){
 				ref.show().css({ "left": -ref.outerWidth(true) }).animate({ "left": 0 }, 300, "swing");
 				content.animate({ "width": $(window).width() - ref.outerWidth(true) }, 300, "swing", function(){
+					
+					$(".HomeTuileContainer").masonry('reload');
+
 					if($.isFunction(fnCallBack)){
 						fnCallBack();
 					}else{
@@ -311,6 +314,7 @@ UI.prototype = {
 		 * @param t:Context
 		 */
 		cb_HideReferenceBloc: function(t){
+			$(".homeTuileContainer").masonry('reload');
 			$("#reference").hide();
 			recherche.Action.Reset(recherche);
 			navigation.Action.Reset(navigation);

@@ -152,6 +152,8 @@ var Lang = {
 			warning_add_bloc_description_msg: "Impossible d\'ajouter un deuxième bloc de description",
 			warning_add_bloc_article_title: "Ajout impossible",
 			warning_add_bloc_article_msg: "Impossible d\'ajouter un deuxième bloc d\'article",
+			error_no_favoris_title: "Aucun favoris",
+			error_no_favoris_msg: "Vous n\'avez aucun favoris",
 		}
 	},
 	EN: {
@@ -303,6 +305,8 @@ var Lang = {
 			warning_add_bloc_description_msg: "Can not add a second description bloc",
 			warning_add_bloc_article_title: "Can not add",
 			warning_add_bloc_article_msg: "Can not add a second article bloc",
+			error_no_favoris_title: "No favoris",
+			error_no_favoris_msg: "You don\'t have any bookmark",
 		}
 	}
 }
