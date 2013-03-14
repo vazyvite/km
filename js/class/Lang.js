@@ -1,7 +1,7 @@
 var Lang = {
 	app: {
 		appName: "KM",
-		appVersion: 0.9
+		appVersion: 1.0
 	},
 	FR: {
 		lst: {
@@ -41,6 +41,9 @@ var Lang = {
 			desc_article: "Description de l&apos;article",
 			corps_article: "Corps de l&apos;article",
 			near_articles: "Articles proches",
+			views: "vues",
+			favoris: "favoris",
+			user: "utilisateurs",
 		},
 		btn: {
 			connect: "Connexion",
@@ -194,6 +197,9 @@ var Lang = {
 			desc_article: "Article&apos;s description",
 			corps_article: "Article&apos;s body",
 			near_articles: "Atricle&apos;s relatives",
+			views: "views",
+			favoris: "starred",
+			user: "users",
 		},
 		btn: {
 			connect: "Connection",

@@ -29,38 +29,41 @@ Menu.prototype = {
 				var retour = t.UI.Btn_Home(t);
 
 				var adminPortail = t.UI.Btn_AdminPortail(t);
-				var delPortail = t.UI.Btn_DelPortail(t);
-				var editPortail = t.UI.Btn_EditPortail(t);
+				// var delPortail = t.UI.Btn_DelPortail(t);
+				// var editPortail = t.UI.Btn_EditPortail(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
 
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
-				var delCategorie = t.UI.Btn_DelCategorie(t);
-				var editCategorie = t.UI.Btn_EditCategorie(t);
+				// var delCategorie = t.UI.Btn_DelCategorie(t);
+				// var editCategorie = t.UI.Btn_EditCategorie(t);
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 
 				var addArticle = t.UI.Btn_AddArticle(t);
 
 				var adminUser = t.UI.Btn_AdminUser(t);
 				var addUser = t.UI.Btn_AddUser(t);
-				var delUser = t.UI.Btn_DelUser(t);
-				var editUser = t.UI.Btn_EditUser(t);
+				// var delUser = t.UI.Btn_DelUser(t);
+				// var editUser = t.UI.Btn_EditUser(t);
+				var favorisList = t.UI.Btn_Favoris(t);
+
 
 				var m = $(t.s.bloc).find("ul");
 
 				if(retour != null) { m.append(retour); }
 				if(adminPortail != null) { m.append(adminPortail); }
 				if(addPortail != null) { m.append(addPortail); }
-				if(delPortail != null) { m.append(delPortail); }
-				if(editPortail != null) { m.append(editPortail); }
+				// if(delPortail != null) { m.append(delPortail); }
+				// if(editPortail != null) { m.append(editPortail); }
 				if(adminCategorie != null) { m.append(adminCategorie); }
 				if(addCategorie != null) { m.append(addCategorie); }
-				if(delCategorie != null) { m.append(delCategorie); }
-				if(editCategorie != null) { m.append(editCategorie); }
+				// if(delCategorie != null) { m.append(delCategorie); }
+				// if(editCategorie != null) { m.append(editCategorie); }
 				if(addArticle != null) { m.append(addArticle); }
 				if(adminUser != null) { m.append(adminUser); }
 				if(addUser != null) { m.append(addUser); }
-				if(delUser != null) { m.append(delUser); }
-				if(editUser != null) { m.append(editUser); }
+				// if(delUser != null) { m.append(delUser); }
+				// if(editUser != null) { m.append(editUser); }
+				if(favorisList != null) { m.append(favorisList); }
 			}
 		},
 
@@ -77,12 +80,14 @@ Menu.prototype = {
 				var adminPortail = t.UI.Btn_AdminPortail(t);
 				var addPortail = t.UI.Btn_AddPortail(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
+				var favorisList = t.UI.Btn_Favoris(t);
 
 				var m = $("#menu ul");
 
 				if(adminPortail != null) { m.append(adminPortail); }
 				if(addPortail != null) { m.append(addPortail); }
 				if(adminUser != null) { m.append(adminUser); }
+				if(favorisList != null) { m.append(favorisList); }
 			}
 		},
 
@@ -97,10 +102,12 @@ Menu.prototype = {
 
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
+				var favorisList = t.UI.Btn_Favoris(t);
 
 				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
+				if(favorisList != null) { m.append(favorisList); }
 			}
 		},
 
@@ -119,6 +126,7 @@ Menu.prototype = {
 				var addCategorie = t.UI.Btn_AddCategorie(t);
 				var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
+				var favorisList = t.UI.Btn_Favoris(t);
 
 				var m = $("#menu ul");
 
@@ -127,6 +135,7 @@ Menu.prototype = {
 				if(adminCategorie != null) { m.append(adminCategorie); }
 				if(addCategorie != null) { m.append(addCategorie); }
 				if(adminUser != null) { m.append(adminUser); }
+				if(favorisList != null) { m.append(favorisList); }
 			}
 		},
 
@@ -215,6 +224,42 @@ Menu.prototype = {
 					}
 
 					t.UI.BuildEmpty(t);
+				});
+			}
+			return btn;
+		},
+
+
+		/**
+		 * Méthode Btn_Favoris
+		 * Création du bouton d'accès à la liste des favoris
+		 * @param t:Context
+		 * @return btn:jQueryObject 	objet jquery contenant le bouton
+		 */
+		Btn_Favoris: function(t){
+			var lvl = "list";
+			var bnt = null;
+
+			if(CheckAccess(lvl)){
+				btn = $("<li class='bouton list_favoris'><ul class='menu_favoris'></ul></li>");
+
+				for(var i = 0; i < Data.favoris.data.length; i++){
+					var favoris = Data.favoris.data[i];
+
+					var li = $("<li></li>").attr({
+						"forarticle": favoris.idArticle,
+						"forcategorie": favoris.idCategorie
+					}).text(favoris.titre);
+					btn.find("ul").append(li);
+				}
+
+				btn.find("li").bind("click", function(){
+					event.stopPropagation();
+
+					var notInTheSamePortail = false;
+					var idArticle = $(this).attr("forarticle");
+					
+					articleContent.GetPortailForArticle(idArticle, null);
 				});
 			}
 			return btn;

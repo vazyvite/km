@@ -76,6 +76,8 @@
 			$dbq = new DBQuery();
 			$mysqli = new DB();
 
+			// echo $dbq->getFavorisForArticle($idArticle);
+
 			$res = $mysqli->Query($dbq->getFavorisForArticle($idArticle));
 			$list = array();
 
@@ -85,6 +87,8 @@
 					array_push($list, $a);
 				}
 				return count($list);
+			}else{
+				return 0;
 			}
 		}
 

@@ -11,9 +11,10 @@ Favoris.prototype = {
 	/**
 	 * Méthode GetFavorisForUser
 	 * Récupère les favoris pour un utilisateur
-	 * @param id_user:Int 		identifiant de l'utilisateur
+	 * @param id_user:Int 				identifiant de l'utilisateur
+	 * @param fnCallback:Function 		Fonction de callback
 	 */
-	GetFavorisForUser: function(id_user){
+	GetFavorisForUser: function(id_user, fnCallback){
 		$.ajax({
 			url: "phpforms/favoris.for_user.php",
 			type: "POST",
@@ -27,8 +28,11 @@ Favoris.prototype = {
 
 				if($.isArray(json)){
 
-					//this.Data.SetJSON(this, json);
-					//this.UI.Build(this, json);
+					Data.favoris.data = json;
+
+					if($.isFunction(fnCallback)){
+						fnCallback();
+					}
 
 				}else{
 					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
@@ -44,21 +48,26 @@ Favoris.prototype = {
 	/**
 	 * Méthode GetFavorisForArticle
 	 * Récupère le nombre de favoris pour un article
-	 * @param id_article:Int	identifiant de l'article
+	 * @param id_article:Int		identifiant de l'article
+	 * @param fnCallback:Function 	fonction de callback
 	 */
-	GetFavorisForArticle: function(id_article){
+	GetFavorisForArticle: function(id_article, fnCallback){
 		$.ajax({
+
 			url: "phpforms/favoris.for_article.php",
 			type: "POST",
 			context: this,
-			data: { idArticle: id_article}
+			data: { idArticle: id_article }
+
 		}).done(function(msg){
 			
 			if(msg != "" || isNaN(parseInt(msg))){
 
+				Data.favoris.article = msg;
 
-				//this.Data.SetJSON(this, json);
-				//this.UI.Build(this, json);
+				if($.isFunction(fnCallback)){
+					fnCallback(Data.favoris.article);
+				}
 
 			}else{
 				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");

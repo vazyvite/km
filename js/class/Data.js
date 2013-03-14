@@ -29,6 +29,11 @@ var Data = {
 
 	recherche: {
 		data: null
+	},
+
+	favoris: {
+		data: null,
+		article: 0
 	}
 };
 

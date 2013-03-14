@@ -22,7 +22,7 @@ Article.prototype = {
 	 * Charge un article à partir de son identifiant et lance la construction de l'article
 	 * @param id:Int 		Identifiant de l'article à charger
 	 */
-	LoadArticle: function(id){
+	LoadArticle: function(id, isReaffiche){
 		$.ajax({
 
 			url: "phpforms/article.show.php",
@@ -40,7 +40,7 @@ Article.prototype = {
 				if($.isPlainObject(json) && !$.isEmptyObject(json)){
 
 					this.Data.SetJSON(this, json);
-					this.UI.Build(this, json);
+					this.UI.Build(this, json, isReaffiche);
 
 				}else{
 					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
@@ -117,7 +117,7 @@ Article.prototype = {
 
 			if(msg == ""){
 
-				this.LoadArticle(Data.article.data.idArticle);
+				this.LoadArticle(Data.article.data.idArticle, true);
 				navigation.GetNavigation(true, $.noop());
 				ui.Notify(Lang[user.GetLangue()].msg.success_update_article_title, Lang[user.GetLangue()].msg.success_update_article_msg, "success");
 
@@ -290,8 +290,10 @@ Article.prototype = {
 							};
 
 							portail.Action.Open(portail, json, function(){
-								articleContent.LoadArticle(id_article);
+								articleContent.LoadArticle(id_article, false);
 							});
+						}else{
+							articleContent.LoadArticle(id_article, false);
 						}
 
 					}else{
@@ -304,7 +306,7 @@ Article.prototype = {
 			});
 
 		}else{
-			articleContent.LoadArticle(id_article);
+			articleContent.LoadArticle(id_article, false);
 		}
 	},
 
@@ -331,6 +333,7 @@ Article.prototype = {
 					article: "<article title='" + Lang[user.GetLangue()].lbl.corps_article + "'>corps de l'article</article>"
 				};
 
+				article.find(".article_header, .article_content").addClass("edit");
 				article.find('.article_content nav').remove();
 
 				article.find('.article_content').unhighlight().redactor({
@@ -384,8 +387,6 @@ Article.prototype = {
 						}
            			 }
 				});
-				
-				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 
 				// if creation
 				if(json && json.idArticle == -1){
@@ -396,10 +397,9 @@ Article.prototype = {
 					var select = $("<select></select>").addClass('article_categorie_edit');
 					for(var i = 0; i < Data.navigation.data.length; i++){
 						var cat = Data.navigation.data[i];
-
 						select.append($("<option value='" + cat.id + "' title='" + cat.description + "'>" + cat.categorie + "</option>"));
 					}
-					article.find(".article_title_edit").after(select);
+					article.find(".article_title").before(select);
 					
 				}else if(Data.article.data != null && Data.article.data.motcles && Data.article.data.motcles.length){
 					data_mc = Data.article.data.motcles;
@@ -413,6 +413,7 @@ Article.prototype = {
 					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
 				}
 
+				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
 				article.find("input.article_listMotCles_edit").tokenInput(
 					"phpforms/motcle.autocomplete.php", 
@@ -425,16 +426,18 @@ Article.prototype = {
 
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
-				infos.find("button.btn_modif, button.btn_pdf").hide();
-				$("#accessibility").hide();
+				article.find("button.btn_modif, button.btn_pdf").hide();
+				$("#accessibility, .article_vues").hide();
 
 				if(json.idArticle != -1){
-					infos.find('button.btn_create, button.btn_cancelCreate').hide();
-					infos.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
+					article.find('button.btn_create, button.btn_cancelCreate').hide();
+					article.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
 				}else{
-					infos.find('button.btn_create, button.btn_cancelCreate').show();
-					infos.find('button.btn_save, button.btn_cancel, button.btn_delete').hide();
+					article.find('button.btn_create, button.btn_cancelCreate').show();
+					article.find('button.btn_save, button.btn_cancel, button.btn_delete').hide();
 				}
+
+				article.find(".article_content").height(article.innerHeight() - ($(".article_header").outerHeight(true) + 15 + $(".redactor_toolbar").outerHeight(true)));
 			}
 		},
 
@@ -462,7 +465,7 @@ Article.prototype = {
 					motcles: Array()
 				};
 
-				t.UI.Build(t, json);
+				t.UI.Build(t, json, true);
 				t.Action.Edit(t, json);
 			}
 		},
@@ -506,7 +509,7 @@ Article.prototype = {
 					};
 
 					t.Create(data, function(idArticle){
-						t.LoadArticle(idArticle);
+						t.LoadArticle(idArticle, true);
 						navigation.GetNavigation(true, $.noop());
 					});
 				}
@@ -557,7 +560,7 @@ Article.prototype = {
 							});
 						}
 
-						t.LoadArticle(Data.article.data.idArticle);
+						t.LoadArticle(Data.article.data.idArticle, true);
 					}
 				}
 			}
@@ -707,7 +710,7 @@ Article.prototype = {
 			if(insert != null){
 				var tooltip = insert.find(".tooltip_link");
 				tooltip.on("click", function(){
-					articleContent.LoadArticle($(this).attr("value"));
+					articleContent.LoadArticle($(this).attr("value"), false);
 				});
 			}
 
@@ -723,17 +726,23 @@ Article.prototype = {
 		 * @param t:Contexte
 		 * @param json:JSON 	les données de l'article
 		 */
-		Build: function(t, json){
+		Build: function(t, json, isReaffiche){
+
+			if(json.idArticle != -1 && !isReaffiche){
+				favoris.AddViewForArticle(Data.user.data.idUser, json.idArticle);
+			}
+
 			ui.article.Clear(ui);
-			// t.UI.Clear(t);
 			t.UI.Header(t, json);
 			t.UI.Content(t, json);
 			t.UI.Commands(t, json);
-			// t.UI.HideLogo(t);
 			ui.HideLogo(ui);
 			menu.UI.BuildCategorie(menu);
 			
-			$(".article_content").height($("#article").innerHeight() - $(".article_header").outerHeight(true) - 30);
+			//$(".article_content").height($("#article").innerHeight() - $(".article_header").outerHeight(true) - 30);
+			setTimeout( function(){ 
+				$(".article_content").width($("#article").innerWidth() - $(".article_header").outerWidth(true) - 40).css("display", "inline-block");
+			}, 200);
 		},
 
 
@@ -751,8 +760,24 @@ Article.prototype = {
 			var type = t.UI.Type(t, json);
 			var date = t.UI.CreateDate(t, json);
 			var mc = t.UI.MotCles(t, json);
+			if(json.idArticle != -1){
+				var nbstar = t.UI.Starred(t, json, infos);
+			}
+			var pdf = t.UI.BtnPDF(t, json);
+			var modif = t.UI.BtnModifier(t, json);
+			var favoris = t.UI.BtnFavoris(t, json);
 
-			infos.append(type).append(author).append(date);
+			infos.append(author).append(date).append(type)
+
+			if(json.idArticle != -1){
+				infos.append(nbstar);
+			}
+
+			if(modif != null){ infos.append(modif); }
+			if(pdf != null){ infos.append(pdf); }
+			
+			titre.append(favoris);
+
 			insert.append(titre).append(infos).append(mc);
 			$("#article").append(insert);
 		},
@@ -768,6 +793,31 @@ Article.prototype = {
 		Title: function(t, json){
 			return $("<div></div>").addClass("article_title").text(json.titre);
 		},
+
+
+		/**
+		 * Méthode UI.Starred
+		 * Construction du bloc d'infos sur le nombre de favoris liés à cette page
+		 * @param t:Contexte
+		 * @return :jQueryObject 	objet jquery correspondant au bloc de nombre de vues
+		 */
+		 Starred: function(t, json, cible){
+		 	favoris.GetFavorisForArticle(json.idArticle, function(nb_starred){
+		 		user.GetAllUsers(function(users){
+		 			var nb_users = users.length;
+		 			var container = $("<div></div>").addClass("article_vues").html("<strong>" + nb_starred + "</strong> " + Lang[user.GetLangue()].lbl.favoris);
+		 			var progress = $("<progress></progress>").attr({
+		 				"value": nb_starred,
+		 				"min": 0,
+		 				"max": nb_users,
+		 				"title": nb_starred + " " + Lang[user.GetLangue()].lbl.favoris + " / " + nb_users + " " + Lang[user.GetLangue()].lbl.user
+		 			});
+
+		 			container.append(progress);
+		 			cible.append(container);
+		 		});
+		 	});
+		 },
 
 
 		/**
@@ -895,28 +945,65 @@ Article.prototype = {
 		 */
 		Commands: function(t, json){
 			var retour = t.UI.BtnRetour(t);
-			var modif = t.UI.BtnModifier(t, json);
+			// var modif = t.UI.BtnModifier(t, json);
 			var save = t.UI.BtnSave(t, json);
 			var cancel = t.UI.BtnCancel(t);
 			var access = t.UI.Accessibility(t);
 			var del = t.UI.BtnDelete(t);
 			var create = t.UI.BtnCreate(t, json);
 			var cclCreate = t.UI.BtnCancelCreate(t);
-			var pdf = t.UI.BtnPDF(t, json);
+			//var pdf = t.UI.BtnPDF(t, json);
 			
 			var commands = $("#informations");
 
 			if(retour != null){ commands.append(retour); }
-			if(modif != null){ commands.append(modif); }
+			// if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
 			if(create != null){ commands.append(create); }
 			if(cancel != null){ commands.append(cancel); }
 			if(cclCreate != null){ commands.append(cclCreate); }
 			if(del != null){ commands.append(del); }
-			if(pdf != null){ commands.append(pdf); }
+			//if(pdf != null){ commands.append(pdf); }
 			if(access != null){ commands.append(access); }
 		},
 
+
+		/**
+		 * Méthode BtnFavoris
+		 * Création du bouton de favoris
+		 * @param t:Context 
+		 * @param json:JSON 		données de l'article
+		 * @return btn:jQueryObject 	objet jquery correspondant au bouton de favoris
+		 */
+		BtnFavoris: function(t, json){
+			var listIdUserFavoris = Array();
+			for(var i = 0; i < Data.favoris.data.length; i++){
+				listIdUserFavoris.push(Data.favoris.data[i].idArticle);
+			}
+
+			classSelection = ($.inArray(json.idArticle, listIdUserFavoris) != -1) ? "on" : "off";
+
+			var btn = $("<div></div>").addClass("favoris_btn " + classSelection).attr({
+				"foruser": Data.user.data.idUser,
+				"forarticle": json.idArticle
+
+			}).bind("click", function(){
+				var id_user = $(this).attr("foruser");
+				var id_article = $(this).attr("forarticle");
+
+				if($(this).hasClass("on")){
+					$(this).removeClass("on").addClass("off");
+					favoris.DeForceFavoris(id_user, id_article);
+				}else{
+					$(this).addClass("on").removeClass("off");
+					favoris.ForceFavoris(id_user, id_article);
+				}
+
+				favoris.GetFavorisForUser(id_user);
+			});
+
+			return btn;
+		},
 
 		/**
 		 * Méthode UI.BtnRetour
@@ -1056,7 +1143,9 @@ Article.prototype = {
 			if(CheckAccess(lvl)){
 				btnCancel = $("<button></button>").addClass("btn_cancelCreate").text(Lang[user.GetLangue()].btn.cancel).hide().on("click", function(){ 
 					// t.UI.Close(t); 
-					ui.article.Close(ui);
+					ui.article.Close(ui, function(){
+						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
+					});
 					menu.UI.BuildPortail(menu); 
 				});
 			}
@@ -1449,31 +1538,23 @@ Article.prototype = {
 				}
 			});
 
-			homeTuileContainer.bind("scroll", function(){ //t.UI.MaskTuile(t, $(this)); });
-				var h = $(this).innerHeight();
-				$(this).find(".tuile").each(function(){
-					var dif = h - ($(this).position().top + $(this).outerHeight());
-					(dif < 0) ? $(this).css("opacity", 1- Math.abs((0.02) * dif)) : $(this).css("opacity", 1);
-				});
-			});
-
-			// zone de test
-			/*var id_user = Data.user.data.idUser;
-			var id_article = 15;
-
-			favoris.DeForceFavoris(id_user, id_article);*/
-			// favoris.AddViewForArticle(id_user, id_article);
-			// favoris.GetFavorisForArticle(id_article);
-			// favoris.GetFavorisForUser(id_user);
+			t.UI.MaskTuile(t, homeTuileContainer);
+			homeTuileContainer.bind("scroll", function(){ t.UI.MaskTuile(t, $(this)); });
 		},
 
-		/*MaskTuile: function(t, container){
+		MaskTuile: function(t, container){
 			var h = container.innerHeight();
 			container.find(".tuile").each(function(){
-				var dif = h - (container.position().top + container.outerHeight());
-				(dif < 0) ? container.css("opacity", 1- Math.abs((0.02) * dif)) : container.css("opacity", 1);
+				var dif = h - ($(this).position().top + $(this).outerHeight());
+				if(dif < 0){
+					$(this).css("opacity", 1- Math.abs((0.02) * dif))
+				}else if($(this).position().top < 0){
+					$(this).css("opacity", 1- Math.abs((0.02) * $(this).position().top))
+				}else{
+					$(this).css("opacity", 1);
+				}
 			});
-		},*/
+		},
 
 
 		/**

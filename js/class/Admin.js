@@ -231,4 +231,4 @@ var admin;
 
 $(document).ready(function(){
 	admin = new Admin();
-}
+});

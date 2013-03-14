@@ -401,7 +401,7 @@ Navigation.prototype = {
 
 				$(".categorie_article").on("click", function(event){
 					event.stopPropagation();
-					articleContent.LoadArticle($(this).attr("value"));
+					articleContent.LoadArticle($(this).attr("value"), false);
 				});
 			}
 		}

@@ -201,20 +201,18 @@ Portail.prototype = {
 
 				// A REVOIR
 				// si on est en train de visionner un article, on ferme l'article et qu'il n'y a aucun portail de sélectionné
-				if(articleContent && !isNewInterface){
+				if(articleContent && !isNewInterface && !$.isFunction(fnCallback)){
 
 					ui.article.Close(ui, function(){
 						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
 					});
 
+				}
+
+				if(!$.isFunction(fnCallback)){
+					articleContent.GetArticleByUser(Data.user.data.idUser, new_portail.value);
 				}else{
-
-					if(!$.isFunction(fnCallback)){
-						articleContent.GetArticleByUser(Data.user.data.idUser, new_portail.value);
-					}else{
-						fnCallback();
-					}
-
+					fnCallback();
 				}
 			}
 

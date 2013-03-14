@@ -150,7 +150,7 @@ Recherche.prototype = {
 
 					$(".link_article").off("click").on("click", function(){ 
 						event.stopPropagation();
-						articleContent.LoadArticle($(this).attr("value"));
+						articleContent.LoadArticle($(this).attr("value"), false);
 					});
 
 				}else{

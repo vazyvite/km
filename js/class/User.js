@@ -294,11 +294,11 @@ User.prototype = {
 		 * @param json:JSON 		données de connexion
 		 */
 		Connect: function(t, json){
-			t.Data.Connect(t, json);
-			t.UI.UserInfos(t);
-
-			portail = new Portail();
-			menu = new Menu();
+			t.Data.Connect(t, json, function(){
+				t.UI.UserInfos(t);
+				portail = new Portail();
+				menu = new Menu();
+			});
 		},
 
 
@@ -377,10 +377,11 @@ User.prototype = {
 		 * @param t:Contexte
 		 * @param json:JSON 		données de connexion
 		 */
-		Connect: function(t, json){
+		Connect: function(t, json, fnCallback){
 			t.Data.SetJSON(t, json);
 			t.Data.SetHtml(t);
 			t.Data.SetCookie(t);
+			favoris.GetFavorisForUser(Data.user.data.idUser, fnCallback);
 		},
 
 
