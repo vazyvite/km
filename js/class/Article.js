@@ -79,7 +79,7 @@ Article.prototype = {
 					this.UI.BuildHome(this, json);
 
 				}else{
-					ui.Notify("1" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
 
 			}else{
@@ -121,7 +121,7 @@ Article.prototype = {
 				navigation.GetNavigation(true, $.noop());
 				ui.Notify(Lang[user.GetLangue()].msg.success_update_article_title, Lang[user.GetLangue()].msg.success_update_article_msg, "success");
 
-				ui.Notify("2" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 
 			}else{
 				ui.Notify(Lang[user.GetLangue()].msg.error_update_article_title, Lang[user.GetLangue()].msg.error_update_article_msg, "error");
@@ -159,7 +159,7 @@ Article.prototype = {
 					ui.Notify(Lang[user.GetLangue()].msg.success_delete_article_title, Lang[user.GetLangue()].msg.success_delete_article_msg, "success");
 
 				}else{
-					ui.Notify("3" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
 
 			}else{
@@ -202,7 +202,7 @@ Article.prototype = {
 					ui.Notify(Lang[user.GetLangue()].msg.success_create_article_title, Lang[user.GetLangue()].msg.success_create_article_msg, "success");
 
 				}else{
-					ui.Notify("4" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
 
 			}else{
@@ -247,7 +247,7 @@ Article.prototype = {
 						}
 
 					}else{
-						ui.Notify("5" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 					}
 
 				}else{
@@ -295,7 +295,7 @@ Article.prototype = {
 						}
 
 					}else{
-						ui.Notify("6" + Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+						ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 					}
 
 				}else{
@@ -683,6 +683,7 @@ Article.prototype = {
 		 * @param cible:jQueryObject 	objet jquery contenant un élément devant se référer à un article de la même catégorie que l'article courant
 		 * @param idCategorie:Int 		identifiant de la catégorie
 		 * @param categorie:String 		Nom de la catégorie
+		 * @return insert:jQueryObject 	object jquery contenant l'élément surligné
 		 */
 		GetDataForHighLightTooltip: function(t, json, cible, idCategorie, categorie){
 			var insert = null;
@@ -1448,7 +1449,7 @@ Article.prototype = {
 				}
 			});
 
-			homeTuileContainer.bind("scroll", function(){
+			homeTuileContainer.bind("scroll", function(){ //t.UI.MaskTuile(t, $(this)); });
 				var h = $(this).innerHeight();
 				$(this).find(".tuile").each(function(){
 					var dif = h - ($(this).position().top + $(this).outerHeight());
@@ -1457,13 +1458,22 @@ Article.prototype = {
 			});
 
 			// zone de test
-			var id_user = Data.user.data.idUser;
+			/*var id_user = Data.user.data.idUser;
 			var id_article = 15;
 
-			favoris.AddViewForArticle(id_user, id_article);
+			favoris.DeForceFavoris(id_user, id_article);*/
+			// favoris.AddViewForArticle(id_user, id_article);
 			// favoris.GetFavorisForArticle(id_article);
 			// favoris.GetFavorisForUser(id_user);
 		},
+
+		/*MaskTuile: function(t, container){
+			var h = container.innerHeight();
+			container.find(".tuile").each(function(){
+				var dif = h - (container.position().top + container.outerHeight());
+				(dif < 0) ? container.css("opacity", 1- Math.abs((0.02) * dif)) : container.css("opacity", 1);
+			});
+		},*/
 
 
 		/**
@@ -1471,6 +1481,7 @@ Article.prototype = {
 		 * Création des tuiles représentant les articles sur la page d'accueil
 		 * @param t:Context
 		 * @param article:JSON  	données de l'article
+		 * @return insert:jQueryObject 	object jquery la tuile à placer sur la HomePage
 		 */
 		TraceHomeTuileArticle: function(t, article){
 			var insert = $("<div></div>").addClass("tuile").attr("value", article.idArticle);

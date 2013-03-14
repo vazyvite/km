@@ -233,6 +233,7 @@ Navigation.prototype = {
 		 * @param t:Contexte
 		 * @param json:JSON 		données concernant les catégories
 		 * @param str:Array 		structure des données des catégories
+		 * @return :JSON 		 	Données de la popin d'édition des catégories
 		 */
 		PopinDataCategorieEdit: function(t, json, str){
 			return {
@@ -264,6 +265,7 @@ Navigation.prototype = {
 		 * Gère les données nécessaires à la création de la popin de suppression des catégories
 		 * @param t:Contexte
 		 * @param json:JSON 		données concernant les catégories
+		 * @return :JSON 			donneés de la popin de suppression des catégories
 		 */
 		PopinDataCategorieDel: function(t, json){
 			return {
@@ -288,6 +290,7 @@ Navigation.prototype = {
 		 * @param t:Contexte
 		 * @param caller:jQueryObject 	objet jquery appelant de la méthode
 		 * @param str:Array 			structure des données des catégories
+		 * @return :JSON 				données de la popin de création des catégories
 		 */
 		PopinDataCategorieCreate: function(t, caller, str){
 			return {
@@ -318,6 +321,7 @@ Navigation.prototype = {
 		 * @param type:String 		indique le contexte des données (admin | create)
 		 * @param json:JSON 		structure des données des catégories
 		 * @param list:Array 		liste de portails existants
+		 * @return :JSON 			données de structure des popins de catégorie
 		 */
 		GetDataStructureCategorie: function(t, type, json, list){
 			var str;

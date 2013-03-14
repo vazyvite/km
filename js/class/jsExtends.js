@@ -12,6 +12,15 @@ Array.prototype = {
 		return array.join(delimiter);
 	},
 
+
+	/**
+	 * Array.jsonKeyConcat
+	 * Concaténation de certains éléments d'un JSON
+	 * @param array:JSON 		Tableau d'éléments
+	 * @param delimiter:String 	Délimiter permettant de concaténer les éléments du tableau
+	 * @param key:String 		clé du tableau permettant de concaténer seulement certains éléments du JSON
+	 * @return :String			Chaine de caractère concaténée
+	 */
 	jsonKeyConcat: function(array, delimiter, key){
 		var array = Array();
 

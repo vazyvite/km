@@ -115,7 +115,7 @@
 		const DB_FAVORIS_CREATE = 		"INSERT INTO favoris (idUser, idArticle, nbViews, isForced) VALUES ('{{IDUSER}}', '{{IDARTICLE}}', '1', '{{ISFORCED}}')";
 		const DB_FAVORIS_DELETE = 		"DELETE FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
 		const DB_FAVORIS_FORCE = 		"UPDATE favoris SET isForced = '{{ISFORCED}}' WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
-		const DB_FAVORIS_MOSTVIEWED = 	"(SELECT * FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}' LIMIT 20) ORDER BY nbViews DESC";
+		const DB_FAVORIS_MOSTVIEWED = 	"(SELECT * FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}' AND isForced = 0 LIMIT 20) ORDER BY nbViews DESC";
 		const DB_FAVORIS_SELECT = 		"SELECT * FROM favoris WHERE idUser = '{{IDUSER}}' AND idArticle = '{{IDARTICLE}}'";
 
 		function getFavorisForUser($id_user){							return str_replace(array("{{IDUSER}}"), array($id_user), DBQuery::DB_FAVORIS_FORUSER); }

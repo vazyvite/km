@@ -188,9 +188,10 @@
 		 * @param idArticle:Int 			Identifiant de l'article
 		 * @param idUser:Int 				Identifiant de l'utilisateur
 		 */
-		function ForceFavoris($idArticle, $idUser, $forced){
+		function ForceFavoris($idUser, $idArticle, $forced){
 			$dbq = new DBQuery();
 			$mysqli = new DB();
+
 			$res = $mysqli->Update($dbq->forceFavoris($idUser, $idArticle, $forced));
 		}
 

@@ -32,7 +32,12 @@ var Data = {
 	}
 };
 
-
+/**
+ * Function verifyData
+ * Permet de vérifier que chaque valeur contenues dans le JSON sont différentes de NULL
+ * @param json:JSON 		données à vérifier
+ * @return error:Boolean	true: pas d'erreurs ; false: contient au moins une erreur
+ */
 function verifyData(json){
 	var error = false;
 

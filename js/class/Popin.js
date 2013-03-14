@@ -21,11 +21,13 @@ Popin.prototype = {
 		this.Action.Show(this);
 	},
 
-	AttachEvents: function(){
-
-	},
 
 	Action: {
+		/**
+		 * Méthode Action.Show
+		 * Affiche la popin
+		 * @param t:Context
+		 */
 		Show: function(t){
 			var lvl = t.s.lvl;
 
@@ -42,6 +44,12 @@ Popin.prototype = {
 			}
 		},
 
+
+		/**
+		 * Méthode Action.Hide
+		 * Détruit la popin
+		 * @param t:Context
+		 */
 		Hide: function(t){
 
 			if(!t.s.caller || typeof t.s.caller != "object"){
@@ -56,6 +64,11 @@ Popin.prototype = {
 	Data: {},
 
 	UI: {
+		/**
+		 * Méthode UI.Build
+		 * Construit la popin
+		 * @param t:Context
+		 */
 		Build: function(t){
 			var lvl = t.s.lvl;
 
@@ -82,6 +95,11 @@ Popin.prototype = {
 			}
 		},
 
+		/**
+		 * Méthode UI.BuildTitle
+		 * Construit le titre de la popin
+		 * @param t:Context
+		 */
 		BuildTitle: function(t){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -93,6 +111,12 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.BuildCloseBtn
+		 * Construit le bouton de fermeture de la popin
+		 * @param t:Context
+		 */
 		BuildCloseBtn: function(t){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -105,6 +129,12 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.BuildContent
+		 * Construit le contenu de la popin
+		 * @param t:Context
+		 */
 		BuildContent: function(t){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -125,6 +155,13 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.BuildLineForm
+		 * Construit une ligne de formulaire dans la popin
+		 * @param t:Context
+		 * @param str:JSON 		structure de la ligne de formulaire
+		 */
 		BuildLineForm: function(t, str){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -168,6 +205,12 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.BuildCommand
+		 * Construit les boutons de commande de la popin
+		 * @param t:Context
+		 */
 		BuildCommand: function(t){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -193,6 +236,12 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.Btn_Valid
+		 * Construit le bouton de validation de la popin
+		 * @param t:Context
+		 */
 		Btn_Valid: function(t){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -205,6 +254,12 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.Btn_Cancel
+		 * Construit le bouton d'annulation de la popin
+		 * @param t:Context
+		 */
 		Btn_Cancel: function(t){
 			var lvl = t.s.lvl;
 			var insert = null;
@@ -219,11 +274,23 @@ Popin.prototype = {
 			return insert;
 		},
 
+
+		/**
+		 * Méthode UI.PopinPosition
+		 * Positionne la popin dans l'écran (uniquement pour les popins modales)
+		 * @param t:Context
+		 */
 		PopinPosition: function(t){
 			var popin = $(".popin");
 			popin.css("left", ($(window).width() - popin.outerWidth(true)) / 2);
 		},
 
+
+		/**
+		 * Méthode UI.PopinPositionNearCaller
+		 * Positionne la popin près de son caller (uniquement pour les popins contextuelles (non modales))
+		 * @param t:Context
+		 */
 		PopinPositionNearCaller: function(t){
 			var popin = $(".popin").addClass("fixed");
 			if(t.s.caller && typeof t.s.caller == "object"){

@@ -195,6 +195,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_Home
 		 * Création du bouton de retour à la page d'accueil
 		 * @param t:Contexte
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_Home: function(t){
 			var lvl = "show";
@@ -224,6 +225,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_AdminCategorie
 		 * Création du bouton d'administation de Catégorie
 		 * @param t:Contexte
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AdminCategorie: function(t){
 			var lvl = "admin";
@@ -242,6 +244,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_AddCategorie
 		 * Création du bouton d'ajout de Catégorie
 		 * @param t:Contexte
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AddCategorie: function(t){
 			var lvl = "create";
@@ -260,6 +263,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_AjoutArticle
 		 * Constuction du bouton d'ajout d'Article
 		 * @param t:Context
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AddArticle: function(t){
 			var lvl = "edit";
@@ -278,6 +282,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_GestionPortail
 		 * Constuction du bouton de gestion de Portail
 		 * @param t:Context
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AdminPortail: function(t){
 			var lvl = "admin";
@@ -296,6 +301,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_AjoutArticle
 		 * Constuction du bouton d'ajout de Portail
 		 * @param t:Context
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AddPortail: function(t){
 			var lvl = "create";
@@ -314,6 +320,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_GestionUser
 		 * Constuction du bouton de gestion des Utilisateurs
 		 * @param t:Context
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AdminUser: function(t){
 			var lvl = "admin";
@@ -332,6 +339,7 @@ Menu.prototype = {
 		 * Méthode UI.Btn_GestionUser
 		 * Constuction du bouton de gestion des Utilisateurs
 		 * @param t:Context
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
 		 */
 		Btn_AddUser: function(t){
 			var lvl = "admin";

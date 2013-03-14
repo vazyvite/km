@@ -8,6 +8,11 @@ Favoris.prototype = {
 
 	},
 
+	/**
+	 * Méthode GetFavorisForUser
+	 * Récupère les favoris pour un utilisateur
+	 * @param id_user:Int 		identifiant de l'utilisateur
+	 */
 	GetFavorisForUser: function(id_user){
 		$.ajax({
 			url: "phpforms/favoris.for_user.php",
@@ -35,6 +40,12 @@ Favoris.prototype = {
 		});
 	},
 
+
+	/**
+	 * Méthode GetFavorisForArticle
+	 * Récupère le nombre de favoris pour un article
+	 * @param id_article:Int	identifiant de l'article
+	 */
 	GetFavorisForArticle: function(id_article){
 		$.ajax({
 			url: "phpforms/favoris.for_article.php",
@@ -55,10 +66,13 @@ Favoris.prototype = {
 		});
 	},
 
-	/*CreateFavoris: function(){
-
-	},*/
-
+	
+	/**
+	 * Méthode AddViewForArticle
+	 * Ajoute une vue sur un article pour un utilisateur
+	 * @param id_user:Int 		identifiant de l'utilisateur
+	 * @param id_article:Int 	identifiant de l'article
+	 */
 	AddViewForArticle: function(id_user, id_article){
 		$.ajax({
 			url: "phpforms/favoris.addview.php",
@@ -73,6 +87,13 @@ Favoris.prototype = {
 		});
 	},
 
+
+	/**
+	 * Méthode ForceFavoris
+	 * Créé un FAVORIS (et non uniquement un compteur de vues) sur un article pour un utilisateur
+	 * @param id_user:Int 		identifiant de l'utilisateur
+	 * @param id_article:Int 	identifiant de l'article
+	 */
 	ForceFavoris: function(id_user, id_article){
 		$.ajax({
 			url: "phpforms/favoris.add.php",
@@ -82,14 +103,18 @@ Favoris.prototype = {
 		}).done(function(msg){
 			
 			if(msg != ""){
-
-			}else{
-				
 				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 			}
 		});
 	},
 
+
+	/**
+	 * Méthode DeForceFavoris
+	 * Supprime un FAVORIS (et non uniquement un compteur de vues) sur un article pour un utilisateur
+	 * @param id_user:Int 		identifiant de l'utilisateur
+	 * @param id_article:Int 	identifiant de l'article
+	 */
 	DeForceFavoris: function(id_user, id_article){
 		$.ajax({
 			url: "phpforms/favoris.delete.php",
@@ -99,9 +124,6 @@ Favoris.prototype = {
 		}).done(function(msg){
 			
 			if(msg != ""){
-
-			}else{
-				
 				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 			}
 		});

@@ -225,6 +225,7 @@ User.prototype = {
 	 * Méthode supprimer en base un utilisateur
 	 * @param id:Int 			identifiant de l'utilisateur
 	 * @param isAdmin:Boolean 	indique si la page d'administration doit être rechargée après le traitement
+	 * @return :Boolean 		SI l'utilisateur essaye de supprimer son propre compte return false;
 	 */
 	Delete: function(id, isAdmin){
 
@@ -297,10 +298,7 @@ User.prototype = {
 			t.UI.UserInfos(t);
 
 			portail = new Portail();
-			portail.Init();
-
 			menu = new Menu();
-			menu.Init();
 		},
 
 
@@ -483,6 +481,7 @@ User.prototype = {
 		 * Méthode Data.GetCookie
 		 * Méthode permettant de récupérer l'utilisateur courant à partir d'un cookie pour reconnexion automatique
 		 * @param t:Contexte
+		 * @return :JSON 		données de l'utilisateur enregistré en session
 		 */
 		GetCookie: function(t){
 			var id, pass;
@@ -501,6 +500,7 @@ User.prototype = {
 		 * @param t:Context
 		 * @param json:JSON 		données de l'utilisateur
 		 * @param str:Array 		structure des données
+		 * @return :JSON 			données de la popin d'édition des utilisateurs
 		 */
 		PopinDataUserEdit: function(t, json, str){
 			return {
@@ -535,6 +535,7 @@ User.prototype = {
 		 * Retourne les données nécessaires à la création de la popin de suppression des utilisateurs
 		 * @param t:Context
 		 * @param json:JSON 		données de l'utilisateur
+		 * @return :JSON 			données de la popin de suppression des utilisateurs
 		 */
 		PopinDataUserDel: function(t, json){
 			return {
@@ -558,6 +559,7 @@ User.prototype = {
 		 * @param t:Context
 		 * @param caller:jQueryObject 	objet jquery à l'origine de l'appel de la méthode
 		 * @param str:Array 			structure des données
+		 * @return :JSON 				données de la popin de création des utilisateurs
 		 */
 		PopinDataUserCreate: function(t, caller, str){
 			return {
@@ -590,6 +592,7 @@ User.prototype = {
 		 * Gère les données nécessaires à la création de la popin de création des catégories
 		 * @param t:Contexte
 		 * @param type:String 		indique le contexte des données (admin | create)
+		 * @return str:JSON 		données de structure des popins d'administration des utilisateurs
 		 */
 		GetDataStructureUser: function(t, type){
 			var str;

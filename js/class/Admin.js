@@ -33,6 +33,7 @@ Admin.prototype = {
 		 * @param json:JSON 	Données d'administration
 		 * @param type:String 	Type d'administration
 		 * @param str:Array 	Structure des données
+		 * @return :JSON 		Données pour les popins d'administration
 		 */
 		ReturnDataFormTypeOfAdmin: function(t, json, type, str){
 			switch(type){
@@ -59,6 +60,7 @@ Admin.prototype = {
 		 * Constuction de la table d'administration des portails
 		 * @param t:Contexte
 		 * @param str:Array[String] 	Structure de la table d'administration des portails
+		 * @return table:jQueryObject 	objet jquery contenant le tableau d'administration
 		 */
 		TableAdmin: function(t, str){
 			var table = null;
@@ -98,6 +100,7 @@ Admin.prototype = {
 		 * @param str:Array[String] 	Structure de la table d'administration des portails
 		 * @param json:JSON 	 		Données du portail à afficher
 		 * @param type:String 			Type d'administration (user | portail | categorie)
+		 * @param line:jQueryObject 	objet jquery contenant la ligne du tableau d'administration
 		 */
 		LineTableAdmin: function(t, str, json, type){
 			var line = null;
@@ -177,10 +180,11 @@ Admin.prototype = {
 		 * Méthode AdminBtnEdit
 		 * Construction des boutons de modification des pages d'administration
 		 * @param t:Contexte
-		 * @param page:String 		type de page (categorie | user | portail)
-		 * @param popin_data:JSON 	données de la popin
-		 * @param str:String 		structures de données
-		 * @param json:JSON 		données d'administration
+		 * @param page:String 			type de page (categorie | user | portail)
+		 * @param popin_data:JSON 		données de la popin
+		 * @param str:String 			structures de données
+		 * @param json:JSON 			données d'administration
+		 * @return insert:jQueryObject 	object jquery contenant le bouton d'édition du tableau d'administration
 		 */
 		AdminBtnEdit: function(t, page, popin_data, str, json){
 			var lvl = "admin";
@@ -204,6 +208,7 @@ Admin.prototype = {
 		 * @param t:Contexte
 		 * @param page:String 		type de page (categorie | user | portail)
 		 * @param popin_data:JSON 	données de la popin
+		 * @return insert:jQueryObject 	object jquery contenant le bouton de suppression du tableau d'administration
 		 */
 		AdminBtnDel: function(t, page, popin_data){
 			var lvl = "admin";
@@ -226,4 +231,4 @@ var admin;
 
 $(document).ready(function(){
 	admin = new Admin();
-});
+}
