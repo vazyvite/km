@@ -209,7 +209,11 @@ UI.prototype = {
 		 * @param t:Context
 		 */
 		Clear: function(t){
+			$("#article .article_content").destroyEditor();
 			$("#article, #informations, #title").children().remove();
+
+			// nettoyage du redactor
+			$(".token-input-dropdown-facebook, .redactor_dropdown").remove();
 		},
 
 

@@ -42,6 +42,8 @@ Article.prototype = {
 					this.Data.SetJSON(this, json);
 					this.UI.Build(this, json, isReaffiche);
 
+					comments.GetCommentForArticle(json.idArticle, $.noop());
+
 				}else{
 					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
@@ -322,6 +324,7 @@ Article.prototype = {
 			var lvl = "edit";
 			var article = $("#article");
 			var infos = $("#informations");
+			var content = $("#content");
 			var arr_mc = Array();
 			var data_mc;
 
@@ -426,15 +429,15 @@ Article.prototype = {
 
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
-				article.find("button.btn_modif, button.btn_pdf").hide();
+				content.find("button.btn_modif, button.btn_pdf").hide();
 				$("#accessibility, .article_vues").hide();
 
 				if(json.idArticle != -1){
-					article.find('button.btn_create, button.btn_cancelCreate').hide();
-					article.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
+					content.find('button.btn_create, button.btn_cancelCreate').hide();
+					content.find('button.btn_save, button.btn_cancel, button.btn_delete').show();
 				}else{
-					article.find('button.btn_create, button.btn_cancelCreate').show();
-					article.find('button.btn_save, button.btn_cancel, button.btn_delete').hide();
+					content.find('button.btn_create, button.btn_cancelCreate').show();
+					content.find('button.btn_save, button.btn_cancel, button.btn_delete').hide();
 				}
 
 				article.find(".article_content").height(article.innerHeight() - ($(".article_header").outerHeight(true) + 15 + $(".redactor_toolbar").outerHeight(true)));

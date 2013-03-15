@@ -6,6 +6,7 @@ var Lang = {
 	FR: {
 		lst: {
 			usr_role: Array("Aucun", "Lecteur", "Constributeur", "Administrateur"),
+			list_type_comment: Array("Commentaire", "Exemple", "Complément", "Point d&apos;attention", "Lien associé"),
 		},
 		lbl: {
 			log: "Login",
@@ -44,6 +45,10 @@ var Lang = {
 			views: "vues",
 			favoris: "favoris",
 			user: "utilisateurs",
+			commentaire: "Commentaires",
+			le: "le",
+			all: "tous",
+			commentaire: "Mon Commentaire"
 		},
 		btn: {
 			connect: "Connexion",
@@ -157,11 +162,14 @@ var Lang = {
 			warning_add_bloc_article_msg: "Impossible d\'ajouter un deuxième bloc d\'article",
 			error_no_favoris_title: "Aucun favoris",
 			error_no_favoris_msg: "Vous n\'avez aucun favoris",
+			error_no_comment_title: "Aucun Commentaire",
+			error_no_comment_msg: "Aucun commentaire pour cet article",
 		}
 	},
 	EN: {
 		lst: {
 			usr_role: Array("None", "Reader", "Constributor", "Administrator"),
+			list_type_comment: Array("Comment", "Exemple", "Supplement", "Focus point", "Related link"),
 		},
 		lbl: {
 			log: "Login",
@@ -200,6 +208,10 @@ var Lang = {
 			views: "views",
 			favoris: "starred",
 			user: "users",
+			commentaire: "Comments",
+			le: "the",
+			all: "all",
+			commentaire: "My comment"
 		},
 		btn: {
 			connect: "Connection",
@@ -313,6 +325,8 @@ var Lang = {
 			warning_add_bloc_article_msg: "Can not add a second article bloc",
 			error_no_favoris_title: "No favoris",
 			error_no_favoris_msg: "You don\'t have any bookmark",
+			error_no_comment_title: "No Comment",
+			error_no_comment_msg: "There is no comment for this article",
 		}
 	}
 }

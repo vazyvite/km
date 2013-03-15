@@ -127,5 +127,18 @@
 		function forceFavoris($id_user, $id_article, $forced){			return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}", "{{ISFORCED}}"), array($id_user, $id_article, $forced), DBQuery::DB_FAVORIS_FORCE); }
 		function getMostViewed($id_user, $id_article){					return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}"), array($id_user, $id_article), DBQuery::DB_FAVORIS_MOSTVIEWED); }
 		function getFavoris($id_user, $id_article){						return str_replace(array("{{IDUSER}}", "{{IDARTICLE}}"), array($id_user, $id_article), DBQuery::DB_FAVORIS_SELECT); }
+
+
+
+		// COMMENTAIRES
+		const DB_COMMENTS_FORARTICLE = 	"SELECT * FROM commentaire WHERE idArticle = '{{IDARTICLE}}'";
+		const DB_COMMENTS_CREATE = 		"INSERT INTO commentaire (idArticle, idUser, idType, titre, commentaire) VALUES ('{{IDARTICLE}}', '{{IDUSER}}', '{{IDTYPE}}', '{{TITRE}}', '{{COMMENTAIRE}}')";
+		const DB_COMMENTS_DELETE = 		"DELETE FROM commentaire WHERE idCommentaire = '{{IDCOMMENTAIRE}}'";
+		const DB_COMMENTS_UPDATE = 		"UPDATE commentaire SET idType = '{{IDTYPE}}', titre = '{{TITRE}}', commentaire = '{{COMMENTAIRE}}' WHERE idCommentaire = '{{IDCOMMENTAIRE}}'";
+
+		function getCommentsForArticle($id_article){									return str_replace(array("{{IDARTICLE}}"), array($id_article), DBQuery::DB_COMMENTS_FORARTICLE); }
+		function createComment($id_article, $id_user, $id_type, $titre, $commentaire){	return str_replace(array("{{IDARTICLE}}", "{{IDUSER}}", "{{IDTYPE}}", "{{TITRE}}", "{{COMMENTAIRE}}"), array($id_article, $id_user, $id_type, $titre, $commentaire), DBQuery::DB_COMMENTS_CREATE); }
+		function deleteComment($id_commentaire){										return str_replace(array("{{IDCOMMENTAIRE}}"), array($id_commentaire), DBQuery::DB_COMMENTS_DELETE); }
+		function updateComment($id_commentaire, $id_type, $titre, $commentaire){		return str_replace(array("{{IDCOMMENTAIRE}}", "{{IDTYPE}}", "{{TITRE}}", "{{COMMENTAIRE}}"), array($id_commentaire, $id_type, $titre, $commentaire), DBQuery::DB_COMMENTS_UPDATE); }
 	}
 ?>

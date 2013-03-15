@@ -34,6 +34,10 @@ var Data = {
 	favoris: {
 		data: null,
 		article: 0
+	},
+
+	commentaire: {
+		data: null,
 	}
 };
 

@@ -34,7 +34,7 @@
 		/**
 		 * Méthode FormatFavorisData
 		 * Formate un favoris à partir des résultats d'une requête
-		 * @param results:Int 			résultats de la requête
+		 * @param results:Object		résultats de la requête
 		 * @return Favoris 				Favoris formaté
 		 */
 		function FormatFavorisData($results){
