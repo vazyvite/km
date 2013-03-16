@@ -214,6 +214,9 @@ UI.prototype = {
 
 			// nettoyage du redactor
 			$(".token-input-dropdown-facebook, .redactor_dropdown").remove();
+
+			// nettoyage des commentaires
+			comments.Action.Destroy(comments);
 		},
 
 

@@ -81,7 +81,8 @@ var Lang = {
 			resume: "Insérer un bloc de résumé",
 			article: "Insérer un bloc d&apos;article",
 			nav: "Insérer un bloc d&apos;association",
-			pdf: "Export PDF"
+			pdf: "Export PDF",
+			commentaire: "Commentaires"
 		},
 		err: {
 			bad_id: "identifiants incorrects",
@@ -245,6 +246,7 @@ var Lang = {
 			article: "Insert an article bloc",
 			nav: "Insert an association bloc",
 			pdf: "Export PDF",
+			commentaire: "Comments"
 		},
 		err: {
 			bad_id: "incorrect identifiers",

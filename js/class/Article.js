@@ -1001,8 +1001,6 @@ Article.prototype = {
 					$(this).addClass("on").removeClass("off");
 					favoris.ForceFavoris(id_user, id_article);
 				}
-
-				favoris.GetFavorisForUser(id_user);
 			});
 
 			return btn;
@@ -1526,10 +1524,10 @@ Article.prototype = {
 				homeTuileContainer.append(t.UI.TraceHomeTuileArticle(t, article));
 			}
 
+			/*homeTuileContainer.append(homeTuileContainer.clone().children());
 			homeTuileContainer.append(homeTuileContainer.clone().children());
 			homeTuileContainer.append(homeTuileContainer.clone().children());
-			homeTuileContainer.append(homeTuileContainer.clone().children());
-			homeTuileContainer.append(homeTuileContainer.clone().children());
+			homeTuileContainer.append(homeTuileContainer.clone().children());*/
 			$("#article").append(homeTuileContainer);
 
 			homeTuileContainer.masonry({

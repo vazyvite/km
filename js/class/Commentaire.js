@@ -71,7 +71,7 @@ Commentaire.prototype = {
 		},
 
 		Destroy: function(t){
-
+			$('.popin_comments').remove();
 		},
 
 		FocusComment: function(t){
@@ -181,7 +181,7 @@ Commentaire.prototype = {
 						if(line_comment != null){ list.append(line_comment); }
 
 					/* bouchon */
-						var line_comment1 = t.UI.BuildComment(t, comment);
+						/*var line_comment1 = t.UI.BuildComment(t, comment);
 						var line_comment2 = t.UI.BuildComment(t, comment);
 						var line_comment3 = t.UI.BuildComment(t, comment);
 						var line_comment4 = t.UI.BuildComment(t, comment);
@@ -200,7 +200,7 @@ Commentaire.prototype = {
 						if(line_comment7 != null){ list.append(line_comment7); }
 						if(line_comment8 != null){ list.append(line_comment8); }
 						if(line_comment9 != null){ list.append(line_comment9); }
-						if(line_comment0 != null){ list.append(line_comment0); }
+						if(line_comment0 != null){ list.append(line_comment0); }*/
 					/* bouchon */
 
 					}
@@ -345,7 +345,7 @@ Commentaire.prototype = {
 
 				if(!cache.is(":visible")){
 					cache.slideDown(200);
-					$(".popin_comments").animate({ "height": limite }, 200).css("max-height", limite);
+					$(".popin_comments").animate({ "height": limite }, 200);
 				}
 			});
 
@@ -385,8 +385,8 @@ Commentaire.prototype = {
 				var valide = t.UI.BtnEnvoyer(t);
 				var cancel = t.UI.BtnCancel(t);
 
-				if(cancel != null){ commands.append(cancel); }
 				if(valide != null){ commands.append(valide); } 
+				if(cancel != null){ commands.append(cancel); }
 			}
 
 			return commands;
@@ -409,9 +409,7 @@ Commentaire.prototype = {
 
 					if(cache.is(":visible")){
 						cache.slideUp(200);
-						$(".popin_comments").animate({ "height": limite }, 200, function(){
-							$(this).css("max-height", "80%");
-						});
+						$(".popin_comments").animate({ "height": limite }, 200);
 					}
 				});
 			}
@@ -433,6 +431,7 @@ Commentaire.prototype = {
 		PopinResize: function(){
 			var popin = $(".popin_comments");
 			$(".popin_comment_list").height(popin.innerHeight() - ($(".popin_comments_header").outerHeight(true) + $(".popin_form").outerHeight(true) + 30));
+			popin.hide();
 		},
 
 		PopinPosition: function(){

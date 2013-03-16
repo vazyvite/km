@@ -103,11 +103,13 @@ Menu.prototype = {
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var favorisList = t.UI.Btn_Favoris(t);
+				var coms = t.UI.Btn_Commentaire(t);
 
 				var m = $("#menu ul");
 
 				if(retour != null) { m.append(retour); }
 				if(favorisList != null) { m.append(favorisList); }
+				if(coms != null) { m.append(coms); }
 			}
 		},
 
@@ -231,6 +233,26 @@ Menu.prototype = {
 
 
 		/**
+		 * Méthode UI.Btn_Commentaire
+		 * Création du bouton d'acces aux commentaires
+		 * @param t:Contexte
+		 * @return btn:jQueryObject 	object jquery contenant le bouton
+		 */
+		Btn_Commentaire: function(t){
+			var lvl = "show";
+			var btn = null;
+
+			if(CheckAccess(lvl)){
+				btn = $("<li class='bouton comments' title='" + Lang[user.GetLangue()].btn.commentaire + "'></li>").on("click", function(){
+					var popin = $(".popin_comments");
+					(!popin.is(":visible")) ? popin.show() : popin.hide();
+				});
+			}
+			return btn;
+		},
+
+
+		/**
 		 * Méthode Btn_Favoris
 		 * Création du bouton d'accès à la liste des favoris
 		 * @param t:Context
@@ -243,24 +265,7 @@ Menu.prototype = {
 			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton list_favoris'><ul class='menu_favoris'></ul></li>");
 
-				for(var i = 0; i < Data.favoris.data.length; i++){
-					var favoris = Data.favoris.data[i];
-
-					var li = $("<li></li>").attr({
-						"forarticle": favoris.idArticle,
-						"forcategorie": favoris.idCategorie
-					}).text(favoris.titre);
-					btn.find("ul").append(li);
-				}
-
-				btn.find("li").bind("click", function(){
-					event.stopPropagation();
-
-					var notInTheSamePortail = false;
-					var idArticle = $(this).attr("forarticle");
-					
-					articleContent.GetPortailForArticle(idArticle, null);
-				});
+				favoris.BuildFavorisList(btn);
 			}
 			return btn;
 		},

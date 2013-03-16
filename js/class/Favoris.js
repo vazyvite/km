@@ -110,9 +110,14 @@ Favoris.prototype = {
 			context: this,
 			data: { idUser: id_user, idArticle: id_article }
 		}).done(function(msg){
+			var t = this;
 			
 			if(msg != ""){
 				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+			}else{
+				this.GetFavorisForUser(Data.user.data.idUser, function(){ 
+					t.BuildFavorisList($(".list_favoris"));
+				});
 			}
 		});
 	},
@@ -131,10 +136,39 @@ Favoris.prototype = {
 			context: this,
 			data: { idUser: id_user, idArticle: id_article }
 		}).done(function(msg){
-			
+			var t = this;
+
 			if(msg != ""){
 				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+			}else{
+				this.GetFavorisForUser(Data.user.data.idUser, function(){ 
+					t.BuildFavorisList($(".list_favoris"));
+				});
 			}
+		});
+	},
+
+
+	BuildFavorisList: function(btn){
+		btn.find("ul").children().remove();
+
+		for(var i = 0; i < Data.favoris.data.length; i++){
+			var favoris = Data.favoris.data[i];
+
+			var li = $("<li></li>").attr({
+				"forarticle": favoris.idArticle,
+				"forcategorie": favoris.idCategorie
+			}).text(favoris.titre);
+			btn.find("ul").append(li);
+		}
+
+		btn.find("li").bind("click", function(){
+			event.stopPropagation();
+
+			var notInTheSamePortail = false;
+			var idArticle = $(this).attr("forarticle");
+			
+			articleContent.GetPortailForArticle(idArticle, null);
 		});
 	}
 }
