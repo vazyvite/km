@@ -165,6 +165,7 @@ var Lang = {
 			error_no_favoris_msg: "Vous n\'avez aucun favoris",
 			error_no_comment_title: "Aucun Commentaire",
 			error_no_comment_msg: "Aucun commentaire pour cet article",
+			no_connexion: "Pas d\'accès au réseau, vérifiez votre connexion",
 		}
 	},
 	EN: {
@@ -329,6 +330,7 @@ var Lang = {
 			error_no_favoris_msg: "You don\'t have any bookmark",
 			error_no_comment_title: "No Comment",
 			error_no_comment_msg: "There is no comment for this article",
+			no_connexion: "No network access, please check your connection",
 		}
 	}
 }

@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="./js/jquery.masonry.min.js"></script>
 		
 		<script type="text/javascript" src="./js/class/Lang.js"></script>
+		<script type="text/javascript" src="./js/class/Install.js"></script>
 		<script type="text/javascript" src="./js/class/Data.js"></script>
 		<script type="text/javascript" src="./js/class/Popin.js"></script>
 		<script type="text/javascript" src="./js/class/Menu.js"></script>

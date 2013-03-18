@@ -731,5 +731,5 @@ User.prototype = {
 var user;
 
 $(document).ready(function(){
-	user = new User();
+	// user = new User();
 });

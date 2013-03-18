@@ -45,6 +45,23 @@
 		}
 
 		/**
+		 * Méthode ConnectOutDB
+		 * Permet d'établir une connexion à partir de MySQLi à la base de donnée
+		 * @return Boolean::false 		dans le cas d'une erreur de connexion
+		 * @return mysqliObject			dans le cas d'une connexion réussie, retourne un objet résultat mysqli
+		 */
+		function ConnectOutDB(){
+			$mysqli = new mysqli($this->getHost(), $this->getUser(), $this->getPass());
+			$mysqli->set_charset("utf8");
+
+			if ($mysqli->connect_errno) {
+			    return false;
+			}else{
+				return $mysqli;
+			}
+		}
+
+		/**
 		 * Méthode Query
 		 * Permet de lancer une requête SQL
 		 * @param $query:String 		la requête SQL
@@ -117,6 +134,40 @@
 			if($mysqli != false){
 				$res = $mysqli->query($query);
 				return ($mysqli->errno == 0) ? true : false;
+			}else{
+				return false;
+			}
+		}
+
+		/** 
+		 * Méthode TableIsExists
+		 * Permet de tester si une table est présente dans la base
+		 * @param query:String 			la table à tester
+		 * @return :Boolean 			true si la table existe, false si la table n'existe pas
+		 */
+		function TableIsExists($query){
+			$mysqli = $this->Connect();
+
+			if($mysqli != false){
+				$res = $mysqli->query($query);
+				return $res->num_rows;
+			}else{
+				return 0;
+			}
+		}
+
+		/** 
+		 * Méthode CreateDB
+		 * Permet de tester si une table est présente dans la base
+		 * @param query:String 			la table à tester
+		 * @return :Boolean 			true si la table existe, false si la table n'existe pas
+		 */
+		function CreateDB($query){
+			$mysqli = $this->ConnectOutDB();
+
+			if($mysqli != false){
+				$res = $mysqli->query($query);
+				return ($res) ? true : false;
 			}else{
 				return false;
 			}

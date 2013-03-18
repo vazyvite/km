@@ -490,5 +490,5 @@ Commentaire.prototype = {
 
 var comments;
 $(document).ready(function(){
-	comments = new Commentaire();
+	// comments = new Commentaire();
 })

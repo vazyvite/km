@@ -140,5 +140,14 @@
 		function createComment($id_article, $id_user, $id_type, $titre, $commentaire){	return str_replace(array("{{IDARTICLE}}", "{{IDUSER}}", "{{IDTYPE}}", "{{TITRE}}", "{{COMMENTAIRE}}"), array($id_article, $id_user, $id_type, $titre, $commentaire), DBQuery::DB_COMMENTS_CREATE); }
 		function deleteComment($id_commentaire){										return str_replace(array("{{IDCOMMENTAIRE}}"), array($id_commentaire), DBQuery::DB_COMMENTS_DELETE); }
 		function updateComment($id_commentaire, $id_type, $titre, $commentaire){		return str_replace(array("{{IDCOMMENTAIRE}}", "{{IDTYPE}}", "{{TITRE}}", "{{COMMENTAIRE}}"), array($id_commentaire, $id_type, $titre, $commentaire), DBQuery::DB_COMMENTS_UPDATE); }
+
+
+
+		// INSTALL
+		const DB_TABLE_ISEXISTS = "SHOW TABLES FROM {{DB}} LIKE '{{TABLE}}'";
+		const DB_DB_CREATE = "CREATE DATABASE  {{DB}}";
+
+		function tableIsExists($db, $table){ 	return str_replace(array("{{DB}}", "{{TABLE}}"), array($db, $table), DBQuery::DB_TABLE_ISEXISTS); }
+		function createDB($db){ 				return str_replace(array("{{DB}}"), array($db), DBQuery::DB_DB_CREATE); }
 	}
 ?>
