@@ -103,7 +103,7 @@ Menu.prototype = {
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var favorisList = t.UI.Btn_Favoris(t);
-				var coms = t.UI.Btn_Commentaire(t);
+				// var coms = t.UI.Btn_Commentaire(t);
 
 				var m = $("#menu ul");
 
@@ -245,7 +245,8 @@ Menu.prototype = {
 			if(CheckAccess(lvl)){
 				btn = $("<li class='bouton comments' title='" + Lang[user.GetLangue()].btn.commentaire + "'></li>").on("click", function(){
 					var popin = $(".popin_comments");
-					(!popin.is(":visible")) ? popin.show() : popin.hide();
+					(!popin.is(":visible")) ? comments.Action.Show() : comments.Action.Hide();
+					// (!popin.is(":visible")) ? popin.show() : popin.hide();
 				});
 			}
 			return btn;

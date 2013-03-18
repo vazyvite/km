@@ -33,7 +33,7 @@
 			$this->setidArticle($idArticle);
 			$this->setidUser($idUser);
 			$this->setidType($idType);
-			$this->setDateCreation($date_creation);
+			$this->setDateCreation(date('d/m/Y', strtotime($date_creation)));
 			$this->setTitre($titre);
 			$this->setCommentaire($commentaire);
 		}
@@ -48,18 +48,7 @@
 		function FormatCommentaireData($results){
 			return new Commentaire($results['idCommentaire'],$results['idArticle'], $results['idUser'], $results['idType'], $results['date_creation'], $results['titre'], $results['commentaire']);
 		}
-
-
-		/**
-		 * Méthode GetTypeLibelle
-		 * retourne le libellé correspondant à un idType de commentaire
-		 * @param idType:Int 		identifiant de l'idType à traiter
-		 * @return :String 			libellé du type
-		 */
-		function GetTypeLibelle($idType){
-			$type = array("Commentaire", "Exemple", "Complément", "Point d'attention", "Lien associé");
-			return $type[$idType];
-		}
+		
 
 		/**
 		 * Méthode GetCommentaireForArticle
@@ -136,7 +125,7 @@
 			$dbq = new DBQuery();
 			$mysqli = new DB();
 
-			$res = $mysqli->Create($dbq->createComment($idArticle, $idUser, $idType, $titre, $commentaire));
+			$res = $mysqli->Create($dbq->createComment($idArticle, $idUser, $idType, htmlentities($titre, ENT_QUOTES), htmlentities($commentaire, ENT_QUOTES)));
 		}
 
 

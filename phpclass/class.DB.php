@@ -95,8 +95,10 @@
 
 			if($mysqli != false){
 				$res = $mysqli->query($query);
+				echo $mysqli->error;
 				return $mysqli->insert_id;
 			}else{
+				echo "error";
 				return false;
 			}
 		}

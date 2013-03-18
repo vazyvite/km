@@ -17,6 +17,6 @@
 		$res = $c->CreateCommentaire($idArticle, $idUser, $idType, $titre, $commentaire);
 		// $c->BuildResultsForJS($res);
 	}else{
-		// l'idUser n'est pas défini
+		echo "error";// l'idUser n'est pas défini
 	}
 ?>

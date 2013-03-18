@@ -89,7 +89,10 @@ div.bloc_content { clear:both; width: 100%; }
 #article .article_header.edit select { display: block; margin-bottom: 15px; min-width: 250px; height: 25px; }
 #article .article_content.edit { width: 97%; display: block; }
 #article .article_title_edit { width: 100%; height: 25px; display: block; }
-#article .article_header .article_title { padding: 5px 5px 0px 5px; color: #333; font-size: 2em; font-weight: bold; }
+#article .article_header .article_title { padding: 0px 5px; color: #333; font-size: 2em; font-weight: bold; }
+#article .article_header .article_title .article_menu { display: none; }
+#article .article_header .article_title:hover { background-color: rgba(255, 255, 255, .7); }
+#article .article_header .article_title:hover .article_menu { display: block; position: absolute; top: 0px; left: 200px; -webkit-animation: infos_article_appears .3s; background-color: rgba(255, 255, 255, .9); width: 100%; font-size: .5em; font-weight: normal; line-height: 39px; padding: 0 15px; }
 #article .article_header .article_infos { padding: 0 5px 5px 5px; font-style: italic; }
 #article .article_header.edit .article_infos .article_author,
 #article .article_header.edit .article_infos .article_type,
@@ -101,7 +104,7 @@ div.bloc_content { clear:both; width: 100%; }
 #article .article_header .article_infos .article_vues { text-align: center; font-size: 1.1em; color: #BBB; margin: 15px 0; }
 #article .article_header .article_infos .article_vues strong { font-size: 2em; color: #FFF; font-weight: bold; text-shadow: 1px 1px 4px #777; }
 #article .article_header .article_infos button { margin-top: 5px; width: 100%; }
-#article .article_header .favoris_btn { width: 22px; height: 22px; display: block; position: absolute; top: 18px; left: 175px; cursor: pointer; }
+#article .article_header .favoris_btn { width: 22px; height: 22px; display: block; position: absolute; top: 10px; left: 175px; cursor: pointer; }
 #article .article_header .favoris_btn.on { background: url(../images/favoris_enabled.png) no-repeat center center; }
 #article .article_header .favoris_btn.off { background: url(../images/favoris_disabled.png) no-repeat center center; }
 #article .article_header .article_listMotCles .motcle { font-size: .8em; margin: 0 5px 0 0; cursor: pointer; /*color: #61BFFF;*/ color: #CA3179; }
@@ -315,7 +318,7 @@ button.btn_pdf:hover { background: url("../images/bg_btn_pdf.png") no-repeat lef
 #article .connectBloc.right .form_connect { margin-top: 50%; border: 1px solid #DDD; background: #FFF; padding: 0 15px 15px 15px; color: #1BA9C0; box-shadow: 0 0 8px #AAA; }
 
 .HomeTuileContainer { max-height: 90%; /*width: 100%;*/ width: 390px; overflow-y: auto; }
-.tuile { float: left; margin: 7px; background: #FFF; padding: 5px; box-shadow: 0 0 8px #AAA; color: #fff; overflow: hidden; text-overflow: ellipsis; height: auto; width: 100px; -webkit-transform: rotateY(0deg); -webkit-animation: myfirst .3s; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
+.tuile { float: left; margin: 7px; background: #FFF; padding: 5px; box-shadow: 0 0 8px #AAA; color: #fff; overflow: hidden; text-overflow: ellipsis; height: auto; width: 100px; -webkit-transform: rotateY(0deg); -webkit-animation: tuile_show .3s; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
 .tuile .tuile_title { color: #1BA9C0; font-weight: bold; display: block; margin-bottom: 15px; }
 .tuile .tuile_content { color: #333; font-size: 0.8em; }
 
@@ -324,18 +327,19 @@ button.btn_pdf:hover { background: url("../images/bg_btn_pdf.png") no-repeat lef
 .tuile:hover .tuile_content { color: #EFEFEF; }
 
 /*.popin_comments { position: absolute; z-index: 20; background: #FFF; top: 20%; left: 20%; width: 60%; height: 60%; padding: 10px; box-shadow: 0 0 8px #333; }*/
-.popin_comments { display none; position: absolute; z-index: 20; background: #FFF; top: 10px; left: 10px; width: 418px; /*max-height: 500px;*/ min-height: 300px; padding: 10px; box-shadow: 0 0 8px #333; }
+.popin_comments { display none; position: absolute; z-index: 20; background: #FFF; top: 10px; right: 10px; width: 418px; /*max-height: 500px;*/ min-height: 300px; padding: 10px; box-shadow: 0 0 8px #333; }
 .popin_comments .popin_comments_header { font-weight: bold; font-size: 16px; color: #333; text-transform: uppercase; border-bottom: 2px solid #1BA9C0; padding-bottom: 5px; margin-bottom: 5px; }
 .popin_comments .popin_comments_header select { position: absolute; top: 5px; right: 5px; }
 .popin_comments .popin_comment_list { overflow: auto; max-height: 500px; }
 .popin_comments .popin_comment_line { margin: 5px 0; border-bottom: 1px solid #ccc; }
-.popin_comments .popin_comment_line .popin_comment_line_sup { cursor: pointer; vertical-align: top; position: relative; top: 5px; }
+.popin_comments .popin_comment_line .popin_comment_line_sup { cursor: pointer; vertical-align: top; position: relative; top: 5px; max-width: 350px; overflow: hidden; text-overflow: ellipsis; }
+.popin_comments .popin_comment_line .popin_comment_line_sup span { white-space: nowrap; }
 .popin_comments .popin_comment_line .popin_comment_line_type { width: 30px; height: 30px; margin: 0 10px; }
 .popin_comments .popin_comment_line .popin_comment_line_inf { display: none; }
 .popin_comments .popin_comment_line .popin_comment_line_sup,
 .popin_comments .popin_comment_line .popin_comment_line_type { display: inline-block; }
 .popin_comments .popin_form .popin_form_type label.type_commentaire_commentaire,
-.popin_comments .popin_comment_line .popin_comment_line_type.commmentaire { background: url(../images/comment_commentaire.png) no-repeat center center; }
+.popin_comments .popin_comment_line .popin_comment_line_type.commentaire { background: url(../images/comment_commentaire.png) no-repeat center center; }
 .popin_comments .popin_form .popin_form_type label.type_commentaire_exemple,
 .popin_comments .popin_comment_line .popin_comment_line_type.exemple { background: url(../images/comment_exemple.png) no-repeat center center; }
 .popin_comments .popin_form .popin_form_type label.type_commentaire_complement,
@@ -370,19 +374,19 @@ button.btn_pdf:hover { background: url("../images/bg_btn_pdf.png") no-repeat lef
 /*----------------------------------------------*+
 |*				Styles Animations				*|
 +*----------------------------------------------*/
-@keyframes myfirst {
+@keyframes tuile_show {
 	from {transform: rotateY(90deg); }
 	to {transform: rotateY(0deg); }
 }
-@-moz-keyframes myfirst {
+@-moz-keyframes tuile_show {
 	from {-moz-transform: rotateY(90deg);}
 	to {-moz-transform: rotateY(0deg);}
 }
-@-webkit-keyframes myfirst {
+@-webkit-keyframes tuile_show {
 	from {-webkit-transform: rotateY(90deg); }
 	to {-webkit-transform: rotateY(0deg); }
 }
-@-o-keyframes myfirst {
+@-o-keyframes tuile_show {
 	from {-o-transform: rotateY(90deg);}
 	to {-o-transform: rotateY(0deg);}
 }

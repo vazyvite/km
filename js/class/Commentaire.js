@@ -11,7 +11,7 @@ Commentaire.prototype = {
 
 	},
 
-	GetCommentForArticle: function(id_article, fnCallback){
+	GetCommentForArticle: function(id_article, isRefresh, fnCallback){
 
 		$.ajax({
 			url: "phpforms/commentaire.list.php",
@@ -30,6 +30,10 @@ Commentaire.prototype = {
 
 					this.Data.AddData(this, json);
 
+					if(isRefresh){
+						this.UI.RefreshListComment(this, json);
+					}
+
 					if($.isFunction(fnCallback)){ fnCallback(); }
 
 				}else{
@@ -40,12 +44,29 @@ Commentaire.prototype = {
 				ui.Notify(Lang[user.GetLangue()].msg.error_no_comment_title, Lang[user.GetLangue()].msg.error_no_comment_msg, "error");
 			}
 
-			this.Action.Create(this, json);
+			if(!isRefresh){
+				this.Action.Create(this, json);
+			}
 		});
 	},
 
-	CreateComment: function(){
+	CreateComment: function(data){
 
+		$.ajax({
+			url: "phpforms/commentaire.create.php",
+			type: "POST",
+			data: { idArticle: data.idArticle, idUser: data.idUser, idType: data.idType, titre: data.titre, commentaire: data.comment },
+			context: this
+		}).done(function(msg){
+
+			if(msg == ""){
+				this.GetCommentForArticle(data.idArticle, true, $.noop());
+				
+			}else{
+				ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
+			}
+
+		});
 	},
 
 	UpdateComment: function(){
@@ -59,15 +80,15 @@ Commentaire.prototype = {
 	Action: {
 		Create: function(t, json){
 			t.UI.BuildPopup(t, json);
-			t.UI.PopinResize(t);
+			t.UI.PopinResize(t, false);
 		},
 
 		Show: function(t){
-
+			$(".popin_comments").slideDown(200);
 		},
 
 		Hide: function(t){
-
+			$(".popin_comments").slideUp(200);
 		},
 
 		Destroy: function(t){
@@ -163,6 +184,17 @@ Commentaire.prototype = {
 			});
 
 			return filtre;
+		},
+
+		RefreshListComment: function(t, json){
+			$(".popin_comment_list").remove();
+
+			var header = $(".popin_comments_header");
+			var list = t.UI.BuildList(t, json);
+
+			if(list != null){ header.after(list); }
+
+			t.UI.PopinResize(t, true);
 		},
 
 		BuildList: function(t, json){
@@ -330,11 +362,11 @@ Commentaire.prototype = {
 
 			if(CheckAccess(lvl)){
 				var html = 	"<ul class='popin_form_type'>" +
-							"<li><input type='radio' name='type_commentaire' id='type_commentaire_commentaire'><label class='type_commentaire_commentaire' for='type_commentaire_commentaire' title='" + t.lblType[0] + "'></label></li>" +
-							"<li><input type='radio' name='type_commentaire' id='type_commentaire_exemple'><label class='type_commentaire_exemple' for='type_commentaire_exemple' title='" + t.lblType[1] + "'></label></li>" +
-							"<li><input type='radio' name='type_commentaire' id='type_commentaire_complement'><label class='type_commentaire_complement' for='type_commentaire_complement' title='" + t.lblType[2] + "'></label></li>" +
-							"<li><input type='radio' name='type_commentaire' id='type_commentaire_attention'><label class='type_commentaire_attention' for='type_commentaire_attention' title='" + t.lblType[3] + "'></label></li>" +
-							"<li><input type='radio' name='type_commentaire' id='type_commentaire_lien'><label class='type_commentaire_lien' for='type_commentaire_lien' title='" + t.lblType[4] + "'></label></li>" +
+							"<li><input type='radio' name='type_commentaire' value='0' id='type_commentaire_commentaire'><label class='type_commentaire_commentaire' for='type_commentaire_commentaire' title='" + t.lblType[0] + "'></label></li>" +
+							"<li><input type='radio' name='type_commentaire' value='1' id='type_commentaire_exemple'><label class='type_commentaire_exemple' for='type_commentaire_exemple' title='" + t.lblType[1] + "'></label></li>" +
+							"<li><input type='radio' name='type_commentaire' value='2' id='type_commentaire_complement'><label class='type_commentaire_complement' for='type_commentaire_complement' title='" + t.lblType[2] + "'></label></li>" +
+							"<li><input type='radio' name='type_commentaire' value='3' id='type_commentaire_attention'><label class='type_commentaire_attention' for='type_commentaire_attention' title='" + t.lblType[3] + "'></label></li>" +
+							"<li><input type='radio' name='type_commentaire' value='4' id='type_commentaire_lien'><label class='type_commentaire_lien' for='type_commentaire_lien' title='" + t.lblType[4] + "'></label></li>" +
 							"</ul>";
 				form = $(html);
 			}
@@ -422,16 +454,31 @@ Commentaire.prototype = {
 			var btn = null;
 
 			if(CheckAccess(lvl)){
-				btn = $("<button></button>").text(Lang[user.GetLangue()].btn.valide)
+				btn = $("<button></button>").text(Lang[user.GetLangue()].btn.valide).bind("click", function(){
+					var data = {
+						idArticle: Data.article.data.idArticle,
+						idUser: Data.user.data.idUser,
+						idType: $("input[type=radio][name=type_commentaire]:checked").val(),
+						titre: $(".popin_form_titre").val(),
+						comment: $(".popin_form_commentaire").val()
+					};
+
+					t.CreateComment(data);
+
+					$("input[type=radio][name=type_commentaire]:checked").val(null);
+					$(".popin_form_titre").val(null);
+					$(".popin_form_commentaire").val(null);
+				});
 			}
 
 			return btn;
 		},
 
-		PopinResize: function(){
+		PopinResize: function(t, show){
 			var popin = $(".popin_comments");
 			$(".popin_comment_list").height(popin.innerHeight() - ($(".popin_comments_header").outerHeight(true) + $(".popin_form").outerHeight(true) + 30));
-			popin.hide();
+			
+			(!show) ? popin.hide() : popin.show();
 		},
 
 		PopinPosition: function(){

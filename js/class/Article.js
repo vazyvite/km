@@ -42,7 +42,7 @@ Article.prototype = {
 					this.Data.SetJSON(this, json);
 					this.UI.Build(this, json, isReaffiche);
 
-					comments.GetCommentForArticle(json.idArticle, $.noop());
+					comments.GetCommentForArticle(json.idArticle, false, $.noop());
 
 				}else{
 					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
@@ -429,7 +429,7 @@ Article.prototype = {
 
 				$(".article_title_edit").watermark(Lang[user.GetLangue()].lbl.title);
 
-				content.find("button.btn_modif, button.btn_pdf").hide();
+				content.find("button.btn_modif, button.btn_pdf, button.btn_comment").hide();
 				$("#accessibility, .article_vues").hide();
 
 				if(json.idArticle != -1){
@@ -766,16 +766,18 @@ Article.prototype = {
 			if(json.idArticle != -1){
 				var nbstar = t.UI.Starred(t, json, infos);
 			}
+			var comms = t.UI.BtnComments(t);
 			var pdf = t.UI.BtnPDF(t, json);
 			var modif = t.UI.BtnModifier(t, json);
 			var favoris = t.UI.BtnFavoris(t, json);
 
-			infos.append(author).append(date).append(type)
+			titre.find(".article_menu").append(type).append(author).append(date);
 
 			if(json.idArticle != -1){
 				infos.append(nbstar);
 			}
 
+			if(comms != null){ infos.append(comms); }
 			if(modif != null){ infos.append(modif); }
 			if(pdf != null){ infos.append(pdf); }
 			
@@ -794,7 +796,7 @@ Article.prototype = {
 		 * @return jQueryObject 	objet jQuery correspondant au titre
 		 */
 		Title: function(t, json){
-			return $("<div></div>").addClass("article_title").text(json.titre);
+			return $("<div class='article_title'>" + json.titre + "<div class='article_menu'></div></div>");
 		},
 
 
@@ -1069,6 +1071,26 @@ Article.prototype = {
 				});
 			}
 			return btnModif;
+		},
+
+
+		/**
+		 * Méthode UI.BtnPDF
+		 * Création du bouton de modification de l'article
+		 * @param t:Contexte
+		 * @return jQueryObject 	objet jQuery correspondant au bouton de modification
+		 */
+		BtnComments: function(t){
+			var lvl = "01";
+			var btnComment = null;
+
+			if(CheckAccess(lvl)){
+				btnComment = $("<button class='btn_comment'>" + Lang[user.GetLangue()].btn.commentaire + "</button>").bind("click", function(){
+					var popin = $(".popin_comments");
+					(!popin.is(":visible")) ? comments.Action.Show() : comments.Action.Hide();
+				});
+			}
+			return btnComment;
 		},
 
 

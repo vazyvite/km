@@ -1,7 +1,7 @@
 var Lang = {
 	app: {
 		appName: "KM",
-		appVersion: 1.0
+		appVersion: 1.1
 	},
 	FR: {
 		lst: {
