@@ -325,6 +325,7 @@ Article.prototype = {
 			var article = $("#article");
 			var infos = $("#informations");
 			var content = $("#content");
+			var artitle = article.find(".article_title");
 			var arr_mc = Array();
 			var data_mc;
 
@@ -402,7 +403,7 @@ Article.prototype = {
 						var cat = Data.navigation.data[i];
 						select.append($("<option value='" + cat.id + "' title='" + cat.description + "'>" + cat.categorie + "</option>"));
 					}
-					article.find(".article_title").before(select);
+					artitle.before(select);
 					
 				}else if(Data.article.data != null && Data.article.data.motcles && Data.article.data.motcles.length){
 					data_mc = Data.article.data.motcles;
@@ -416,7 +417,8 @@ Article.prototype = {
 					arr_mc.push({id: motcle.idMotCle, name: motcle.motcle});
 				}
 
-				article.find('.article_title').replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
+				artitle.find(".article_menu").remove();
+				artitle.replaceWith( "<input type='text' class='article_title_edit' value='" + article.find('.article_title').text() + "' />" );
 				article.find('.article_listMotCles').replaceWith( "<input type='text' class='article_listMotCles_edit' value='' />" );
 				article.find("input.article_listMotCles_edit").tokenInput(
 					"phpforms/motcle.autocomplete.php", 

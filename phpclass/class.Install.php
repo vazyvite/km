@@ -98,10 +98,12 @@
 						$champ = $list[$i]["champs"][$c];
 						$query .= "`" . $champ["champ"] . "` ";
 
-						if($champ["type"] != "VARCHAR" && $champ["length"] != null){
+						if($champ["type"] != "VARCHAR"){
 							$query .= $champ["type"] . " NOT NULL ";
 						}else{
-							$query .= $champ["type"] . "(" . $champ["length"] . ") NOT NULL ";
+							$l = ($champ["length"] == null) ? 25 : $champ["length"];
+
+							$query .= $champ["type"] . "(" . $l . ") NOT NULL ";
 						}
 
 						if($champ["defaut"] != null){
@@ -122,12 +124,18 @@
 					}
 
 					$query .= ") ENGINE = INNODB";
-
-					$r = $mysqli->Query($query);
+					$r = $mysqli->SimpleQuery($query);
 				}else{
 					echo "";
 				}
 			}
+		}
+
+		function InsertDefaultUser(){
+			$dbq = new DBQuery();
+			$mysqli = new DB();
+
+			$res = $mysqli->Create($dbq->createUser("Dalor", "Homer", "", "11", "admin", md5("admin")));
 		}
 
 		function InstallDB(){
@@ -135,7 +143,7 @@
 			$mysqli = new DB();
 
 			$res = $mysqli->CreateDB($dbq->createDB($mysqli->getDB()));
-			$this->TestDBTables();
+			//$this->TestDBTables();
 		}
 	}	
 ?>

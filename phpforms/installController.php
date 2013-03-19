@@ -23,6 +23,10 @@
 				$install->InstallDB();
 				break;
 
+			case "createDefaultUser": 
+				$install->InsertDefaultUser();
+				break;
+
 			default: break;
 		}
 

@@ -371,6 +371,10 @@ button.btn_pdf:hover { background: url("../images/bg_btn_pdf.png") no-repeat lef
 .popin_comments .popin_form .popin_form_commentaire { width: 100%; }
 
 
+#progress { position: fixed; left: 25%; top: 45%; width: 50%; }
+#progress_install { position: relative; margin: auto; width: 100% }
+#progress_legend { position: relative; margin: auto; text-align: center; width: 100% }
+
 /*----------------------------------------------*+
 |*				Styles Animations				*|
 +*----------------------------------------------*/

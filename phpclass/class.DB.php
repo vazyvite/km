@@ -81,6 +81,25 @@
 		}
 
 		/**
+		 * Méthode SimpleQuery
+		 * Permet de lancer une requête SQL
+		 * @param $query:String 		la requête SQL
+		 * @return Boolean::false 		dans le cas d'une erreur de connexion
+		 * @return mysqliResultObject	dans le cas d'une connexion réussie, retourne un objet résultat mysqli contenant les résultats de la requête SQL
+		 */
+		function SimpleQuery($query){
+
+			$mysqli = $this->Connect();
+
+			if($mysqli != false){
+				$res = $mysqli->query($query);
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		/**
 		 * Méthode Update
 		 * Permet de lancer une requête SQL d'update 
 		 * @param $query:String 		la requête SQL

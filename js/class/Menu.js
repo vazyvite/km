@@ -109,7 +109,7 @@ Menu.prototype = {
 
 				if(retour != null) { m.append(retour); }
 				if(favorisList != null) { m.append(favorisList); }
-				if(coms != null) { m.append(coms); }
+				// if(coms != null) { m.append(coms); }
 			}
 		},
 
