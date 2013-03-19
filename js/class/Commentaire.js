@@ -211,30 +211,6 @@ Commentaire.prototype = {
 						var line_comment = t.UI.BuildComment(t, comment);
 
 						if(line_comment != null){ list.append(line_comment); }
-
-					/* bouchon */
-						/*var line_comment1 = t.UI.BuildComment(t, comment);
-						var line_comment2 = t.UI.BuildComment(t, comment);
-						var line_comment3 = t.UI.BuildComment(t, comment);
-						var line_comment4 = t.UI.BuildComment(t, comment);
-						var line_comment5 = t.UI.BuildComment(t, comment);
-						var line_comment6 = t.UI.BuildComment(t, comment);
-						var line_comment7 = t.UI.BuildComment(t, comment);
-						var line_comment8 = t.UI.BuildComment(t, comment);
-						var line_comment9 = t.UI.BuildComment(t, comment);
-						var line_comment0 = t.UI.BuildComment(t, comment);
-						if(line_comment1 != null){ list.append(line_comment1); }
-						if(line_comment2 != null){ list.append(line_comment2); }
-						if(line_comment3 != null){ list.append(line_comment3); }
-						if(line_comment4 != null){ list.append(line_comment4); }
-						if(line_comment5 != null){ list.append(line_comment5); }
-						if(line_comment6 != null){ list.append(line_comment6); }
-						if(line_comment7 != null){ list.append(line_comment7); }
-						if(line_comment8 != null){ list.append(line_comment8); }
-						if(line_comment9 != null){ list.append(line_comment9); }
-						if(line_comment0 != null){ list.append(line_comment0); }*/
-					/* bouchon */
-
 					}
 				}
 			}

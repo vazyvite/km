@@ -72,7 +72,7 @@ UI.prototype = {
 	},
 
 
-	GetCurrentStateUI: function(){
+	/*GetCurrentStateUI: function(){
 		
 		var current_state = "";
 		
@@ -88,9 +88,9 @@ UI.prototype = {
 			// un utilisateur est connecté mais aucun portail sélectionné mais une page d'administation
 			current_state = { id: 2, label: "AdminPortail" };
 
-		/*}else if($(".admin_content").size()){
+		/§}else if($(".admin_content").size()){
 			// un utilisateur est connecté mais aucun portail sélectionné mais une page d'administation
-			current_state = { id: 3, label: "AdminUser" };*/
+		//	current_state = { id: 3, label: "AdminUser" };
 
 		}else if($(".admin_content").size() == 0 && $(".article_content").size() == 0){
 			// un utilisateur est connecté, un portail est sélectionné mais aucun article sélectionné ni d'écran d'administration
@@ -109,9 +109,9 @@ UI.prototype = {
 		
 		}else if($(".admin_content").size()){
 			// un utilisateur est connecté, un portail est sélectionné, un écran d'administration est présent
-			current_state = { id: 7, label: "CreateArticle" };*/
+			// current_state = { id: 7, label: "CreateArticle" };
 		}
-	},
+	},*/
 
 
 	/**
