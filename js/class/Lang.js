@@ -4,9 +4,10 @@ var Lang = {
 		appvName: {
 			'1': "Globus",
 			'1.1': "Dico",
-			'1.2': "Creo"
+			'1.2': "Creo",
+			'1.3': "Anima"
 		},
-		appVersion: 1.2
+		appVersion: 1.3
 	},
 	FR: {
 		lst: {
@@ -53,7 +54,6 @@ var Lang = {
 			commentaire: "Commentaires",
 			le: "le",
 			all: "tous",
-			commentaire: "Mon Commentaire",
 			my_articles: "Mes Articles",
 		},
 		btn: {
@@ -232,7 +232,6 @@ var Lang = {
 			commentaire: "Comments",
 			le: "the",
 			all: "all",
-			commentaire: "My comment",
 			my_articles: "My Articles",
 		},
 		btn: {
