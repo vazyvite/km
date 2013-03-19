@@ -135,7 +135,7 @@ UI.prototype = {
 	 */
 	DrawVersionInLogos: function(t){
 		$("#logos").html(Lang["app"].appName + "<span>v" + Lang["app"].appVersion + "</span>");
-		$("head title").text(Lang["app"].appName + " v" + Lang["app"].appVersion);
+		$("head title").text(Lang["app"].appName + " " + Lang["app"].appvName[Lang["app"].appVersion] + " v" + Lang["app"].appVersion);
 	},
 
 	ClearInterface: function(t, fnCallback){
