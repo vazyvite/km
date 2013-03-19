@@ -78,14 +78,14 @@ Menu.prototype = {
 
 			if(Data.user.data.role != null){
 				var adminPortail = t.UI.Btn_AdminPortail(t);
-				var addPortail = t.UI.Btn_AddPortail(t);
+				// var addPortail = t.UI.Btn_AddPortail(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 				var favorisList = t.UI.Btn_Favoris(t);
 
 				var m = $("#menu ul");
 
 				if(adminPortail != null) { m.append(adminPortail); }
-				if(addPortail != null) { m.append(addPortail); }
+				// if(addPortail != null) { m.append(addPortail); }
 				if(adminUser != null) { m.append(adminUser); }
 				if(favorisList != null) { m.append(favorisList); }
 			}
@@ -125,7 +125,7 @@ Menu.prototype = {
 			if(Data.user.data.role != null){
 				var retour = t.UI.Btn_Home(t);
 				var adminCategorie = t.UI.Btn_AdminCategorie(t);
-				var addCategorie = t.UI.Btn_AddCategorie(t);
+				// var addCategorie = t.UI.Btn_AddCategorie(t);
 				var addArticle = t.UI.Btn_AddArticle(t);
 				var adminUser = t.UI.Btn_AdminUser(t);
 				var favorisList = t.UI.Btn_Favoris(t);
@@ -135,7 +135,7 @@ Menu.prototype = {
 				if(retour != null) { m.append(retour); }
 				if(addArticle != null) { m.append(addArticle); }
 				if(adminCategorie != null) { m.append(adminCategorie); }
-				if(addCategorie != null) { m.append(addCategorie); }
+				// if(addCategorie != null) { m.append(addCategorie); }
 				if(adminUser != null) { m.append(adminUser); }
 				if(favorisList != null) { m.append(favorisList); }
 			}

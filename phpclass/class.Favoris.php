@@ -176,14 +176,6 @@
 			$dbq = new DBQuery();
 			$mysqli = new DB();
 			$res = $mysqli->Delete($dbq->deleteFavoris($idUser, $idArticle));
-
-			/*if($res != false){
-				while($f = $res->fetch_assoc()){
-					$a = $this->FormatFavorisData($f);
-					array_push($list, $a);
-				}
-				return $list;
-			}*/
 		}
 
 		/**

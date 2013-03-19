@@ -69,7 +69,10 @@ class ListMotCles {
 			$json = array();
 
 			foreach ($list as $motcle) {
-				$m = array('id' => $motcle->getId(), 'name' => $motcle->getMotCle());
+				$m = array(
+					'id' => $motcle->getId(),
+					'name' => html_entity_decode($motcle->getMotCle(), ENT_QUOTES)
+				);
 				array_push($arr_mc, $m);
 			}
 

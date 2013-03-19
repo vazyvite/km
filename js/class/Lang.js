@@ -53,7 +53,8 @@ var Lang = {
 			commentaire: "Commentaires",
 			le: "le",
 			all: "tous",
-			commentaire: "Mon Commentaire"
+			commentaire: "Mon Commentaire",
+			my_articles: "Mes Articles",
 		},
 		btn: {
 			connect: "Connexion",
@@ -231,7 +232,8 @@ var Lang = {
 			commentaire: "Comments",
 			le: "the",
 			all: "all",
-			commentaire: "My comment"
+			commentaire: "My comment",
+			my_articles: "My Articles",
 		},
 		btn: {
 			connect: "Connection",

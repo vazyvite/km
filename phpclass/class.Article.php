@@ -127,6 +127,11 @@
 			if($article != null){
 				$user = new User();
 				$u = $user->GetUserById($article->getIdUser());
+				
+				if($u == null){
+					$u = new User(0, "anonyme", "", "", "00", "", "");
+				}
+
 				$userName = $u->getFirstName() . " " . $u->getLastName();
 				$type = new Type();
 				$t = $type->GetTypeById($article->getIdType());
@@ -139,7 +144,18 @@
 						array_push($arr_mc, $m);
 					}
 				}
-				$json = array('idArticle' => $article->getIdArticle(), 'idCategorie' => $article->getIdCategorie() , 'idType' => $article->getIdType(), 'motcles' => $arr_mc, 'type' => html_entity_decode($typeLibelle, ENT_QUOTES), 'idUser' => $article->getIdUser(), 'user' => html_entity_decode($userName, ENT_QUOTES), 'dateCreation' => $article->getDtCreation(), 'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES), 'article' => html_entity_decode($article->getArticle(), ENT_QUOTES));
+				$json = array(
+					'idArticle' => $article->getIdArticle(),
+					'idCategorie' => $article->getIdCategorie(),
+					'idType' => $article->getIdType(),
+					'motcles' => $arr_mc,
+					'type' => html_entity_decode($typeLibelle, ENT_QUOTES),
+					'idUser' => $article->getIdUser(),
+					'user' => html_entity_decode($userName, ENT_QUOTES),
+					'dateCreation' => $article->getDtCreation(),
+					'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES),
+					'article' => html_entity_decode($article->getArticle(), ENT_QUOTES)
+				);
 			}else{
 				$json = "";
 			}
@@ -289,7 +305,10 @@
 
 			if($res != false){
 				while($f = $res->fetch_assoc()){
-					$a = array('id' => $f['idArticle'], 'titre' => $f['titre']);
+					$a = array(
+						'id' => $f['idArticle'],
+						'titre' => html_entity_decode($f['titre'], ENT_QUOTES)
+					);
 					array_push($list, $a);
 				}
 			}

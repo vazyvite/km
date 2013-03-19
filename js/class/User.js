@@ -648,7 +648,7 @@ User.prototype = {
 		 * @param showConnectForm:Boolean 	Indique s'il faut afficher la boite de dialogue de connexion
 		 */
 		ConnectText: function(t, showConnectForm){
-			var html = "<div class='action_user_connexion'>" + Lang["app"].appName + " <sup>v" + Lang["app"].appVersion + "</sup></div>";
+			var html = "<div class='action_user_connexion'>" + Lang["app"].appName + " " + Lang["app"].appvName[Lang["app"].appVersion] + " <sup>v" + Lang["app"].appVersion + "</sup></div>";
 			$("#user .bloc_content").html(html);
 
 			if(showConnectForm){

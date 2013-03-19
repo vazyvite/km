@@ -62,7 +62,12 @@
 
 			if(count($list_categories) > 0){
 				for($i = 0; $i < count($list_categories); $i++){
-					$categorie = array('idCategorie' => $list_categories[$i]->getIdCategorie(), 'idPortail' => $list_categories[$i]->getIdPortail(), 'categorie' => $list_categories[$i]->getCategorie(), 'description' => $list_categories[$i]->getDescription());
+					$categorie = array(
+						'idCategorie' => $list_categories[$i]->getIdCategorie(),
+						'idPortail' => $list_categories[$i]->getIdPortail(),
+						'categorie' => html_entity_decode($list_categories[$i]->getCategorie(), ENT_QUOTES),
+						'description' => html_entity_decode($list_categories[$i]->getDescription(), ENT_QUOTES)
+					);
 					array_push($json, $categorie);
 				}
 			}
@@ -160,7 +165,7 @@
 			$user = new User();
 
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
-				$res = $mysqli->Delete( $dbq->createCategorie($idPortail, $categorie, $description) );
+				$res = $mysqli->Create( $dbq->createCategorie($idPortail, htmlentities($categorie, ENT_QUOTES), htmlentities($description, ENT_QUOTES)) );
 			}else{
 				echo "droits insuffisants";
 			}

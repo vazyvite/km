@@ -80,6 +80,8 @@ Article.prototype = {
 
 					this.UI.BuildHome(this, json);
 
+					$(".HomeTuileContainer").height($("#article").innerHeight() - $("h2.my_articles").outerHeight(true));
+
 				}else{
 					ui.Notify(Lang[user.GetLangue()].msg.error_loading_title, Lang[user.GetLangue()].msg.error_loading_msg, "error");
 				}
@@ -657,33 +659,6 @@ Article.prototype = {
 
 
 		/**
-		 * Méthode Data.ReturnDataFormTypeOfAdmin
-		 * Retourne les données nécessaires à la construction d'une ligne d'administration en fonction du type d'administration
-		 * @param t:Contexte
-		 * @param json:JSON 	Données d'administration
-		 * @param type:String 	Type d'administration
-		 * @param str:Array 	Structure des données
-		 */
-		/*ReturnDataFormTypeOfAdmin: function(t, json, type, str){
-			switch(type){
-				case "portail": 
-					return { edit: portail.Data.PopinDataPortailEdit(portail, json, str), del: portail.Data.PopinDataPortailDel(portail, json) };
-					break;
-
-				case "categorie":
-					return { edit: navigation.Data.PopinDataCategorieEdit(navigation, json, str), del: navigation.Data.PopinDataCategorieDel(navigation, json) };
-					break;
-
-				case "user":
-					return { edit: user.Data.PopinDataUserEdit(navigation, json, str, true), del: user.Data.PopinDataUserDel(navigation, json) };
-					break;
-
-				default: break;
-			}
-		},*/
-
-
-		/**
 		 * Méthode GetDataForHighLightTooltip
 		 * Renvoi les données nécessaires aux tooltips de surlignement
 		 * @param t:Context 
@@ -700,11 +675,11 @@ Article.prototype = {
 				if(cible.text() == json[i].titre){
 					insert = $("<div></div>");
 					var title = $("<h4></h4>").text(categorie.toLowerCase() + "." + json[i].titre.toLowerCase());
-					var art_html = $("<div></div>").append(json[i].article).text();
-					var jq_art = $("<div></div>").append(art_html);
 
-					var syntaxe = $(jq_art).find("section code");
-					var description = $(jq_art).find("aside");
+					var jq_art = $("<div></div>").append(json[i].article);
+					
+					var syntaxe = jq_art.find("section code");
+					var description = jq_art.find("aside");
 
 					var link = $("<span></span>").addClass("tooltip_link").attr("value", json[i].idArticle).text(Lang[user.GetLangue()].lbl.voir_article);
 
@@ -744,7 +719,6 @@ Article.prototype = {
 			ui.HideLogo(ui);
 			menu.UI.BuildCategorie(menu);
 			
-			//$(".article_content").height($("#article").innerHeight() - $(".article_header").outerHeight(true) - 30);
 			setTimeout( function(){ 
 				$(".article_content").width($("#article").innerWidth() - $(".article_header").outerWidth(true) - 40).css("display", "inline-block");
 			}, 200);
@@ -964,13 +938,11 @@ Article.prototype = {
 			var commands = $("#informations");
 
 			if(retour != null){ commands.append(retour); }
-			// if(modif != null){ commands.append(modif); }
 			if(save != null){ commands.append(save); }
 			if(create != null){ commands.append(create); }
 			if(cancel != null){ commands.append(cancel); }
 			if(cclCreate != null){ commands.append(cclCreate); }
 			if(del != null){ commands.append(del); }
-			//if(pdf != null){ commands.append(pdf); }
 			if(access != null){ commands.append(access); }
 		},
 
@@ -1025,11 +997,7 @@ Article.prototype = {
 					ui.article.Close(ui, function(){
 						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
 						menu.UI.BuildPortail(menu);
-					}); 
-					/*t.UI.Close(t, function(){
-						articleContent.GetArticleByUser(Data.user.data.idUser, Data.portail.data.idPortail);
-					});*/ 
-					// menu.UI.BuildPortail(menu);
+					});
 				});
 			}
 			return btnClose;
@@ -1233,228 +1201,6 @@ Article.prototype = {
 
 
 		/**
-		 * Méthode UI.Clear
-		 * Vide l'article
-		 * @param t:Contexte
-		 */
-		/*Clear: function(t){
-			$(t.s.bloc).children().remove();
-			$(t.s.blocCmd).children().remove();
-			$(t.s.blocTil).children().remove();
-		},*/
-
-		/**
-		 * Méthode UI.Close
-		 * Suppression des infos de l'article dans l'IHM
-		 * @param t:Contexte
-		 */
-		/*Close: function(t, fnCallBack){
-			if(fnCallBack == undefined){
-				fnCallBack = null;
-			}
-			t.Data.SetJSON(t, null);
-			// $("#content").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
-			if($(".article_content, .article_header").size() > 0){
-				$(".article_content, .article_header").css({"position": "absolute"}).animate({"right":-5000}, 500, function(){ 
-					$(this).css({"position": "absolute","right":0});
-					t.UI.Clear(t);
-					t.UI.ShowLogo(t);
-					if(fnCallBack) { fnCallBack(); }
-				});
-			}else{
-				t.UI.Clear(t);
-				t.UI.ShowLogo(t);
-				if(fnCallBack) { fnCallBack(); }
-			}
-			$("#informations").children().remove();
-		},*/
-
-		/**
-		 * Méthode UI.ShowLogo
-		 * Affiche le logo
-		 * @param t:Contexte
-		 */
-		/*ShowLogo: function(t){
-			$("#logos").css("opacity", 0).show().animate({"opacity": 1}, 1000);
-		},*/
-
-		/**
-		 * Méthode UI.HideLogo
-		 * Cache le logo
-		 * @param t:Contexte
-		 */
-		/*HideLogo: function(t){
-			$("#logos").animate({"opacity": 0}, 100, function(){ $(this).hide().css("opacity", 1); });
-		},*/
-
-
-		/**
-		 * Méthode UI.TablePortail
-		 * Constuction de la table d'administration des portails
-		 * @param t:Contexte
-		 * @param str:Array[String] 	Structure de la table d'administration des portails
-		 */
-		/*TablePortail: function(t, str){
-			var table = null;
-			var lvl = "admin";
-			var w, className;
-
-			if(str.length && CheckAccess(lvl)){
-
-				table = $("<table><thead></thead><tbody></tbody></table>");
-				line = $("<tr></tr>");
-
-				for(var i = 0; i < str.length; i++){
-					w = 0;
-					className = "";
-					
-					if(str[i].key == null){
-						w = "80px";
-						className = "class='action'";
-					}else{
-						w = (str[i].width == null) ? "auto" : str[i].width + "%";
-					}
-
-					line.append($("<th " + className + " style='width:" + w + "'>" + str[i].title + "</th>"));
-				}
-
-				table.find("thead").append(line);
-			}
-
-			return table;
-		},*/
-
-		/**
-		 * Méthode UI.LinePortail
-		 * Constuction d'une ligne du tableau d'administration des portails
-		 * @param t:Contexte
-		 * @param str:Array[String] 	Structure de la table d'administration des portails
-		 * @param json:JSON 	 		Données du portail à afficher
-		 */
-		/*LinePortail: function(t, str, json, type){
-			var line = null;
-			var lvl = "admin";
-			var page = "portail"
-
-			if(str.length && CheckAccess(lvl)){
-
-				line = ($("<tr value='" + json.id + "'></tr>"));
-
-				for(var i = 0; i < str.length; i++){
-					var popin_data_edit, popin_data_del;
-
-					var data = t.Data.ReturnDataFormTypeOfAdmin(t, json, type, str);
-
-					if(str[i].key != null){
-						if(typeof(json[str[i].key]) == 'object' && (json[str[i].key] instanceof Array)){
-							line.append($("<td>" + json[str[i].key].length + "</td>"));
-						}else{
-							if(str[i].list && str[i].list.length){
-								for(var o = 0; o < str[i].list.length; o++){
-									if(str[i].list[o].id == json[str[i].key]){
-										line.append($("<td>" + str[i].list[o].name + "</td>"));
-									}
-								}
-							}else{
-								line.append($("<td>" + json[str[i].key] + "</td>"));
-							}
-						}
-					}else{
-						var td = $("<td class='action'></td>").append(t.UI.AdminBtnEdit(t, page, data.edit, str, json)).append(t.UI.AdminBtnDel(t, page, data.del));
-						line.append(td);
-					}
-				}
-			}
-
-			return line;
-		},*/
-
-		/**
-		 * Méthode AdminTitle
-		 * Construction du titre des pages d'administration
-		 * @param t:Contexte
-		 * @parma title:String 			Titre de la page
-		 */
-		/*AdminTitle: function(t, title){
-			var lvl = "admin";
-			
-			if(CheckAccess(lvl) && title != ""){
-				var insert = $("<div></div>").addClass("admin_title").html(title);
-				$(t.s.bloc).append(insert);
-			}
-		},*/
-
-		/**
-		 * Méthode AdminContent
-		 * Construction du contenu des pages d'administration
-		 * @param t:Contexte
-		 * @parma section:jQueryObject 	Contenu de la page
-		 */
-		/*AdminContent: function(t, section){
-			var lvl = "admin";
-
-			if(CheckAccess(lvl) && title != ""){
-				var insert = $("<div></div>").addClass("admin_content").html(section);
-				$(t.s.bloc).append(insert);
-			}
-		},*/
-
-		/** obsolète
-		 * Méthode AdminStat
-		 * Construction de la partie Stat des pages administration
-		 * @param t:Contexte
-		 * @parma section:jQueryObject 	Contenu de la page
-		 */
-		/*AdminStat: function(t){
-			var lvl = "admin";
-
-			if(CheckAccess(lvl)){
-				var insert = $("<div></div>").addClass("admin_stat");
-				$(t.s.bloc).append(insert);
-			}
-		},*/
-
-		/**
-		 * Méthode AdminBtnEdit
-		 * Construction des boutons de modification des pages d'administration
-		 * @param t:Contexte
-		 */
-		/*AdminBtnEdit: function(t, page, popin_data, str, json){
-			var lvl = "admin";
-			var insert = null;
-
-			if(CheckAccess(lvl)){
-				insert = $("<a></a>").addClass(page + " btn_edit");
-				insert.on("click", function(){
-					popin = new Popin(popin_data, str, json);
-				});
-				$(t.s.bloc).append(insert);
-			}
-
-			return insert;
-		},*/
-
-		/**
-		 * Méthode AdminBtnDel
-		 * Construction des boutons de suppression des pages d'administration
-		 * @param t:Contexte
-		 */
-		/*AdminBtnDel: function(t, page, popin_data){
-			var lvl = "admin";
-			var insert = null;
-
-			if(CheckAccess(lvl)){
-				insert = $("<a></a>").addClass(page + " btn_del");
-				insert.on("click", function(){
-					popin = new Popin(popin_data, null, null);
-				});
-				$(t.s.bloc).append(insert);
-			}
-
-			return insert;
-		},*/
-
-		/**
 		 * Méthode HighlightArticles
 		 * Encapsule les titre des articles partageant la même catégorie
 		 * @param t:Contexte
@@ -1483,6 +1229,7 @@ Article.prototype = {
 				t.UI.BuildHighLightTooltip(t, cible, className, terms, idCategorie, categorie);
 			}
 		},
+
 
 		/**
 		 * Méthode BuildHighLightTooltip
@@ -1548,10 +1295,10 @@ Article.prototype = {
 				homeTuileContainer.append(t.UI.TraceHomeTuileArticle(t, article));
 			}
 
-			/*homeTuileContainer.append(homeTuileContainer.clone().children());
-			homeTuileContainer.append(homeTuileContainer.clone().children());
-			homeTuileContainer.append(homeTuileContainer.clone().children());
-			homeTuileContainer.append(homeTuileContainer.clone().children());*/
+			// homeTuileContainer.append(homeTuileContainer.clone().children());
+			// homeTuileContainer.append(homeTuileContainer.clone().children());
+			// homeTuileContainer.append(homeTuileContainer.clone().children());
+			// homeTuileContainer.append(homeTuileContainer.clone().children());
 			$("#article").append(homeTuileContainer);
 
 			homeTuileContainer.masonry({
@@ -1564,8 +1311,11 @@ Article.prototype = {
 			});
 
 			t.UI.MaskTuile(t, homeTuileContainer);
-			homeTuileContainer.bind("scroll", function(){ t.UI.MaskTuile(t, $(this)); });
+			homeTuileContainer.bind("scroll", function(){ 
+				t.UI.MaskTuile(t, $(this)); 
+			}).before($("<h2></h2>").text(Lang[user.GetLangue()].lbl.my_articles).addClass("my_articles"));
 		},
+
 
 		MaskTuile: function(t, container){
 			var h = container.innerHeight();
@@ -1591,16 +1341,12 @@ Article.prototype = {
 		 */
 		TraceHomeTuileArticle: function(t, article){
 			var insert = $("<div></div>").addClass("tuile").attr("value", article.idArticle);
-
 			var title = $("<div></div>").addClass("tuile_title").text(article.titre);
 
-			var art_html = $("<div></div>").append(article.article).text();
-			var jq_art = $("<div></div>").append(art_html);
-
+			var jq_art = $("<div></div>").html(article.article);
 			var description = $("<div></div>").addClass("tuile_content").html(jq_art.find("aside"));
 
 			insert.append(title).append(description);
-			//$("#article").append(insert);
 
 			insert.on("click", function(){
 				var idPortail = (Data.portail && Data.portail.data && Data.portail.data.idPortail != null)? Data.portail.data.idPortail : null ;

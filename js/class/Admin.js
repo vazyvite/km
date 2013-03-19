@@ -23,6 +23,12 @@ Admin.prototype = {
 			this.UI.AdminTitle(this, titre);
 			this.UI.AdminContent(this, table);
 		}
+
+		if(Data.portail.data.idPortail != null){
+			var retour = articleContent.UI.BtnRetour(articleContent);
+			var commands = $("#informations");
+			if(retour != null){ commands.append(retour); }
+		}
 	},
 
 	Data: {

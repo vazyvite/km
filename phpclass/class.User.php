@@ -54,7 +54,15 @@
 			if($res != false){
 				$f = $res->fetch_assoc();
 				$this->ConnectUser($f);
-				$json = array('idUser' => $f['idUser'], 'lstName' => $f['lstName'], 'fstName' => $f['fstName'], 'email' => $f['email'], 'role' => $f['role'], 'login' => $f['login'], 'pass' => $f['password']);
+				$json = array(
+					'idUser'	=> $f['idUser'],
+					'lstName'	=> html_entity_decode($f['lstName'], ENT_QUOTES),
+					'fstName' 	=> html_entity_decode($f['fstName'], ENT_QUOTES),
+					'email' 	=> $f['email'],
+					'role' 		=> $f['role'],
+					'login' 	=> html_entity_decode($f['login'], ENT_QUOTES),
+					'pass' 		=> $f['password']
+				);
 				echo json_encode($json);
 			}
 		}
@@ -66,11 +74,11 @@
 		 */
 		function ConnectUser($data){ 
 			$_SESSION['idUser'] = $data['idUser'];
-			$_SESSION['lstName'] = $data['lstName'];
-			$_SESSION['fstName'] = $data['fstName'];
+			$_SESSION['lstName'] = html_entity_decode($data['lstName'], ENT_QUOTES);
+			$_SESSION['fstName'] = html_entity_decode($data['fstName'], ENT_QUOTES);
 			$_SESSION['email'] = $data['email'];
 			$_SESSION['role'] = $data['role'];
-			$_SESSION['login'] = $data['login'];
+			$_SESSION['login'] = html_entity_decode($data['login'], ENT_QUOTES);
 			$_SESSION['password'] = $data['password'];
 		}
 
@@ -147,11 +155,19 @@
 
 			if(count($list_users) > 0){
 				for($i = 0; $i < count($list_users); $i++){
-					$users = array('idUser' => $list_users[$i]->getId(), 'lstName' => $list_users[$i]->getLastName(), 'fstName' => $list_users[$i]->getFirstName(), 'email' => $list_users[$i]->getMail(), 'role' => $list_users[$i]->getRole(), 'login' => $list_users[$i]->getLogin(), 'pass' => $list_users[$i]->getPassword());
+					$users = array(
+						'idUser' => $list_users[$i]->getId(),
+						'lstName' => html_entity_decode($list_users[$i]->getLastName(), ENT_QUOTES),
+						'fstName' => html_entity_decode($list_users[$i]->getFirstName(), ENT_QUOTES),
+						'email' => $list_users[$i]->getMail(),
+						'role' => $list_users[$i]->getRole(),
+						'login' => html_entity_decode($list_users[$i]->getLogin(), ENT_QUOTES),
+						'pass' => $list_users[$i]->getPassword()
+					);
 					array_push($json, $users);
 				}
 			}else{
-				echo "pas assez d'utilisateurs";
+				echo "pas assez d&apos;utilisateurs";
 			}
 			echo json_encode($json);
 		}
@@ -241,7 +257,7 @@
 			$user = new User();
 
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
-				$res = $mysqli->Create( $dbq->createUser($lstName, $fstName, $email, $role, $login, md5($pass)));
+				$res = $mysqli->Create( $dbq->createUser(htmlentities($lstName, ENT_QUOTES), htmlentities($fstName, ENT_QUOTES), $email, $role, htmlentities($login, ENT_QUOTES), md5($pass)));
 			}else{
 				echo "droits insuffisants";
 			}

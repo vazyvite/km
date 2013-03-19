@@ -74,7 +74,15 @@
 			if(count($list_results) > 0){
 				foreach ($list_results as $article) {
 					if(array_search($article->getIdArticle(), $added) === false){
-						$a = array('idArticle' => $article->getIdArticle(), 'idCategorie' => $article->getIdCategorie(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+						$a = array(
+							'idArticle' => $article->getIdArticle(),
+							'idCategorie' => $article->getIdCategorie(),
+							'idType' => $article->getIdType(),
+							'idUser' => $article->getIdUser(),
+							'dateCreation' => $article->getDtCreation(),
+							'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES),
+							'article' => html_entity_decode($article->getArticle(), ENT_QUOTES)
+						);
 						array_push($added, $article->getIdArticle());
 						array_push($json, $a);
 					}
@@ -100,7 +108,14 @@
 			if(count($list_results) > 0){
 				foreach ($list_results as $article) {
 					if(array_search($article->getIdArticle(), $added) === false){
-						$a = array('idArticle' => $article->getIdArticle(), 'idCategorie' => $article->getIdCategorie(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+						$a = array(
+							'idArticle' => $article->getIdArticle(),
+							'idCategorie' => $article->getIdCategorie(),
+							'idType' => $article->getIdType(),
+							'idUser' => $article->getIdUser(),
+							'dateCreation' => $article->getDtCreation(),
+							'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES),
+							'article' => html_entity_decode($article->getArticle(),ENT_QUOTES));
 						array_push($added, $article->getIdArticle());
 						array_push($json, $a);
 					}

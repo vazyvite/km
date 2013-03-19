@@ -18,10 +18,7 @@ class Type {
 	function Type($id = 0, $type = "", $list = array()){
 		$this->setId($id);
 		$this->setType($type);
-		$this->setList(array(
-			array( 'idType' => 1, 'type' => "Article" ),
-			array( 'idType' => 2, 'type' => "Cours" )
-		));
+		$this->setList(array( null, "Article", "Cours" ));
 	}
 
 	// méthodes
@@ -41,8 +38,7 @@ class Type {
 
 		//if(isset($this->getList()){
 			$f = $this->getList();
-			$f = $f[$idType];
-			$type = new Type($f['idType'], $f['type']);
+			$type = new Type($idType, html_entity_decode($f[$idType], ENT_QUOTES));
 		/*}else{
 			$type = null;
 		}*/

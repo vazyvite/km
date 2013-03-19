@@ -52,7 +52,10 @@
 
 			if(count($list_portail) > 0){
 				for($i = 0; $i < count($list_portail); $i++){
-					$portail = array('id' => $list_portail[$i]->getId(), 'portail' => $list_portail[$i]->getPortail());
+					$portail = array(
+						'id' => $list_portail[$i]->getId(),
+						'portail' => html_entity_decode($list_portail[$i]->getPortail(), ENT_QUOTES)
+					);
 					array_push($json, $portail);
 				}
 			}
@@ -124,7 +127,7 @@
 			$user = new User();
 
 			if(isset($_SESSION['role']) && $user->CheckUserRights($lvl, $_SESSION['role'])){
-				$res = $mysqli->Create( $dbq->createPortail($portail));
+				$res = $mysqli->Create( $dbq->createPortail(htmlentities($portail, ENT_QUOTES)));
 			}else{
 				echo "droits insuffisants";
 			}

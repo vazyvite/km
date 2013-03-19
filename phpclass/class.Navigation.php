@@ -74,14 +74,27 @@
 
 						if(count($list_articles) > 0){
 							foreach ($list_articles as $article) {
-								$a = array('idArticle' => $article->getIdArticle(), 'idType' => $article->getIdType(), 'idUser' => $article->getIdUser(), 'dateCreation' => $article->getDtCreation(), 'titre' => $article->getTitre(), 'article' => $article->getArticle());
+								$a = array(
+									'idArticle' => $article->getIdArticle(),
+									'idType' => $article->getIdType(),
+									'idUser' => $article->getIdUser(),
+									'dateCreation' => $article->getDtCreation(),
+									'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES),
+									'article' => html_entity_decode($article->getArticle(), ENT_QUOTES)
+								);
 								array_push($jsonArt, $a);
 							}
 						}else{
 							$jsonArt = array();
 						}
 
-						$cc = array('id' => $categorie->getIdCategorie(), 'idPortail' => $categorie->getIdPortail(),'categorie' => $categorie->getCategorie(), 'description' => $categorie->getDescription(), 'articles' => $jsonArt);
+						$cc = array(
+							'id' => $categorie->getIdCategorie(),
+							'idPortail' => $categorie->getIdPortail(),
+							'categorie' => html_entity_decode($categorie->getCategorie(), ENT_QUOTES),
+							'description' => html_entity_decode($categorie->getDescription(), ENT_QUOTES),
+							'articles' => $jsonArt
+						);
 						array_push($json, $cc);
 					}
 				}

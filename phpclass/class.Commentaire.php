@@ -156,7 +156,7 @@
 			$dbq = new DBQuery();
 			$mysqli = new DB();
 
-			$res = $mysqli->Update($dbq->updateComment($idCommentaire, $idType, $titre, $commentaire));
+			$res = $mysqli->Update($dbq->updateComment($idCommentaire, $idType, htmlentities($titre, ENT_QUOTES), htmlentities($commentaire, ENT_QUOTES)));
 		}
 	}
 ?>
