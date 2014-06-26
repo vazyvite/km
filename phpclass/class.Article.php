@@ -144,6 +144,22 @@
 						array_push($arr_mc, $m);
 					}
 				}
+
+				//echo html_entity_decode($article->getArticle(), ENT_QUOTES); 
+
+				/*$json = array(
+					'idArticle' => $article->getIdArticle(),
+					'idCategorie' => $article->getIdCategorie(),
+					'idType' => $article->getIdType(),
+					'motcles' => $arr_mc,
+					'type' => html_entity_decode($typeLibelle, ENT_QUOTES),
+					'idUser' => $article->getIdUser(),
+					'user' => html_entity_decode($userName, ENT_QUOTES),
+					'dateCreation' => $article->getDtCreation(),
+					'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES),
+					'article' => html_entity_decode($article->getArticle(), ENT_QUOTES)
+				);*/
+
 				$json = array(
 					'idArticle' => $article->getIdArticle(),
 					'idCategorie' => $article->getIdCategorie(),
@@ -156,6 +172,7 @@
 					'titre' => html_entity_decode($article->getTitre(), ENT_QUOTES),
 					'article' => html_entity_decode($article->getArticle(), ENT_QUOTES)
 				);
+				
 			}else{
 				$json = "";
 			}
